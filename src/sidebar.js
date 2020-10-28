@@ -21,6 +21,7 @@ import Boardgames from './boardgames';
 import Producers from './producers';
 import Welcome from './Welcome';
 import Search from './search';
+import User from "./Profile/User";
 const theme = createMuiTheme({
   typography: {
     body1: {
@@ -121,7 +122,7 @@ class PersistentDrawerLeft extends React.Component {
         >
           <div className={classes.drawerHeader}>
             <Typography  align='center' style={{fontFamily:'Open Sans',fontSize:30,marginTop:4,marginBottom:8}}>
-              COMU
+              BgClub
             </Typography>
           </div>
           <List>
@@ -138,7 +139,7 @@ class PersistentDrawerLeft extends React.Component {
                           >
                             Homepage
                             </Typography>              </ListItem>
-              <ListItem button key={'Profile'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/user/'+Cookie.get('userid')} >
+              <ListItem button key={'Profile'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/user'} >
                 <ListItemIcon>
                 <Avatar
                                   style={{width:30,height:30}}
@@ -196,7 +197,7 @@ class PersistentDrawerLeft extends React.Component {
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                     <Route path="/producers" component={Producers} />
-                    <Route path="/" exact component={Welcome} />
+                    <Route path="/user" exact component={User} />
                     <Route path="/boardgames"  component={Boardgames} />
                     <Route path="/search" exact component={Search}/>
                   </Switch>

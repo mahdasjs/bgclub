@@ -12,6 +12,7 @@ import Cookie from "js-cookie";
 import Homepage from './homepage';
 import Producers from './producers';
 import Boardgames from './boardgames';
+import User from "./Profile/User";
 import Search from './search'
 import './App.css';
 const useStyles = makeStyles({
@@ -89,10 +90,10 @@ export default function LabelBottomNavigation() {
           <Route path="/homepage" exact component={Homepage} />
           <Route path="/producers" component={Producers} />
           <Route path="/boardgames" exact component={Boardgames} />
-          {/* <Route path="/user" exact component={User} />
-          <Route path="/user/:id" exact component={User} />
+          <Route path="/user" exact component={User} />
+         {/* <Route path="/user/:id" exact component={User} />
           <Route path="/playlistPage/:id/:username" exact component={playlistPage}/>
-          <Route path="/homepage/:username/:id" exact component={homepage}/> */}
+          <Route path="/homepage/:username/:id" exact component={homepage}/>  */}
 
 
         </Switch>

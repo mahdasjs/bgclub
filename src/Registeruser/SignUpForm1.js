@@ -104,7 +104,7 @@ const SignUpForm1 = ({
           )}
         </div>
         <br />
-        <RaisedButton
+        <RaisedButton style={{marginTop:"-20px"}}
           className="signUpSubmit"
           inherit={true}
           type="submit"

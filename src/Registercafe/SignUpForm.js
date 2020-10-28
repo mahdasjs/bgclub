@@ -2,10 +2,10 @@ import React from "react";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
-import PasswordStr2 from "./PasswordStr2";
+import PasswordStr from "./PasswordStr";
 import "./style.css";
 
-const SignUpForm2 = ({
+const SignUpForm = ({
   history,
   onSubmit,
   onChange,
@@ -89,7 +89,7 @@ const SignUpForm2 = ({
         <div className="pwStrRow">
           {score >= 1 && (
             <div>
-              <PasswordStr2 score={score} />
+              <PasswordStr score={score} />
               <FlatButton
                 className="pwShowHideBtn"
                 label={btnTxt}
@@ -104,7 +104,7 @@ const SignUpForm2 = ({
           )}
         </div>
         <br />
-        <RaisedButton
+        <RaisedButton style={{marginTop:"-20px"}}
           className="signUpSubmit"
           inherit={true}
           type="submit"
@@ -119,4 +119,4 @@ const SignUpForm2 = ({
   );
 };
 
-export default SignUpForm2;
+export default SignUpForm;

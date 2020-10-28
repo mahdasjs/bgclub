@@ -33,10 +33,14 @@ TabContainer.propTypes = {
 const styles = (theme) => ({
   root: {
     backgroundColor:
-    "rgba(0,0,255,0.1)",
+    "rgb(245,245,245)",
     backgroundSize: "cover",
     minWidth: "100%",
     minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     //backgroundImage: url("/back.jpg"),
     // flexbasis: 0,
     // position: " relative",
@@ -94,7 +98,8 @@ class NavTabs extends React.Component {
             <Paper className="fakingroot" elevation={0} style={{ backgroundColor:
     "rgba(255,255,255,0.1)"}}>
 
-                <h2 style={{ color: "grey", fontSize: 20 }}>
+                <h2 style={{ color: "grey", fontSize: 20 ,textAlign: "center",
+    justifyContent: "center",}}>
                   {" "}
                   Signup as a 
                 </h2>
@@ -121,7 +126,7 @@ class NavTabs extends React.Component {
                 <Route path="/ProducerRegister" component={SignUpContainer2} />
                  <Route path="/login" component={Login} /> 
               </Switch>
-              <h2 style={{ color: "grey", fontSize: 14 }}>
+              <h2 style={{ color: "grey", fontSize: 14 ,textAlign: "center"}}>
                   Do you have an account ?
              
                   {/* <Button color="primary">Primary</Button> */}
@@ -139,6 +144,7 @@ class NavTabs extends React.Component {
     );
   }
 }
+
 
 NavTabs.propTypes = {
   classes: PropTypes.object.isRequired,
