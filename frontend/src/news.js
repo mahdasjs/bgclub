@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import image from './image.jpg';
+import image from './back.jpg';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
