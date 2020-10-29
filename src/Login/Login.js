@@ -173,6 +173,10 @@ export default class Login extends React.Component {
             inherit={true}
           />
         </form>
+        <h2 style={{ color: "grey", fontSize: 14 ,textAlign: "center"}}>
+                  Dont have an account !?
+                  <Button size="small" onClick={() => {window.location.href='/'}}>SignUp</Button>
+                  </h2>
         </div>
       </div>
     );
