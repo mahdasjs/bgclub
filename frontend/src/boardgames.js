@@ -41,7 +41,7 @@ class Homepage extends Component{
           <Grid xs={12} sm={12} lg={9}>
           <div className='Lists'>
 
-          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of producers </h2>
+          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of boardgames </h2>
 
             <div style={{display:'flex',flexWrap:'wrap'}}>
           {boardGames}

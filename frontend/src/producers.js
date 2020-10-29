@@ -6,26 +6,26 @@ class Homepage extends Component{
   constructor(props){
     super(props);
     this.state={
-      boardGames:[],
+      producers:[],
     }
   }
   componentDidMount(){
     Axios
     .get("https://reqres.in/api/products")
     .then(response => {
-      const boardGames = response.data.data||[];
-      const updatedBG = boardGames.map(post => {
+      const producers = response.data.data||[];
+      const updated = producers.map(post => {
           return {
               ...post,
           }
         })
-      this.setState({ boardGames: updatedBG });
-      console.log(this.state.boardGames);
+      this.setState({ producers: updated });
+      console.log(this.state.producers);
       
   })
   }
   render(){
-    let boardGames = this.state.boardGames.map(post => {
+    let producers = this.state.producers.map(post => {
       return <BgPage
         name={post.name}
         />;
@@ -42,7 +42,7 @@ class Homepage extends Component{
           <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of producers </h2>
 
             <div style={{display:'flex',flexWrap:'wrap'}}>
-          {boardGames}
+          {producers}
           </div>
           </div>
           </Grid> 
