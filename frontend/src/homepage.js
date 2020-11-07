@@ -5,13 +5,14 @@ import BgPage from './bgPage';
 import News from './news'
 import { Grid, hexToRgb } from "@material-ui/core";
 import FreeScrollBar from 'react-free-scrollbar';
-import './responsive.css'
+import './responsive.css';
+import { connect } from 'react-redux';
 class Homepage extends Component{
   constructor(props){
     super(props);
     this.state={
       boardGames:[],
-      News:[]
+      // News:[]
     }
   }
   componentDidMount(){
@@ -46,7 +47,7 @@ class Homepage extends Component{
         name={post.name}
         />;
     });
-    let news = this.state.News.map(post=>{
+    let news = this.props.News.map(post=>{
       return<News
       title={post.body}
       />
@@ -85,5 +86,7 @@ class Homepage extends Component{
     )
   }
 }
-
-export default Homepage;
+const mapStateToProps=(state)=>({
+  News:state.News
+})
+export default connect(mapStateToProps)(Homepage);

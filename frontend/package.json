@@ -13,7 +13,8 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.4",
+    "react-scripts": "^3.4.4",
+    "redux-devtools-extension": "^2.13.8",
     "validator-js": "^0.2.1",
     "yup": "^0.29.3"
   },
