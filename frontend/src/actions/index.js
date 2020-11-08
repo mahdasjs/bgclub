@@ -1,0 +1,73 @@
+import { ADD_FETCHED_DATA, ADD_FAVORITE_TERM, REMOVE_FAVORITE_TERM,ADD_bg_DATA,ADD_RESULT_DATA} from './types.js';
+import axios from 'axios';
+const apiUrl = 'https://jsonplaceholder.typicode.com/comments';
+export const addFavoriteTerm =  (data) => {
+    return {
+      type: ADD_FAVORITE_TERM,
+      payload: {
+        name: data.name,
+        description: data.description
+      }
+    }
+};
+
+export const removeFavoriteTerm = name => {
+    return {
+      type: REMOVE_FAVORITE_TERM,
+      payload: {
+        name
+      }
+    }
+}
+
+export const fetchData = () => {
+    return (dispatch) => {
+        return axios.get('https://jsonplaceholder.typicode.com/comments')
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_FETCHED_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const bgData = () => {
+    return (dispatch) => {
+        return axios.get('https://jsonplaceholder.typicode.com/comments')
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_bg_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const resultData = () => {
+    return (dispatch) => {
+        return axios.get('https://jsonplaceholder.typicode.com/comments')
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_RESULT_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};

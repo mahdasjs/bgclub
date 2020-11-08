@@ -1,0 +1,5 @@
+export const ADD_FAVORITE_TERM = 'ADD_FAVORITE_TERM';
+export const REMOVE_FAVORITE_TERM = 'REMOVE_FAVORITE_TERM';
+export const ADD_FETCHED_DATA = 'ADD_FETCHED_DATA';
+export const ADD_bg_DATA = 'ADD_bg_DATA';
+export const ADD_RESULT_DATA = 'ADD_RESULT_DATA';

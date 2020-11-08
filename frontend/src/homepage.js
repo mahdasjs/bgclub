@@ -7,51 +7,25 @@ import { Grid, hexToRgb } from "@material-ui/core";
 import FreeScrollBar from 'react-free-scrollbar';
 import './responsive.css';
 import { connect } from 'react-redux';
+const mapStateToProps = state => {
+  return {
+      News: state.News,
+      boardGames: state.boardGames
+  };
+};
 class Homepage extends Component{
-  constructor(props){
-    super(props);
-    this.state={
-      boardGames:[],
-      // News:[]
-    }
-  }
-  componentDidMount(){
-    Axios
-    .get("https://reqres.in/api/products")
-    .then(response => {
-      const boardGames = response.data.data||[];
-      const updatedBG = boardGames.map(post => {
-          return {
-              ...post,
-          }
-        })
-      this.setState({ boardGames: updatedBG });
-      console.log(this.state.boardGames);
-  })
-    Axios
-    .get("https://jsonplaceholder.typicode.com/comments")
-    .then(response=>{
-      const news = response.data||[];
-      const updatedNews = news.map(post=>{
-        return{
-          ...post,
-        }
-      }
-      )
-      this.setState({News:updatedNews})
-    })
-  }
   render(){
-    let boardGames = this.state.boardGames.map(post => {
+    let boardGames = this.props.boardGames.map(post => {
       return <BgPage
         name={post.name}
         />;
     });
-    let news = this.props.News.map(post=>{
+    let news = this.props.News.map((term, index)=>{
       return<News
-      title={post.body}
+      title={term.name}
       />
     })
+    console.log(this.props.News)
     return(
       <div className='homepage'>
         <Grid container >
@@ -86,7 +60,4 @@ class Homepage extends Component{
     )
   }
 }
-const mapStateToProps=(state)=>({
-  News:state.News
-})
-export default connect(mapStateToProps)(Homepage);
+export default connect(mapStateToProps, null)(Homepage);

@@ -2,13 +2,19 @@ import { Grid } from '@material-ui/core';
 import React ,{Component} from 'react';
 import HorizontalScroll from 'react-scroll-horizontal'
 import Axios from "axios";
-import BgPage from './bgPage'
+import BgPage from './bgPage';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+    return {
+        results: state.results,
+    };
+  };
 class search extends Component{
     constructor(props){
-        super(props)
+        super(props);
         this.state={
             search : JSON.stringify (window.location.search.split('_')[1]).replace(/^"(.*)"$/, '$1').replace('%20'," ")||null,
-            post:[]
         }
     }
     componentDidMount(){
@@ -25,7 +31,7 @@ class search extends Component{
       })
     }
     render(){
-        let boardGames = this.state.post.map(post => {
+        let results = this.props.results.map(post => {
             return <BgPage
               name={post.name}
               />;
@@ -42,7 +48,7 @@ class search extends Component{
                       <div style={{height:'250px',marginLeft:'20px'}}>
                           <h2 style={{fontFamily:'Open Sans', fontSize: 25, lineHeight: 0.1}}>boardGames </h2>
                           <HorizontalScroll  >
-                              {boardGames}
+                              {results}
                          </HorizontalScroll>
                       </div>
                   </Grid>
@@ -50,7 +56,7 @@ class search extends Component{
                       <div style={{height:'250px',marginLeft:'20px'}}>
                           <h2 style={{fontFamily:'Open Sans', fontSize: 25, lineHeight: 0.1}}>Cafes </h2>
                           <HorizontalScroll >
-                              {boardGames}
+                              {results}
                          </HorizontalScroll>
                       </div>
                   </Grid>
@@ -58,7 +64,7 @@ class search extends Component{
                       <div style={{height:'250px',marginLeft:'20px'}}>
                           <h2 style={{fontFamily:'Open Sans', fontSize: 25, lineHeight: 0.1}}>Producers </h2>
                           <HorizontalScroll  >
-                              {boardGames}
+                              {results}
                          </HorizontalScroll>
                       </div>
                   </Grid>
@@ -67,4 +73,4 @@ class search extends Component{
         )
     }
 }
-export default search
+export default connect(mapStateToProps, null)(search);

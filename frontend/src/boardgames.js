@@ -3,31 +3,16 @@ import HorizontalScroll from 'react-scroll-horizontal'
 import Axios from "axios";
 import BgPage from './bgPage';
 import { Grid, hexToRgb } from "@material-ui/core";
-import Navbar from './navbar'
+import Navbar from './navbar';
+import { connect } from 'react-redux';
+const mapStateToProps = state => {
+  return {
+      boardGames: state.boardGames
+  };
+};
 class Homepage extends Component{
-  constructor(props){
-    super(props);
-    this.state={
-      boardGames:[],
-    }
-  }
-  componentDidMount(){
-    Axios
-    .get("https://reqres.in/api/products")
-    .then(response => {
-      const boardGames = response.data.data||[];
-      const updatedBG = boardGames.map(post => {
-          return {
-              ...post,
-          }
-        })
-      this.setState({ boardGames: updatedBG });
-      console.log(this.state.boardGames);
-      
-  })
-  }
   render(){
-    let boardGames = this.state.boardGames.map(post => {
+    let boardGames = this.props.boardGames.map(post => {
       return <BgPage
         name={post.name}
         />;
@@ -56,4 +41,4 @@ class Homepage extends Component{
   }
 }
 
-export default Homepage;
+export default connect(mapStateToProps, null)(Homepage);
