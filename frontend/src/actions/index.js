@@ -1,4 +1,4 @@
-import { ADD_FETCHED_DATA, ADD_FAVORITE_TERM, REMOVE_FAVORITE_TERM,ADD_bg_DATA,ADD_RESULT_DATA} from './types.js';
+import { ADD_FETCHED_DATA, ADD_FAVORITE_TERM, REMOVE_FAVORITE_TERM,ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT_OPTION } from './types.js';
 import axios from 'axios';
 const apiUrl = 'https://jsonplaceholder.typicode.com/comments';
 export const addFavoriteTerm =  (data) => {
@@ -71,3 +71,9 @@ export const resultData = () => {
             });
     };
 };
+export const saveSelectValue=(data)=> {
+    return {
+        type: SAVE_SELECT_OPTION,
+        payload: data
+      }
+}

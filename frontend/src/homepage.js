@@ -17,7 +17,9 @@ class Homepage extends Component{
   render(){
     let boardGames = this.props.boardGames.map(post => {
       return <BgPage
+        id={post.id}
         name={post.name}
+        data={post}
         />;
     });
     let news = this.props.News.map((term, index)=>{
