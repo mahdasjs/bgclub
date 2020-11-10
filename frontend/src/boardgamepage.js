@@ -18,7 +18,7 @@ class boardgames extends React.Component{
               <Grid container>
                         <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
           </Grid>
-          <Grid xs={12} sm={12} lg={6}
+          <Grid xs={12} sm={12} lg={5}
                                             style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
                   
                     <img
@@ -31,7 +31,7 @@ class boardgames extends React.Component{
                     }}
                   />
                 </Grid>
-                <Grid xs={12} sm={12} lg={5}
+                <Grid xs={12} sm={12} lg={6}
                                                             style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
 
                   <Typography className='bgname'>

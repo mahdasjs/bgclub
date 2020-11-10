@@ -54,9 +54,9 @@ export const bgData = () => {
             });
     };
 };
-export const resultData = () => {
+export const resultData = (entry) => {
     return (dispatch) => {
-        return axios.get('https://jsonplaceholder.typicode.com/comments')
+        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/Boardgames?name='+entry)
             .then(response => {
                 return response.data
             })

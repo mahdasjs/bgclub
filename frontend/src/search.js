@@ -4,7 +4,7 @@ import HorizontalScroll from 'react-scroll-horizontal'
 import Axios from "axios";
 import BgPage from './bgPage';
 import { connect } from 'react-redux';
-
+import {resultData} from './actions/index'
 const mapStateToProps = state => {
     return {
         results: state.results,
@@ -18,23 +18,15 @@ class search extends Component{
         }
     }
     componentDidMount(){
-        Axios
-        .get("https://reqres.in/api/products")
-        .then(response => {
-          const boardGames = response.data.data||[];
-          const updatedBG = boardGames.map(post => {
-              return {
-                  ...post,
-              }
-            })
-          this.setState({ post: updatedBG });          
-      })
+        this.props.dispatch( resultData(this.state.search))
     }
     render(){
         let results = this.props.results.map(post => {
             return <BgPage
-              name={post.name}
-              />;
+            id={post.id}
+            name={post.name}
+            data={post}
+            />;
           });
         return(
             <div className='searchR' >
@@ -45,14 +37,14 @@ class search extends Component{
                 </div>
                 </Grid>
                 <Grid item xs={12} sm={12} lg={11}>
-                      <div style={{height:'250px',marginLeft:'20px'}}>
+                      <div style={{height:'290px',marginLeft:'20px'}}>
                           <h2 style={{fontFamily:'Open Sans', fontSize: 25, lineHeight: 0.1}}>boardGames </h2>
                           <HorizontalScroll  >
                               {results}
                          </HorizontalScroll>
                       </div>
                   </Grid>
-                  <Grid item xs={12} sm={12} lg={11}>
+                  {/* <Grid item xs={12} sm={12} lg={11}>
                       <div style={{height:'250px',marginLeft:'20px'}}>
                           <h2 style={{fontFamily:'Open Sans', fontSize: 25, lineHeight: 0.1}}>Cafes </h2>
                           <HorizontalScroll >
@@ -67,7 +59,7 @@ class search extends Component{
                               {results}
                          </HorizontalScroll>
                       </div>
-                  </Grid>
+                  </Grid> */}
                   </Grid>
             </div>
         )
