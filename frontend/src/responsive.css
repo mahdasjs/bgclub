@@ -30,6 +30,25 @@
     top: 70px;
     margin-left: 245px;
   }
+  .bgname{
+    font-size: 40px !important;
+    font-weight: 500 !important;
+  } 
+  .name{
+    margin-top: 15px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+  }
+  .bgprice{
+    font-size: 35px !important;
+    font-weight: 500 !important;
+    color: brown !important;
+  }
+  .bgdescription{
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    color: dimgrey !important;
+  }
   @media(max-width:1200px){
       .news{
           display: none;

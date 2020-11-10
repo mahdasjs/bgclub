@@ -15,6 +15,8 @@ class Homepage extends Component{
     let boardGames = this.props.boardGames.map(post => {
       return <BgPage
         name={post.name}
+        id={post.id}
+        data={post}
         />;
     });
     return(
