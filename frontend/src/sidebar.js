@@ -18,6 +18,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Logout from '@material-ui/icons/ExitToApp';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Boardgames from './boardgames';
+import Boardgamespage from './boardgamepage';
 import Producers from './producers';
 import Welcome from './Welcome';
 import Search from './search';
@@ -194,6 +195,8 @@ class PersistentDrawerLeft extends React.Component {
           
         </Drawer>
                   <Switch >
+                  <Route path="/bgpage" exact component={Boardgamespage} />
+                  <Route path="/bgpage/:id" exact component={Boardgamespage} />
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                     <Route path="/producers" component={Producers} />

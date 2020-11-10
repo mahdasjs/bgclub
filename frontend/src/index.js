@@ -28,11 +28,11 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { bgData, fetchData, resultData } from './actions';
+import { bgData, fetchData, resultData,saveSelectValue } from './actions';
 
 
 const saveState = (state) => {
-  if (state.boardGames.length !== 0) {
+  if (state.selections.length !== 0) {
     localStorage.setItem("state", JSON.stringify(state));
   }
 };
@@ -56,7 +56,9 @@ store.dispatch(resultData());
 
 store.subscribe(() => {
   saveState({
-    boardGames: store.getState().boardGames
+    boardGames: store.getState().boardGames,
+    selections: store.getState().selections
+
   })
 })
 

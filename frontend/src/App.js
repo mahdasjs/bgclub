@@ -5,6 +5,7 @@ import Navbar from './navbar';
 import Sidebar from './sidebar'
 import Producers from './producers';
 import Boardgames from './boardgames';
+import Boardgamespage from './boardgamepage';
 import Search from './search'
 import './App.css';
 import Login from './Login/Login.js';
@@ -49,6 +50,25 @@ function App() {
             </div>
           </Route>
           <Route path="/boardgames" exact component={Boardgames}>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path="/bgpage/:id" exact component={Boardgamespage}>
+            <Boardgamespage/>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path="/bgpage" exact component={Boardgamespage}>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>
