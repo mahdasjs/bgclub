@@ -22,7 +22,7 @@ export const removeFavoriteTerm = name => {
 
 export const fetchData = () => {
     return (dispatch) => {
-        return axios.get('https://jsonplaceholder.typicode.com/comments')
+        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/News')
             .then(response => {
                 return response.data
             })

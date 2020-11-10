@@ -38,6 +38,10 @@
     margin-top: 15px !important;
     font-size: 15px !important;
     font-weight: 500 !important;
+  }  
+  .title{
+    font-size: 15px !important;
+    font-weight: 500 !important;
   }
   .bgprice{
     font-size: 35px !important;
@@ -48,6 +52,10 @@
     font-size: 20px !important;
     font-weight: 500 !important;
     color: dimgrey !important;
+  }
+  .boardgames{
+    margin-left: 20px !important;
+    width: 120% !important;
   }
   @media(max-width:1200px){
       .news{

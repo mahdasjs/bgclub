@@ -24,7 +24,8 @@ class Homepage extends Component{
     });
     let news = this.props.News.map((term, index)=>{
       return<News
-      title={term.name}
+      title={term.title}
+      image={term.image}
       />
     })
     console.log(this.props.News)
