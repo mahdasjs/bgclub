@@ -1,0 +1,47 @@
+form {
+    width: 100%;
+    
+  }
+ .login{
+     background-image: url("bg.jpg") ;
+      background-size: cover;
+   min-width: 100%;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+ }
+  .logBox {
+     background-color:rgba(255, 255, 255,0.8); 
+    width: 300px;
+    height: 430px;
+    border: 5px solid rgb(48, 63, 159, 0.8);
+    text-align: center;
+    position: relative;
+    padding: 20px;
+    margin: auto;
+    margin-top: 70px;
+  }
+  .button {
+    font-size: 14px;
+    color: rgb(48, 63, 159, 0.8) !important;
+  }
+  
+  .loginSubmit {
+    margin: 25px 0 15px 0;
+   
+    
+  }
+  .submlog{
+    margin-top: 40px;
+  
+  }
+  
+  @media screen and (max-width: 550px) {
+    .logBox {
+      width: 84%;
+    }
+  }
+  
