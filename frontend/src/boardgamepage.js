@@ -8,6 +8,7 @@ import { Grid, hexToRgb } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
 import {selectedData} from './actions/index'
+import Rating from '@material-ui/lab/Rating';
 
 class boardgames extends React.Component{
       componentDidMount(){
@@ -47,6 +48,12 @@ class boardgames extends React.Component{
                 {this.props.select.description}
                 </Typography>
                                 </Grid>
+                                <Grid xs={12} sm={12} lg={5}
+                                            style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
+                  
+                  <Rating name="read-only" value={2} readOnly size="large"  />
+
+                </Grid>
                                 </Grid>
 
              </div>
