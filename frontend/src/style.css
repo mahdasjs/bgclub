@@ -1,0 +1,73 @@
+form {
+  width: 100%;
+}
+.App {
+  text-align: center;
+}
+.roxFlex {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  margin-top: -60px;
+}
+.header {
+  position: absolute;
+  left: 40%;
+  right: 39%;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4);
+}
+.newbox {
+  text-align: center;
+  position: relative;
+  left: 50%;
+  margin-top:20px ;
+  transform: translate(-50%);
+  padding: 20px;
+  
+}
+
+.logBox0 {
+  width: 35%;
+  text-align: center;
+  margin-top: 10%;
+  margin-left: 30%;
+  padding: 10px;
+  /* background-color: white;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4); */
+}
+
+.fakingroot {
+  margin: 140px;
+   background-color:
+    "rgba(0,0,255,0.1)";
+}
+
+@media only screen and (max-width: 1186px) {
+  .roxFlex {
+    flex-direction: column;
+    align-items: center;
+  }
+  .roxSignUpLoginContainer {
+    width: 100% !important;
+  }
+  .fakingroot {
+    margin: 0;
+    margin-top: 40px;
+  }
+ 
+}
+@media (max-width: 480px) {
+  
+  .logBox0 {
+    width: 80%;
+    margin-top: 0px;
+    margin-bottom: 80px;
+    margin-left: 30px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4);
+  }
+ 
+}
