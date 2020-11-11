@@ -20,11 +20,14 @@ export default class Edit extends React.Component {
     this.state = {
       profile_picture: null,
       userpro: "",
+      headerpro:"",
+      header_picture:null,
       open: true,
       username: "",
       email: "",
       first_name: "",
       last_name: "",
+      
 
     };
     this.handleClick = this.handleClick.bind(this);
@@ -64,6 +67,7 @@ export default class Edit extends React.Component {
   handleClick = async () => {
     const formData = new FormData();
     formData.append("profile_picture", this.state.profile_picture);
+    formData.append("header_picture", this.state.header_picture);
     console.log(this.state.profile_status);
     try {
       const response = await axios.patch(
@@ -130,7 +134,7 @@ export default class Edit extends React.Component {
       .then((res) => {
         this.setState({
           userpro: res.data.profile_picture,
-          
+          headerpro: res.data.header_picture,
         });
         console.log();
       })
@@ -141,7 +145,36 @@ export default class Edit extends React.Component {
     return (
       <div style={{ position: "relative" ,maxWidth: "350px"}}>
         <Grid xs>
-          
+        <input
+            style={{ display: "none" }}
+            type="file"
+            onChange={this.fileSelectedHandler1}
+            ref={(fileInput1) => (this.fileInput1 = fileInput1)}
+          />
+          <div className="img">
+          <img
+            variant="square"
+            src={this.state.headerpro} 
+            style={{
+              width: 350,
+              height: 120,
+            }}/>
+            </div>
+          <Button
+              variant="outlined"
+              size="small"
+              style={{
+                fontSize: 12,
+                backgroundColor: "white",
+                color: "grey",
+                bottom: "30px",
+               // marginLeft:"-40px"
+              }}
+              onClick={(event) => this.fileInput1.click()}
+            >
+              {/* <CameraAltIcon size="small" /> */}
+              change 
+            </Button>
            <input
             style={{ display: "none" }}
             type="file"
