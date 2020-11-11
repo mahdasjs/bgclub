@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import BgPage from './bgPage';
+import ProducerCom from './producerCom';
 import { Grid, hexToRgb } from "@material-ui/core";
 class Homepage extends Component{
   constructor(props){
@@ -26,7 +26,7 @@ class Homepage extends Component{
   }
   render(){
     let producers = this.state.producers.map(post => {
-      return <BgPage
+      return <ProducerCom
         name={post.name}
         />;
     });
