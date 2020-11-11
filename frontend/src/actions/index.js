@@ -1,4 +1,5 @@
-import { ADD_FETCHED_DATA, ADD_FAVORITE_TERM, REMOVE_FAVORITE_TERM,ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT_OPTION } from './types.js';
+import { ADD_FETCHED_DATA, ADD_FAVORITE_TERM, REMOVE_FAVORITE_TERM,
+    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT_OPTION,SAVE_SELECT } from './types.js';
 import axios from 'axios';
 const apiUrl = 'https://jsonplaceholder.typicode.com/comments';
 export const addFavoriteTerm =  (data) => {
@@ -71,9 +72,20 @@ export const resultData = (entry) => {
             });
     };
 };
-export const saveSelectValue=(data)=> {
-    return {
-        type: SAVE_SELECT_OPTION,
-        payload: data
-      }
-}
+export const selectedData = (id) => {
+    return (dispatch) => {
+        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/Boardgames/'+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: SAVE_SELECT,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};

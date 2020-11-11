@@ -18,6 +18,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Logout from '@material-ui/icons/ExitToApp';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Boardgames from './boardgames';
+import Cafes from './cafes';
 import Boardgamespage from './boardgamepage';
 import Producers from './producers';
 import Welcome from './Welcome';
@@ -177,7 +178,20 @@ class PersistentDrawerLeft extends React.Component {
                             Boardgames
                             </Typography>
       </ListItem>       
-
+      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/cafes'}>
+        <ListItemIcon>
+            <PlaylistIcon />
+        </ListItemIcon>
+        <Typography
+                            variant="body1"
+                            align="justify"
+                            style={{
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            cafes
+                            </Typography>
+      </ListItem>    
               <ListItem button key={ 'logout'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} onClick={this.handleClick}  component={Link} to={'/'}>
         <ListItemIcon>
             <Logout />
@@ -199,7 +213,8 @@ class PersistentDrawerLeft extends React.Component {
                   <Route path="/bgpage/:id" exact component={Boardgamespage} />
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
-                    <Route path="/producers" component={Producers} />
+                   <Route path="/producers" component={Producers} />
+                   <Route path="/cafes" component={Cafes} />
                     <Route path="/user" exact component={User} />
                     <Route path="/boardgames"  component={Boardgames} />
                     <Route path="/search" exact component={Search}/>

@@ -12,10 +12,7 @@ class boardgames extends React.Component{
     render(){
         return(
             <div>
-                <Card
-                    onClick={(e) => {
-                        e.preventDefault();
-                        this.props.dispatch(saveSelectValue({data:this.props.data}))}}               
+                <Card             
                     style={{marginTop:15, maxWidth:223,minWidth:223,maxHeight:260,minHeight:260,marginleft:10,marginRight:10 }}>
                     <CardContent>
                     <CardMedia

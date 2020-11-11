@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 import NewsReducer from './NewsReducer';
 import boardGamesReducer from './boardGamesReducer';
 import resultsReducer from './resultsReducer'
-import selectReducer from './selectReducer'
+import selectionreducer from './selectionreducer'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
     results:resultsReducer,
-    selections:selectReducer
+    select:selectionreducer
 });

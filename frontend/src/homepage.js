@@ -28,7 +28,6 @@ class Homepage extends Component{
       image={term.image}
       />
     })
-    console.log(this.props.News)
     return(
       <div className='homepage'>
         <Grid container >

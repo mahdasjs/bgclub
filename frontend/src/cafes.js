@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import PeoducerCom from './producerCom';
+import CafeCom from './cafeCom';
 import { Grid, hexToRgb } from "@material-ui/core";
 class Homepage extends Component{
   constructor(props){
@@ -25,7 +25,7 @@ class Homepage extends Component{
   }
   render(){
     let producers = this.state.producers.map(post => {
-      return <PeoducerCom
+      return <CafeCom
         name={post.name}
         />;
     });
@@ -38,7 +38,7 @@ class Homepage extends Component{
           </Grid>
           <Grid xs={12} sm={12} lg={9}>
             <div className='Lists'>
-          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of producers </h2>
+          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of cafes </h2>
 
             <div style={{display:'flex',flexWrap:'wrap'}}>
           {producers}
