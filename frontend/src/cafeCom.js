@@ -14,7 +14,7 @@ class boardgames extends React.Component{
         return(
             <div>
                 <Card            
-                    style={{marginTop:15, maxWidth:280,marginleft:10,marginRight:10 }}>
+                    style={{marginTop:15, maxWidth:200,maxHeight:200, marginleft:10,marginRight:10 }}>
                     <CardContent>
                     <CardMedia
                         image={headerImage}
@@ -31,7 +31,7 @@ class boardgames extends React.Component{
                         src={headerImage}
                         > 
                         </Avatar> 
-                                          <Typography className='name'>
+                                          <Typography style={{justifyContent:'center',alignItems:'center',textAlign:'center'}}>
 
                         hi
                         </Typography>
