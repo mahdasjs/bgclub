@@ -15,6 +15,8 @@ import Paper from "@material-ui/core/Paper";
 import Cookie from "js-cookie";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SettingsIcon from "@material-ui/icons/Settings";
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: theme.spacing(86.5),
     height: theme.spacing(22),
-    top: theme.spacing(13),
+  
     // backgroundColor: "rgba( 255,255,255, 0.1)",
     backgroundColor: "rgba(191, 191, 191, 0.5)",
     backgroundSize: "cover",
@@ -40,10 +42,19 @@ const useStyles = makeStyles((theme) => ({
 
     },
   },
+  paper6: {
+    width: theme.spacing(86.5),
+    height: theme.spacing(8),
+    [theme.breakpoints.down('xs')]: {
+      width: "100%",
+      height: theme.spacing(10),
+
+    },
+  },
   button: {
     color: "grey",
     marginLeft: "-10px",
-    top:65,
+    
     [theme.breakpoints.down('xs')]: {
       left: theme.spacing(0.5),
       top:-25
@@ -55,10 +66,9 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(13),
     left: theme.spacing(4.3),
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(10),
-      height: theme.spacing(10),
+      width: theme.spacing(12),
+      height: theme.spacing(12),
       top: theme.spacing(7),
-      left: theme.spacing(18.5),
     },
   },
   input: {
@@ -116,13 +126,14 @@ export default function User() {
           username: res.data.username,
           firstname: res.data.first_name,
         });
+        setLoading(false);
         console.log(state.imagee);
       })
       .catch((error) => {});
   };
 return (
     <div className="pro">
-{/* 
+
         {loading?
                     <div style={{display: "flex",
                     fontFamily:'Open Sans',
@@ -132,7 +143,7 @@ return (
                     height:'80%'}}>
                         <CircularProgress disableShrink />
                          Loading ...
-                    </div> */}
+                    </div> 
                 :  <Grid container >
                 
                       <Paper elevation={3
@@ -142,7 +153,41 @@ return (
                           // style={{marginTop:-104,marginLeft:-34}}
                           className={classes.large}
                         ></Avatar>
-                       <Button className={classes.button} size="small" startIcon={<SettingsIcon />} onClick={handleClickOpen('paper')}></Button>
+                        </Paper>
+                        <Paper elevation={2} className={classes.paper6}>
+                        <Button className={classes.button} size="small" startIcon={<SettingsIcon />} onClick={handleClickOpen('paper')}></Button>
+                        <Typography
+                          variant="body1"
+                          align="justify"
+                          style={{
+                            textAlign: "left",
+                            marginLeft:"160px",
+                            fontFamily: "Roboto",
+                            marginTop: "-27px",
+                            fontSize: 17,
+                            color: "grey",
+                          }}
+                        >
+                          @{state.username}
+                          
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          align="justify"
+                          style={{
+                            textAlign: "left",
+                            marginLeft:"190px",
+                            marginTop: "-10px",
+                            fontFamily: "Roboto",
+                            fontSize: 15,
+                            color: "grey",
+                          }}
+                        >
+                          
+                          {state.firstname}
+                        </Typography>
+                        </Paper>
+                       
                   <Dialog
                          style={{marginBottom:5}}
                           open={open}
@@ -156,9 +201,20 @@ return (
                             <Edit />
                           </DialogContent>
                         </Dialog>
-                        </Paper>
+                        <div>
+                        <Button
+                        style={{marginTop:"200px",marginLeft: "-410px"}}
+        variant="contained"
+        size="small"
+        color="primary"
+        className={classes.button1}
+        startIcon={<ShoppingCartIcon />}
+      >
+       ShoppingCart
+      </Button>
+      </div>
                         </Grid>
-{/* } */}
+ } 
        </div>
     );
  }
