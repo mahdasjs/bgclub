@@ -7,11 +7,68 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Draggable from "react-draggable";
 import LinesEllipsis from 'react-lines-ellipsis';
+import axios from "axios";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles, useTheme , withStyles} from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
+import Paper from "@material-ui/core/Paper";
+import Cookie from "js-cookie";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    // backgroundColor: "rgba(228, 233, 237, 0.4)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    flexGrow: 1,
+     //display: "flex",
+    // flexDirection: "row-reverse",
+  },
+  paper: {
+    width: theme.spacing(86.5),
+    height: theme.spacing(22),
+    top: theme.spacing(13),
+    // backgroundColor: "rgba( 255,255,255, 0.1)",
+    backgroundColor: "rgba(191, 191, 191, 0.5)",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    [theme.breakpoints.down('xs')]: {
+      width: "100%",
+      height: theme.spacing(12),
 
+    },
+  },
+  large: {
+    width: theme.spacing(14),
+    height: theme.spacing(14),
+    top: theme.spacing(13),
+    left: theme.spacing(4.3),
+    [theme.breakpoints.down('xs')]: {
+      width: theme.spacing(10),
+      height: theme.spacing(10),
+      top: theme.spacing(7),
+      left: theme.spacing(18.5),
+    },
+  },
+  input: {
+    backgroundColor: "rgba(228, 233, 237, 0.5)",
+  },
+}));
 export default function User() {
+  const classes = useStyles();
+  const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
     const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
+    let [state, setState] = useState({
+      username: null,
+      firstname: null,
+      id: null,
+      userid: Cookie.get("userid"),
+      imagee: null,
+      header:null,
+    });
     useEffect(() => {
         handleClickOpen();
     }, []);
@@ -31,9 +88,50 @@ export default function User() {
       }
     }
   }, [open]);
+  useEffect(() => {
+    handlePlayprofile();
+  }, []);
+  const handlePlayprofile = () => {
+    axios
+      .get(`http://localhost:8000/api/v1/accounts/users/userprofile`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${Cookie.get("token")}`,
+        },
+      })
+      .then((res) => {
+        setState({
+          header:res.data.header_picture,
+          imagee: res.data.profile_picture,
+          username: res.data.username,
+          firstname: res.data.first_name,
+        });
+      })
+      .catch((error) => {});
+  };
 return (
     <div className="pro">
-                  <Button  onClick={handleClickOpen('paper')}>Edit</Button>
+{/* 
+        {loading?
+                    <div style={{display: "flex",
+                    fontFamily:'Open Sans',
+
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height:'80%'}}>
+                        <CircularProgress disableShrink />
+                         Loading ...
+                    </div> */}
+                :  <Grid container >
+                
+                      <Paper elevation={3
+                      } style={{backgroundImage:` url(${state.header})`,}}className={classes.paper}>
+                        <Avatar
+                          src={state.imagee}
+                          // style={{marginTop:-104,marginLeft:-34}}
+                          className={classes.large}
+                        ></Avatar>
+                       
                   <Dialog
                         style={{marginBottom:5}}
                           open={open}
@@ -47,6 +145,9 @@ return (
                             <Edit />
                           </DialogContent>
                         </Dialog>
-    </div>
+                        </Paper>
+                        </Grid>
+{/* } */}
+       </div>
     );
-}
+ }
