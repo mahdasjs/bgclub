@@ -24,6 +24,7 @@ import Producers from './producers';
 import Welcome from './Welcome';
 import Search from './search';
 import User from "./Profile/User";
+import ShoppingCart from '@material-ui/icons/ShoppingCart'
 const theme = createMuiTheme({
   typography: {
     body1: {
@@ -192,6 +193,20 @@ class PersistentDrawerLeft extends React.Component {
                             cafes
                             </Typography>
       </ListItem>    
+      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/boardgames'}>
+        <ListItemIcon>
+            <ShoppingCart />
+        </ListItemIcon>
+        <Typography
+                            variant="body1"
+                            align="justify"
+                            style={{
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Cart
+                            </Typography>
+      </ListItem>
               <ListItem button key={ 'logout'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} onClick={this.handleClick}  component={Link} to={'/'}>
         <ListItemIcon>
             <Logout />
