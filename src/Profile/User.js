@@ -14,6 +14,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Paper from "@material-ui/core/Paper";
 import Cookie from "js-cookie";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,15 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       height: theme.spacing(12),
 
+    },
+  },
+  button: {
+    color: "grey",
+    marginLeft: "-10px",
+    top:65,
+    [theme.breakpoints.down('xs')]: {
+      left: theme.spacing(0.5),
+      top:-25
     },
   },
   large: {
@@ -93,10 +103,10 @@ export default function User() {
   }, []);
   const handlePlayprofile = () => {
     axios
-      .get(`http://localhost:8000/api/v1/accounts/users/userprofile`, {
+      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Token ${Cookie.get("token")}`,
+          // Authorization: `Token ${Cookie.get("token")}`,
         },
       })
       .then((res) => {
@@ -106,6 +116,7 @@ export default function User() {
           username: res.data.username,
           firstname: res.data.first_name,
         });
+        console.log(state.imagee);
       })
       .catch((error) => {});
   };
@@ -131,9 +142,9 @@ return (
                           // style={{marginTop:-104,marginLeft:-34}}
                           className={classes.large}
                         ></Avatar>
-                       
+                       <Button className={classes.button} size="small" startIcon={<SettingsIcon />} onClick={handleClickOpen('paper')}></Button>
                   <Dialog
-                        style={{marginBottom:5}}
+                         style={{marginBottom:5}}
                           open={open}
                           onClose={handleClose}
                           scroll={scroll}
