@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import  {
+  ListItemSecondaryAction,
+} from "material-ui/List";
 import HomeIcon from '@material-ui/icons/Home';
 import PlaylistIcon from '@material-ui/icons/List';
 import AddIcon from '@material-ui/icons/Add';
@@ -24,6 +27,10 @@ import Producers from './producers';
 import Welcome from './Welcome';
 import Search from './search';
 import User from "./Profile/User";
+import ExpandMoreIcon from "material-ui-icons/ExpandMore";
+import ExpandLessIcon from "material-ui-icons/ExpandLess";
+import IconButton from "material-ui/IconButton";
+import ShoppingCart from '@material-ui/icons/ShoppingCart'
 const theme = createMuiTheme({
   typography: {
     body1: {
@@ -104,6 +111,9 @@ class PersistentDrawerLeft extends React.Component {
     handleChange = ()=> {
       this.setState({expanded:!this.state.expanded});
     };
+    toggleSubmenu=()=>{
+      this.setState({expanded:!this.state.expanded});
+    }
     render(){
       const { classes, theme } = this.props;
       const { open } = this.state;
@@ -192,6 +202,34 @@ class PersistentDrawerLeft extends React.Component {
                             cafes
                             </Typography>
       </ListItem>    
+      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/boardgames'}>
+        <ListItemIcon>
+            <PlaylistIcon />
+        </ListItemIcon>
+        <Typography
+                            variant="body1"
+                            align="justify"
+                            style={{
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            events
+                            </Typography>
+      </ListItem>    
+      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/boardgames'}>
+        <ListItemIcon>
+            <ShoppingCart />
+        </ListItemIcon>
+        <Typography
+                            variant="body1"
+                            align="justify"
+                            style={{
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Cart
+                            </Typography>
+      </ListItem>    
               <ListItem button key={ 'logout'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} onClick={this.handleClick}  component={Link} to={'/'}>
         <ListItemIcon>
             <Logout />
@@ -206,7 +244,6 @@ class PersistentDrawerLeft extends React.Component {
                             Logout
                             </Typography>      </ListItem>
           </List>
-          
         </Drawer>
                   <Switch >
                   <Route path="/bgpage" exact component={Boardgamespage} />
