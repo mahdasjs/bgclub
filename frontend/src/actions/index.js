@@ -1,22 +1,13 @@
-import { ADD_FETCHED_DATA, ADD_FAVORITE_TERM, REMOVE_FAVORITE_TERM,
-    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT_OPTION,SAVE_SELECT } from './types.js';
+import { ADD_FETCHED_DATA, 
+    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,REMOVE_FROM_CART } from './types.js';
 import axios from 'axios';
-const apiUrl = 'https://jsonplaceholder.typicode.com/comments';
-export const addFavoriteTerm =  (data) => {
-    return {
-      type: ADD_FAVORITE_TERM,
-      payload: {
-        name: data.name,
-        description: data.description
-      }
-    }
-};
 
-export const removeFavoriteTerm = name => {
+
+export const removeFromCart = (id) => {
     return {
-      type: REMOVE_FAVORITE_TERM,
+      type: REMOVE_FROM_CART,
       payload: {
-        name
+          id
       }
     }
 }
@@ -88,4 +79,10 @@ export const selectedData = (id) => {
                 throw (error);
             });
     };
+};
+export const addToCart =  (data) => {
+    return {
+      type: ADD_TO_CART,
+      payload: data
+    }
 };
