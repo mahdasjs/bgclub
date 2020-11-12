@@ -28,11 +28,11 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { bgData, fetchData, resultData } from './actions';
+import { bgData, fetchData, resultData,selectedData } from './actions';
 
 
 const saveState = (state) => {
-  if (state.selections.length !== 0) {
+  if (state.boardGames.length !== 0) {
     localStorage.setItem("state", JSON.stringify(state));
   }
 };
@@ -53,6 +53,7 @@ const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 store.dispatch(fetchData());
 store.dispatch(bgData());
 store.dispatch(resultData());
+store.dispatch(selectedData());
 
 store.subscribe(() => {
   saveState({

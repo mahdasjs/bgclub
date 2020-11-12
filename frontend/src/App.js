@@ -7,6 +7,7 @@ import Producers from './producers';
 import Boardgames from './boardgames';
 import Boardgamespage from './boardgamepage';
 import Search from './search'
+import Cafes from './cafes'
 import './App.css';
 import Login from './Login/Login.js';
 import Welcome from "./Welcome.js";
@@ -78,6 +79,15 @@ function App() {
             </div>
           </Route>
           <Route path ="/search" exact component={Search}>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path ="/cafes" exact component={Cafes}>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>

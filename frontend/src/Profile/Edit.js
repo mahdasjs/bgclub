@@ -64,7 +64,6 @@ export default class Edit extends React.Component {
   handleClick = async () => {
     const formData = new FormData();
     formData.append("profile_picture", this.state.profile_picture);
-    console.log(this.state.profile_status);
     try {
       const response = await axios.patch(
         ``,
@@ -132,7 +131,6 @@ export default class Edit extends React.Component {
           userpro: res.data.profile_picture,
           
         });
-        console.log();
       })
       .catch((error) => {});
   }
