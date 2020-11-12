@@ -18,6 +18,9 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Typography from "@material-ui/core/Typography";
 import DialogActions from "@material-ui/core/DialogActions";
+import FreeScrollBar from 'react-free-scrollbar';
+import News from '../news'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +64,13 @@ const useStyles = makeStyles((theme) => ({
       top:-25
     },
   },
+  button1: {
+    
+    [theme.breakpoints.down('xs')]: {
+      left: theme.spacing(23),
+      
+    },
+  },
   large: {
     width: theme.spacing(14),
     height: theme.spacing(14),
@@ -93,6 +103,7 @@ export default function User() {
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const [news, setNews] = useState([]);
     let [state, setState] = useState({
       username: null,
       firstname: null,
@@ -149,6 +160,22 @@ export default function User() {
       })
       .catch((error) => {});
   };
+  useEffect(() => {
+    handleNews();
+  }, []);
+  const handleNews = () => {
+    axios({
+      method: "get",
+      url: `https://5faaa726b5c645001602af7e.mockapi.io/api/v1/News`,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // Authorization: `Token ${Cookie.get("token")}`,
+      },
+    }).then((res) => {
+      setNews(res.data);
+      setLoading(false);
+    });
+  };
 return (
     <div className="pro">
 
@@ -162,10 +189,12 @@ return (
                         <CircularProgress disableShrink />
                          Loading ...
                     </div> 
-                :  <Grid container >
+                :  <Grid
+                container
                 
-                      <Paper elevation={3
-                      } style={{backgroundImage:` url(${state.header})`,}}className={classes.paper}>
+              >
+                
+                      <Paper elevation={3} style={{backgroundImage:` url(${state.header})`,}}className={classes.paper}>
                         <Avatar
                           src={state.imagee}
                           // style={{marginTop:-104,marginLeft:-34}}
@@ -264,6 +293,20 @@ return (
                         </Dialog>
           
       </div>
+      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
+      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1 }}>News </h2>
+                         
+                        {news
+                          .map((item) => (
+                            <News
+                              title={item.title}
+                              image={item.image}
+                              
+                            />
+                          ))
+                          }
+                          
+                      </div>
                         </Grid>
  } 
        </div>
