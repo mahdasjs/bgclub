@@ -13,9 +13,14 @@ class news extends Component{
                 <CardMedia
                     image={this.props.data.image}
                     style={{marginRight:20, maxHeight: 60, maxWidth: 60, minWidth: 60, minHeight: 60}}/>   
+                    <div style={{flexWrap:'wrap'}}>
                   <Typography className='title'>
-                    {this.props.name.substring(0,50)}
+                    {this.props.name}
                     </Typography>
+                    <Typography className='price'>
+                    {this.props.data.price}
+                    </Typography>
+                    </div>
                 </CardContent> 
          </div>
         )

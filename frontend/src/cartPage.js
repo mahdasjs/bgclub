@@ -10,13 +10,13 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => {
   return {
       News: state.News,
-      cart:state.cart
+      carts:state.carts
   };
 };
 class Homepage extends Component{
   render(){
-    console.log(this.props.cart)
-    let boardGames = this.props.cart.map(post => {
+    console.log(this.props.carts)
+    let boardGames = this.props.carts.map(post => {
       return <CartItem
         id={post.data.id}
         name={post.data.name}
@@ -36,7 +36,7 @@ class Homepage extends Component{
           </Grid>
           <Grid xs={12} sm={12} lg={10}>
             <div  style={{marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Boardgames </h2>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
                 {boardGames}
             </div>
           </Grid> 

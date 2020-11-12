@@ -19,8 +19,8 @@ class boardgames extends React.Component{
         }
     }
     componentDidMount(){
-        for(var i = 0; i<this.props.cart.length; i++){
-            if(this.props.id==this.props.cart[i].data.id){
+        for(var i = 0; i<this.props.carts.length; i++){
+            if(this.props.id==this.props.carts[i].data.id){
                 this.setState({checkCart:false})
                 break;
             }
@@ -70,7 +70,7 @@ class boardgames extends React.Component{
 const mapStateToProps = (state) => {
     return {
         select: state.select,
-        cart:state.cart
+        carts:state.carts
     }
   }
   export default connect(mapStateToProps, null)(boardgames);

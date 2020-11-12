@@ -9,5 +9,5 @@ export default combineReducers({
     boardGames: boardGamesReducer,
     results:resultsReducer,
     select:selectionreducer,
-    cart:cartReducer
+    carts:cartReducer
 });
