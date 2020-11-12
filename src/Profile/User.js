@@ -17,6 +17,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import SettingsIcon from "@material-ui/icons/Settings";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Typography from "@material-ui/core/Typography";
+import DialogActions from "@material-ui/core/DialogActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,11 +76,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(228, 233, 237, 0.5)",
   },
 }));
+function PaperComponent(props) {
+  return (
+    <Draggable
+      handle="#draggable-dialog-title"
+      cancel={'[class*="MuiDialogContent-root"]'}
+    >
+      <Paper {...props} />
+    </Draggable>
+  );
+}
 export default function User() {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
     const [open, setOpen] = React.useState(false);
+    const [openn, setOpenn] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     let [state, setState] = useState({
       username: null,
@@ -89,6 +101,12 @@ export default function User() {
       imagee: null,
       header:null,
     });
+    const handleClickOpenn = () => {
+    setOpenn(true);
+   }
+   const handleClosee = () => {
+    setOpenn(false);
+  };
     useEffect(() => {
         handleClickOpen();
     }, []);
@@ -207,11 +225,44 @@ return (
         variant="contained"
         size="small"
         color="primary"
+        onClick={handleClickOpenn}
         className={classes.button1}
         startIcon={<ShoppingCartIcon />}
       >
        ShoppingCart
       </Button>
+      <Dialog
+                                  style={{zIndex:100000000}}
+                          open={openn}
+                          onClose={handleClosee}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" }}
+                            id="draggable-dialog-title"
+                          >
+                            Shopping Cart
+                          </DialogTitle>
+                          <DialogContent>
+                            
+                              <p
+                                style={{
+                                  textAlign: "center",
+                                  fontFamily: "Roboto",
+                                }}
+                              >
+                                Your shopping cart is empty!
+                              </p>
+
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClosee} color="primary">
+                              ok
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+          
       </div>
                         </Grid>
  } 
