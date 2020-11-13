@@ -20,11 +20,16 @@ export default class Edit extends React.Component {
     this.state = {
       profile_picture: null,
       userpro: "",
+      headerpro:"",
+      header_picture:null,
       open: true,
       username: "",
       email: "",
       first_name: "",
       last_name: "",
+      address:"",
+      postal:"",
+      phone:"",
 
     };
     this.handleClick = this.handleClick.bind(this);
@@ -64,15 +69,17 @@ export default class Edit extends React.Component {
   handleClick = async () => {
     const formData = new FormData();
     formData.append("profile_picture", this.state.profile_picture);
+    formData.append("header_picture", this.state.header_picture);
+    console.log(this.state.profile_status);
     try {
       const response = await axios.patch(
-        ``,
+        `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`,
         formData,
         {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: "Token " + token,
+            // Authorization: "Token " + token,
           },
         }
       );
@@ -81,15 +88,18 @@ export default class Edit extends React.Component {
     formData.append("last_name", this.state.last_name);
     formData.append("username", this.state.username);
     formData.append("email", this.state.email);
+    formData.append("postal", this.state.postal);
+    formData.append("phone", this.state.phone);
+    formData.append("address", this.state.address);
     axios
       .patch(
-        ``,
+        `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`,
         formData,
 
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: "Token " + token,
+           // Authorization: "Token " + token,
           },
         }
       )
@@ -102,10 +112,10 @@ export default class Edit extends React.Component {
 
   componentDidMount() {
     axios
-      .get(``, {
+      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Token " + token,
+          //Authorization: "Token " + token,
         },
       })
       .then((res) => {
@@ -114,22 +124,25 @@ export default class Edit extends React.Component {
           email: res.data.email,
           last_name: res.data.last_name,
           username: res.data.username,
+          postal: res.data.postal,
+          phone: res.data.phone,
+          address: res.data.address,
         });
       })
       .catch((error) => {});
     axios
-      .get(``, {
+      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           //"Content-Type": "multipart/form-data",
-          Authorization: "Token " + token,
+         // Authorization: "Token " + token,
         },
       })
       .then((res) => {
         this.setState({
           userpro: res.data.profile_picture,
-          
+          headerpro: res.data.header_picture,
         });
       })
       .catch((error) => {});
@@ -139,7 +152,36 @@ export default class Edit extends React.Component {
     return (
       <div style={{ position: "relative" ,maxWidth: "350px"}}>
         <Grid xs>
-          
+        <input
+            style={{ display: "none" }}
+            type="file"
+            onChange={this.fileSelectedHandler1}
+            ref={(fileInput1) => (this.fileInput1 = fileInput1)}
+          />
+          <div className="img">
+          <img
+            variant="square"
+            src={this.state.headerpro} 
+            style={{
+              width: 350,
+              height: 120,
+            }}/>
+            </div>
+          <Button
+              variant="outlined"
+              size="small"
+              style={{
+                fontSize: 12,
+                backgroundColor: "white",
+                color: "grey",
+                bottom: "30px",
+               // marginLeft:"-40px"
+              }}
+              onClick={(event) => this.fileInput1.click()}
+            >
+              {/* <CameraAltIcon size="small" /> */}
+              change 
+            </Button>
            <input
             style={{ display: "none" }}
             type="file"
@@ -252,9 +294,9 @@ export default class Edit extends React.Component {
                 style={{ fontSize: 13 }}
                 type="text"
                 id="component-outlined"
-                value={this.state.username}
-                label="username"
-                name="username"
+                value={this.state.phone}
+                label="phone"
+                name="phone"
                 onChange={this.handleChange}
               />
             </FormControl>
@@ -270,8 +312,9 @@ export default class Edit extends React.Component {
                 type="text"
                 name="email"
                 id="component-outlined"
-                value={this.state.email}
-                label="email"
+                value={this.state.postal}
+                label="postal code"
+                name="postal"
                 onChange={this.handleChange}
               />
             </FormControl>
@@ -287,9 +330,9 @@ export default class Edit extends React.Component {
                 shrink={true}
                 type="text"
                 id="component-outlined"
-                value={this.state.bio}
-                label=" biography"
-                name="bio"
+                value={this.state.address}
+                label="address"
+                name="address"
                 onChange={this.handleChange}
               />
             </FormControl>
