@@ -81,31 +81,7 @@ class PersistentDrawerLeft extends React.Component {
       Cookie.remove('userid')
       Cookie.remove('url')
       Cookie.remove('username')
-  
     }
-  
-    componentDidMount(){
-      axios({
-        method: 'get',
-        url:`http://localhost:8000/api/v1/accounts/users/userprofile/${Cookie.get('userid')}`,
-        headers: { 'Authorization': `Token ${Cookie.get('token')}` },
-    })
-        .then(response => {
-          this.setState({       userprofile: response.data.user_profile.profile_picture,
-            username: response.data.username,})
-        })
-      axios({
-        method: 'get',
-        url: `http://localhost:8000/api/v1/playlist/${Cookie.get('userid')}`,
-        headers: { 'Authorization': `Token ${Cookie.get('token')}` },
-    })
-        .then(response => {
-          this.setState({id:response.data.id})
-        })
-    }
-    handleChange = ()=> {
-      this.setState({expanded:!this.state.expanded});
-    };
     render(){
       const { classes, theme } = this.props;
       const { open } = this.state;

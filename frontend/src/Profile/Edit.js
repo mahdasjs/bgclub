@@ -144,6 +144,7 @@ export default class Edit extends React.Component {
           userpro: res.data.profile_picture,
           headerpro: res.data.header_picture,
         });
+        console.log();
       })
       .catch((error) => {});
   }
