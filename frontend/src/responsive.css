@@ -71,6 +71,11 @@
     border-color: floralwhite !important;
     border: 5px solid floralwhite ;
   }
+  .addAndRemove{
+    margin-top: 0px !important;
+    margin-left: 95px !important;
+    width: 100px !important;
+  }
   @media(max-width:1200px){
       .news{
           display: none;

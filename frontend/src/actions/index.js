@@ -1,5 +1,5 @@
 import { ADD_FETCHED_DATA, 
-    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,REMOVE_FROM_CART } from './types.js';
+    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH } from './types.js';
 import axios from 'axios';
 
 
@@ -86,3 +86,20 @@ export const addToCart =  (data) => {
       payload: data
     }
 };
+export const counterMinus=(id)=>{
+    return{
+        type: MINUS_LENGTH,
+        payload: {
+            id
+        }
+
+    }
+}
+export const counterPlus=(id)=>{
+    return{
+        type: PLUS_LENGTH,
+        payload: {
+            id
+        }
+    }
+}
