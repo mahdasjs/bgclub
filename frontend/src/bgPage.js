@@ -7,8 +7,8 @@ import headerImage from './back.jpg';
 import { connect } from 'react-redux';
 import {addToCart, removeFromCart, saveSelectValue, selectedData} from './actions/index'
 import Typography from '@material-ui/core/Typography';
-import FavoriteBorder from '@material-ui/icons/AddShoppingCart';
-import Favorite from '@material-ui/icons/RemoveShoppingCart';
+import CartBorder from '@material-ui/icons/AddShoppingCart';
+import Cart from '@material-ui/icons/RemoveShoppingCart';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AddCart from '@material-ui/icons/AddShoppingCart'
@@ -47,19 +47,6 @@ class boardgames extends React.Component{
                 <Card       
                     onClick={()=>this.props.dispatch(selectedData(this.props.id))}  
                     style={{marginTop:15, maxWidth:223,minWidth:223,maxHeight:260,minHeight:260,marginleft:10,marginRight:10 }}>
-                        {/* {this.state.checkCart?
-                            <IconButton  
-                        onClick={()=>this.props.dispatch(addToCart({data:this.props.data}))}
-                        style={{position:'absolute', border:'5px solid rgb(240, 248, 255)',marginTop:5,marginLeft:150,backgroundColor:'rgb(240, 248, 255)'}}>
-                         <AddCart />
-                        </IconButton>
-                        :                           
-                         <IconButton  
-                         onClick={()=>this.props.dispatch(removeFromCart(this.props.id))}
-                        style={{position:'absolute', border:'5px solid rgb(240, 248, 255)',marginTop:5,marginLeft:150,backgroundColor:'rgb(240, 248, 255)'}}>
-                         <RemoveCart />
-                        </IconButton>
-                        } */}
                          <FormControlLabel
                         style={{position:'absolute',marginTop:5,marginLeft:150}}
                         label={this.state.checkCart}
@@ -69,8 +56,8 @@ class boardgames extends React.Component{
                         checked={this.state.checkCart} 
                         onChange={this.handleCheck}   
                         color="default"  
-                       icon={<FavoriteBorder style={{fontSize:30}} />} 
-                       checkedIcon={<Favorite style={{fontSize:30}}/>}
+                       icon={<CartBorder style={{fontSize:30}} />} 
+                       checkedIcon={<Cart style={{fontSize:30}}/>}
                       name="checkedH" />}
                    />
                     <CardContent>
