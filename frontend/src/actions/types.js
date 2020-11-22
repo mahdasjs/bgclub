@@ -5,3 +5,5 @@ export const ADD_bg_DATA = 'ADD_bg_DATA';
 export const ADD_RESULT_DATA = 'ADD_RESULT_DATA';
 export const SAVE_SELECT_OPTION = 'SAVE_SELECT_OPTION'
 export const SAVE_SELECT = 'SAVE_SELECT'
+export const ADD_TO_CART='ADD_TO_CART'
+export const REMOVE_FROM_CART='REMOVE_FROM_CART'

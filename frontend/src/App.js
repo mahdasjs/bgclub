@@ -12,6 +12,7 @@ import './App.css';
 import Login from './Login/Login.js';
 import Welcome from "./Welcome.js";
 import Bottombar from './bottombar'
+import Cart from './cartPage'
 import User from "./Profile/User";
 
 function App() {
@@ -88,6 +89,15 @@ function App() {
             </div>
           </Route>
           <Route path ="/cafes" exact component={Cafes}>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path ="/cart" exact component={Cart}>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>

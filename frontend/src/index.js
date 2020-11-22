@@ -28,7 +28,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { bgData, fetchData, resultData,selectedData } from './actions';
+import { addToCart, bgData, fetchData, resultData,selectedData } from './actions';
 
 
 const saveState = (state) => {
@@ -59,7 +59,7 @@ store.subscribe(() => {
   saveState({
     boardGames: store.getState().boardGames,
     selections: store.getState().selections,
-
+    carts:store.getState().carts
   })
 })
 
