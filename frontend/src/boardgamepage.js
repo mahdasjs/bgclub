@@ -10,6 +10,8 @@ import './responsive.css';
 import {selectedData} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import Button from "@material-ui/core/Button";
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 class boardgames extends React.Component{
       constructor(){
@@ -74,6 +76,26 @@ class boardgames extends React.Component{
                   <Rating name="read-only" value={2} readOnly size="large"  />
 
                 </Grid>
+                <Grid style={{display:'flex',flexWrap:'nowrap', visibility:this.state.visibility,marginLeft:'30px' }}  container item xs={12} sm={12} lg={12}>
+
+<Grid item xs={10} sm={10} lg={10} >
+  <div style={{ display:'flex',flexWrap:'nowrap',width:'100%'}}>
+    <TextareaAutosize value={this.state.comment} onChange={this.handlechangeComment} rowsMin={1}  rowsMax={1}  aria-label="caption" placeholder="Add comment..." 
+    // style={{paddingTop:15, borderStyle:'hidden', outline:'none', fontSize:15, width:'110%'}}
+    style={{borderStyle:'hidden',  outline:'none',backgroundColor:"rgb(245, 250, 252)", padding:10,  fontSize:15, width:'100%'}}
+
+     />
+  </div>
+</Grid>
+<Grid  item xs={2} sm={2} lg={2}>
+<Button onClick={this.handlePostComment} 
+style={{}}
+ color="primary"
+>
+Send
+</Button>
+</Grid>
+</Grid>
                                 </Grid>
 
              </div>
