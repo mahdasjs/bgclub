@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import headerImage from './back.jpg';
 import { connect } from 'react-redux';
-import {addToCart, removeFromCart, saveSelectValue, selectedData} from './actions/index'
+import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import CartBorder from '@material-ui/icons/AddShoppingCart';
 import Cart from '@material-ui/icons/RemoveShoppingCart';
@@ -21,27 +21,39 @@ class boardgames extends React.Component{
     constructor(){
         super()
         this.state={
-            checkCart:false
+            checkCart:false,
+            counter:0
         }
     }
-    handleCheck=(e)=>{
+    handleAdd=(e)=>{
         this.props.dispatch(addToCart({data:this.props.data}))
+        // this.props.dispatch(counterPlus({id:this.props.id}))
+
+        console.log(this.props.counter)
+
+        // if(e.target.checked==false){
+        //     this.props.dispatch(removeFromCart(this.props.id))
+        // }
+        // this.setState({checkCart: e.target.checked});
+    }
+    handleRemove=(e)=>{
+        this.props.dispatch(removeFromCart(this.props.id))
         // if(e.target.checked==false){
         //     this.props.dispatch(removeFromCart(this.props.id))
         // }
         // this.setState({checkCart: e.target.checked});
 
     }
-    // componentDidMount(){
-    //     for(var i = 0; i<this.props.carts.length; i++){
-    //         if(this.props.id==this.props.carts[i].data.id){
-    //             this.setState({checkCart:true})
-    //             break;
-    //         }
-    //     }
-    // }
+    componentDidMount(){
+        for(var i = 0; i<this.props.carts.length; i++){
+            if(this.props.id==this.props.carts[i].data.id){
+                // this.setState({checkCart:true})
+                break;
+            }
+        }
+    }
     render(){
-        console.log(this.props.cart)
+        console.log(this.state.counter)
         return(
             <div>
                 <Card       
@@ -76,11 +88,11 @@ class boardgames extends React.Component{
                         {this.props.name.substring(0,25)}
                         </Typography>
                         <div className='addAndRemove' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} >
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
                     </IconButton>
                     {this.props.carts.len}
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleCheck}    >
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
                     </div>
@@ -93,7 +105,8 @@ class boardgames extends React.Component{
 const mapStateToProps = (state) => {
     return {
         select: state.select,
-        carts:state.carts
+        carts:state.carts,
+        counter:state.counter
     }
   }
   export default connect(mapStateToProps, null)(boardgames);

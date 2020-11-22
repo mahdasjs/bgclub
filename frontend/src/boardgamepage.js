@@ -9,14 +9,22 @@ import Typography from '@material-ui/core/Typography';
 import './responsive.css';
 import {selectedData} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
 class boardgames extends React.Component{
+      constructor(){
+        super()
+        this.state={
+          value:2,
+          hover:-1
+        }
+      }
       componentDidMount(){
           this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
       }
     render(){
+      console.log(this.state.value)
         const selections = this.props.selections || []
-
         return(
             <div className='homepage'>
               <Grid container>
@@ -43,6 +51,18 @@ class boardgames extends React.Component{
                 </Typography>
                 <Typography className='bgprice'>
                 {this.props.select.price}
+                <div >
+      <Rating
+        name="hover-feedback"
+        value={this.state.value}
+        precision={0.5}
+        onChange={(event, newValue) => {
+          this.setState({value:newValue});
+        }}
+
+      />
+      {/* {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>} */}
+    </div>
                 </Typography>
                 <Typography className='bgdescription'>
                 {this.props.select.description}

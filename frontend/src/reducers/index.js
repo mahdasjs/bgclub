@@ -4,12 +4,13 @@ import boardGamesReducer from './boardGamesReducer';
 import resultsReducer from './resultsReducer'
 import selectionreducer from './selectionreducer'
 import cartReducer from './cartReducer';
-import counterLength from './counterLength'
+import counterReducer from './counterLength'
+import cartPage from '../cartPage';
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
     results:resultsReducer,
     select:selectionreducer,
+    counter:counterReducer,
     carts:cartReducer,
-    count:counterLength
 });
