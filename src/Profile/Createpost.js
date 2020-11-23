@@ -85,7 +85,11 @@ export default class Create extends React.Component {
             </Button>
       <br/>
       <div className="description">
-      <TextField id="standard-secondary" label="Your description" color="default" />
+      <TextField id="standard-secondary" label="Name" color="default" />
+      
+      </div>
+      <div className="description">
+      <TextField id="standard-secondary" label="description" color="default" />
       </div>
           <div>
             <label>Sell</label>
