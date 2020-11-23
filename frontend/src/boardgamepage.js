@@ -7,22 +7,54 @@ import { connect } from 'react-redux';
 import { Grid, hexToRgb } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedData} from './actions/index'
+import {selectedData,addToCart,removeFromCart} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Button from "@material-ui/core/Button";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Plus from '@material-ui/icons/Add';
+import Minus from '@material-ui/icons/Remove';
+import { IconButton} from '@material-ui/core';
 
 class boardgames extends React.Component{
       constructor(){
         super()
         this.state={
           value:2,
-          hover:-1
+          hover:-1,
+          count:0,
+          id:window.location.pathname.split('/')[2]
         }
+      }
+      async count(){
+        const result = [...this.props.carts.reduce( (mp, o) => {
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
+            return mp;
+        }, new Map).keys()];
+        const values = [...this.props.carts.reduce( (mp, o) => {
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
+            return mp;
+        }, new Map).values()];
+        for(var i=0; i<result.length; i++){
+            if(this.state.id==result[i]){
+                await this.setState({count:values[i].count})
+            }
+        }
+    }
+    handleAdd=(e)=>{
+        this.count();
+        this.props.dispatch(addToCart({data:this.props.select}))
+        this.setState({count:this.state.count+1})
+    }
+    handleRemove=(e)=>{
+        this.props.dispatch(removeFromCart(this.state.id))
       }
       componentDidMount(){
           this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
+          this.count()
+
       }
     render(){
       console.log(this.state.value)
@@ -63,6 +95,15 @@ class boardgames extends React.Component{
         }}
 
       />
+       <div className='addAndRemove' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginRight:0,borderRight:'2px solid'}} onClick={this.handleRemove} >
+                                <Minus  style={{color:"#000"}}/>
+                    </IconButton>
+                    {this.state.count}
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:0,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
+                                <Plus  style={{color:"#000"}}/>
+                    </IconButton>
+                    </div>
       {/* {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>} */}
     </div>
                 </Typography>
@@ -105,6 +146,7 @@ Send
 const mapStateToProps = (state) => {
     return {
       select: state.select,
+      carts:state.carts
     }
   }
 export default connect(mapStateToProps, null)(boardgames);
