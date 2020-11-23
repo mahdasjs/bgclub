@@ -10,17 +10,27 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => {
   return {
       News: state.News,
-      cart:state.cart
+      carts:state.carts
   };
 };
 class Homepage extends Component{
   render(){
-    console.log(this.props.carts)
-    let boardGames = this.props.cart.map(post => {
+    var value=0
+    const values = [...this.props.carts.reduce( (mp, o) => {
+      if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+      mp.get(o.data.id).count++;
+      return mp;
+  }, new Map).values()];
+  for(var i=0; i<values.length; i++){
+    value=value+values[i].data.price*values[i].count
+  }
+    console.log(value)
+    let boardGames = values.map(post => {
       return <CartItem
         id={post.data.id}
         name={post.data.name}
         data={post.data}
+        count={post.count}
         />;
     });
     let news = this.props.News.map((term, index)=>{
