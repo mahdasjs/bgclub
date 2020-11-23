@@ -76,6 +76,21 @@
     margin-left: 95px !important;
     width: 100px !important;
   }
+  .addCart{
+    margin-top: 0px !important;
+    margin-left: 30px !important;
+    width: 100px !important;
+    height: 41px !important;
+  }
+  .titleCart{
+    min-width: 200px !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+  .priceCart{
+    font-size: 15px !important;
+    font-weight: 500 !important;
+  }
   @media(max-width:1200px){
       .news{
           display: none;

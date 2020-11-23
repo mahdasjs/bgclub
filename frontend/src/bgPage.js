@@ -45,15 +45,17 @@ class boardgames extends React.Component{
 
     }
     componentDidMount(){
-        for(var i = 0; i<this.props.carts.length; i++){
-            if(this.props.id==this.props.carts[i].data.id){
-                // this.setState({checkCart:true})
-                break;
-            }
-        }
+        // for(var i = 0; i<this.props.carts.length; i++){
+        //     if(this.props.id==this.props.carts[i].data.id){
+        //         // this.setState({checkCart:true})
+        //         break;
+        //     }
+        this.props.dispatch(addToCart({data:this.props.data}))
+
+        // }
     }
     render(){
-        console.log(this.state.counter)
+        console.log(this.props.data)
         return(
             <div>
                 <Card       
@@ -91,7 +93,7 @@ class boardgames extends React.Component{
                         <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
                     </IconButton>
-                    {this.props.carts.len}
+                    5
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>

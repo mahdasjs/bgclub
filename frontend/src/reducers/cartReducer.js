@@ -1,5 +1,11 @@
 import {ADD_TO_CART, REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH} from '../actions/types';
-
+// const isProductInBasket = (state, action) => {
+//     for (var i=0; i < state.length; i++){
+//       if(state[i].data.id == action.payload.id.id){
+//         return true;
+//       }
+//     }
+//   }
 export default function addToCart(state = [], action) {
     switch (action.type) {
         case ADD_TO_CART:
@@ -11,22 +17,15 @@ export default function addToCart(state = [], action) {
                 }
                 return false;
             });
-        case PLUS_LENGTH:
-            return state.filter((e) => {
-                if (e.data.id !== action.payload.id) {
-                    return {
-                        len:state.len+1
-                    };
-                }
-            });
-        case MINUS_LENGTH:
-            return state.filter((e) => {
-                if (e.data.id !== action.payload.id) {
-                    console.log(state.len)
-                }
-                console.log(state.len)
+        // case PLUS_LENGTH:
+        //     if (isProductInBasket(state, action)) {
 
-            });
+        //         return state.map(product => {
+        //             if (product.data.id == action.payload.id.id) {
+        //             }
+        //             return product;
+        //         });
+        //     }
         default:
             return state;
     }
