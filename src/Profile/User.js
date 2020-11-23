@@ -252,17 +252,17 @@ return (
                           aria-labelledby="draggable-dialog-title"
                         >
                           <DialogTitle
-                            style={{ cursor: "move" }}
+                            style={{ cursor: "move" ,textAlign:"center"}}
                             id="draggable-dialog-title"
                           >
-                            Sell or Rent your playlist!
+                            Sell,Rent your playlist !
                           </DialogTitle>
                           <DialogContent>
-                            
+                          <Create />
                           </DialogContent>
                           <DialogActions>
                             <Button onClick={handleClosee} color="primary">
-                              ok
+                              save
                             </Button>
                           </DialogActions>
                         </Dialog>

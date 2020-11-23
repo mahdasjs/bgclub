@@ -33,7 +33,12 @@
   width: 335px !important;
   height: 40px !important;
 }
-
+.sell{
+  margin-left: 50px;
+}
+.rent{
+  margin-left: 50px;
+}
 .profile {
   position: absolute;
   width: 59%;
