@@ -17,8 +17,17 @@ export default function addToCart(state = [], action) {
                 }
                 return false;
             });
-        // case PLUS_LENGTH:
-        //     if (isProductInBasket(state, action)) {
+        case PLUS_LENGTH:
+            return [...state.reduce( (mp, o) => {
+                if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+                mp.get(o.data.id).count++;
+                return mp;
+            }, new Map).values()];
+        // case MINUS_LENGTH:
+        //     return state.filter((e) => {
+        //         if (e.data.id !== action.payload.id) {
+        //         }
+
 
         //         return state.map(product => {
         //             if (product.data.id == action.payload.id.id) {

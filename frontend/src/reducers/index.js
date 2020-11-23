@@ -12,5 +12,6 @@ export default combineReducers({
     results:resultsReducer,
     select:selectionreducer,
     counter:counterReducer,
-    carts:cartReducer,
+    // carts:cartReducer,
+    cart:cartReducer
 });

@@ -95,11 +95,9 @@ export const counterMinus=(id)=>{
 
     }
 }
-export const counterPlus=(id)=>{
+export const counterPlus=(data)=>{
     return{
         type: PLUS_LENGTH,
-        payload: {
-            id
-        }
+        payload: data
     }
 }
