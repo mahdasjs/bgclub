@@ -10,13 +10,13 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => {
   return {
       News: state.News,
-      carts:state.carts
+      cart:state.cart
   };
 };
 class Homepage extends Component{
   render(){
     console.log(this.props.carts)
-    let boardGames = this.props.carts.map(post => {
+    let boardGames = this.props.cart.map(post => {
       return <CartItem
         id={post.data.id}
         name={post.data.name}
