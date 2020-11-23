@@ -64,7 +64,7 @@ class boardgames extends React.Component{
         //     }
         // }
         const result = [...this.props.cart.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 1 });
             mp.get(o.data.id).count++;
             return mp;
         }, new Map).values()];
