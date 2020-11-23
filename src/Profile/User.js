@@ -255,7 +255,7 @@ return (
                             style={{ cursor: "move" ,textAlign:"center"}}
                             id="draggable-dialog-title"
                           >
-                            Sell,Rent your playlist !
+                            Sell / Rent your boardgame !
                           </DialogTitle>
                           <DialogContent>
                           <Create />
