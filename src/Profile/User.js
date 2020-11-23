@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Edit from "./Edit";
+import Create from "./Createpost";
 import "./Profile.css";
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -233,6 +234,39 @@ return (
                           
                           {state.firstname}
                         </Typography>
+                        <Button
+                        style={{marginTop:"-40px",marginLeft: "550px"}}
+        variant="contained"
+        size="small"
+        color="primary"
+        onClick={handleClickOpenn}
+        className={classes.button1}
+      >
+      create post
+      </Button>
+      <Dialog
+                                  style={{zIndex:100000000}}
+                          open={openn}
+                          onClose={handleClosee}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" }}
+                            id="draggable-dialog-title"
+                          >
+                            Sell or Rent your playlist!
+                          </DialogTitle>
+                          <DialogContent>
+                            
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClosee} color="primary">
+                              ok
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+          
                         </Paper>
                        
                   <Dialog
@@ -249,49 +283,7 @@ return (
                           </DialogContent>
                         </Dialog>
                         <div>
-                        <Button
-                        style={{marginTop:"200px",marginLeft: "-410px"}}
-        variant="contained"
-        size="small"
-        color="primary"
-        onClick={handleClickOpenn}
-        className={classes.button1}
-        startIcon={<ShoppingCartIcon />}
-      >
-       ShoppingCart
-      </Button>
-      <Dialog
-                                  style={{zIndex:100000000}}
-                          open={openn}
-                          onClose={handleClosee}
-                          PaperComponent={PaperComponent}
-                          aria-labelledby="draggable-dialog-title"
-                        >
-                          <DialogTitle
-                            style={{ cursor: "move" }}
-                            id="draggable-dialog-title"
-                          >
-                            Shopping Cart
-                          </DialogTitle>
-                          <DialogContent>
-                            
-                              <p
-                                style={{
-                                  textAlign: "center",
-                                  fontFamily: "Roboto",
-                                }}
-                              >
-                                Your shopping cart is empty!
-                              </p>
-
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleClosee} color="primary">
-                              ok
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-          
+                        
       </div>
       <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
       <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1 }}>News </h2>
