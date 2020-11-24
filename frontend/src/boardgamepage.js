@@ -15,7 +15,11 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
 import { IconButton} from '@material-ui/core';
-import axios from 'axios'
+import axios from 'axios';
+import Postcomments from './comment';
+import {If} from 'rc-if-else';
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 class boardgames extends React.Component{
       constructor(){
         super()
@@ -24,7 +28,10 @@ class boardgames extends React.Component{
           hover:-1,
           count:0,
           id:window.location.pathname.split('/')[2],
-          comment:null
+          comment:null,
+                  visibility:'hidden',
+        toggle:false,
+        showAll:false,
         }
       }
       handlechangeComment = (e) => {
@@ -39,7 +46,7 @@ class boardgames extends React.Component{
         formData.append("post",this.state.id);
         formData.append("text",this.state.comment)
         axios({
-          method: "put",
+          method: "post",
           url: "https://5faaa726b5c645001602af7e.mockapi.io/api/v1/new",
           headers: { 
             "Content-type": "multipart/form-data"},
@@ -107,7 +114,22 @@ class boardgames extends React.Component{
 
       }
     render(){
-      console.log(this.props.comment)
+      let comments = this.props.comment.map(post => {
+        if(post.data.id==this.state.id){
+          return <Postcomments
+          avatar={'post.user.profile_picture'}
+          id={post.data.id}
+          text={post.data.comment}
+          username={'post.user.username'}
+          userid={'post.user.id'}
+          postUser={'this.props.postUser'}
+          action={'this.handle'}
+          />;
+        }
+       
+      });
+
+      console.log({comments})
         const selections = this.props.selections || []
         return(
             <div className='homepage'>
@@ -188,6 +210,66 @@ Send
 </Grid>
 </Grid>
                                 </Grid>
+                <Grid  item xs={12} sm={12} lg={12}  >
+                <PerfectScrollbar>
+                  {comments}
+                  </PerfectScrollbar>
+
+                  </Grid>
+
+                <If condition ={this.state.showAll===false}>
+
+                <Grid  item xs={12} sm={12} lg={12}  style={{marginTop:10, visibility:this.state.visibility}}>
+                    {comments[0]}
+                    {/* {comments[this.state.commentArrayLength-2]} */}
+                  </Grid>
+                  </If>
+
+                  <If  condition ={comments.length>1 &&this.state.showAll===false}>
+
+                  <Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
+                    <Button
+                    
+                    onClick={this.showAll}
+                    variant="body1"
+                    align="justify"
+                    style={{
+                      display:'table',
+                      marginRight:'auto',
+                      marginLeft:'auto',
+                    fontSize: 12,
+                    fontSize:13,
+                    marginBottom:-20,
+                    color:'rgba(0, 0, 0, 0.4)'
+                    }}
+                    >
+                      show more                    
+                    </Button>
+                  </Grid>
+
+                </If>  
+                <If  condition ={comments.length>1 && this.state.showAll===true}>
+<Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
+  <Button
+  // onClick={this.linkPost}
+  onClick={this.showAll}
+  variant="body1"
+  align="justify"
+  style={{
+    display:'table',
+    marginRight:'auto',
+    marginLeft:'auto',
+  fontSize: 12,
+  fontSize:13,
+  marginBottom:-20,
+  color:'rgba(0, 0, 0, 0.4)'
+  }}
+  >
+    show less                    
+  </Button>
+</Grid>
+
+</If>
 
              </div>
         )
