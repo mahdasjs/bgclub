@@ -97,6 +97,13 @@ class boardgames extends React.Component{
     }
     render(){
       console.log(this.props.ratings)
+      var value=0
+      const ratingValues = [...this.props.ratings.values()];
+      for(var i=0; i<ratingValues.length; i++){
+        value=value+parseFloat (ratingValues[i].data.rate)
+        console.log(value)
+      }
+      console.log(value/ratingValues.length)
 
       let comments = this.props.comments.map(post => {
         if(post.data.id==this.state.id){
@@ -159,7 +166,7 @@ class boardgames extends React.Component{
                   </Grid>
                   <Grid xs={12} sm={12} lg={5}
                         style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
-                      <Rating name="read-only" value={this.state.value} readOnly size="large"  />
+                      <Rating  precision={0.1} name="read-only" value={value/ratingValues.length} readOnly size="large"  />
                   </Grid>
                   <Grid style={{display:'flex',flexWrap:'nowrap', visibility:this.state.visibility,marginLeft:'30px' }}  container item xs={12} sm={12} lg={12} style={{marginBottom:100}}>
                     <Grid item xs={10} sm={10} lg={10} >
