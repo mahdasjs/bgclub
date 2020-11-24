@@ -21,6 +21,7 @@ import Typography from "@material-ui/core/Typography";
 import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
+import Post from '../Post'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -299,7 +300,11 @@ return (
                           }
                           
                       </div>
+                      <div>
+                          <Post/>
+                        </div>
                         </Grid>
+                        
  } 
        </div>
     );
