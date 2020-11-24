@@ -12,10 +12,8 @@ export default function addToCart(state = [], action) {
                     counter++;
                 }
                 if (e.data.id !== action.payload.id||counter>1) {
-                    console.log(counter)
                     return true;
                 }
-                console.log(counter)
                 return false;
             });
         default:

@@ -16,7 +16,7 @@ const mapStateToProps = state => {
 class Homepage extends Component{
   render(){
     var value=0
-    const values = [...this.props.cart.reduce( (mp, o) => {
+    const values = [...this.props.cartsssss.reduce( (mp, o) => {
       if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
       mp.get(o.data.id).count++;
       return mp;
