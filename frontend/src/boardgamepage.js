@@ -27,12 +27,12 @@ class boardgames extends React.Component{
         }
       }
       async count(){
-        const result = [...this.props.carts.reduce( (mp, o) => {
+        const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
             return mp;
         }, new Map).keys()];
-        const values = [...this.props.carts.reduce( (mp, o) => {
+        const values = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
             return mp;
@@ -49,7 +49,9 @@ class boardgames extends React.Component{
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
+      this.count();
         this.props.dispatch(removeFromCart(this.state.id))
+        this.setState({count:this.state.count-1})
       }
       componentDidMount(){
           this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
@@ -146,7 +148,7 @@ Send
 const mapStateToProps = (state) => {
     return {
       select: state.select,
-      carts:state.carts
+      cartsssss:state.cartsssss
     }
   }
 export default connect(mapStateToProps, null)(boardgames);

@@ -11,7 +11,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AddCart from '@material-ui/icons/AddShoppingCart'
 import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box } from '@material-ui/core';
+import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 class news extends Component{
+    handleAdd=(e)=>{
+        this.count();
+        this.props.dispatch(addToCart({data:this.props.data}))
+        this.setState({count:this.props.count+1})
+    }
     render(){
         return(
             <div style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}}>

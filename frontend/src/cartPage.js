@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => {
   return {
       News: state.News,
-      carts:state.carts
+      cartsssss:state.cartsssss
   };
 };
 class Homepage extends Component{

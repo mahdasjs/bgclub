@@ -36,12 +36,12 @@ class boardgames extends React.Component{
         }
     }
     async count(){
-        const result = [...this.props.carts.reduce( (mp, o) => {
+        const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
             return mp;
         }, new Map).keys()];
-        const values = [...this.props.carts.reduce( (mp, o) => {
+        const values = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
             return mp;
@@ -104,7 +104,7 @@ class boardgames extends React.Component{
 const mapStateToProps = (state) => {
     return {
         select: state.select,
-        carts:state.carts,
+        cartsssss:state.cartsssss,
         counter:state.counter
     }
   }
