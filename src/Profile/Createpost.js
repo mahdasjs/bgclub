@@ -2,6 +2,7 @@ import React from "react";
 import TextField from '@material-ui/core/TextField';
 import "./Profile.css";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -12,13 +13,20 @@ export default class Create extends React.Component {
       this.state = {
         checked: false,
         checked1: false,
-        post_picture: null,
+        id: "",
+        bg_name: "",
+        rent_price: "",
+        sell_price: "",
+        description:"",
+        post_pic: null,
         postpic: "",
         number:"",
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleChange1 = this.handleChange1.bind(this);
       this.handleChange2 = this.handleChange2.bind(this);
+      this.handleChange3 = this.handleChange3.bind(this);
+      this.handlePost = this.handlePost.bind(this);
       };
       handleChange() {
         this.setState({
@@ -37,6 +45,11 @@ export default class Create extends React.Component {
           [name]: event.target.value,
         });
       };
+      handleChange3(event) {
+        let name = event.target.name;
+        let value = event.target.value;
+        this.setState({ [name]: value });
+      }
       fileSelectedHandler = (event) => {
         event.preventDefault();
         this.setState({
@@ -44,6 +57,32 @@ export default class Create extends React.Component {
           postpic: URL.createObjectURL(event.target.files[0]),
         });
       };
+      handlePost = async () => {
+        const formData = new FormData();
+        formData.append("bg_name", this.state.bg_name);
+        formData.append("description", this.state.description);
+        formData.append("rent_price", this.state.rent_price);
+        formData.append("sell_price", this.state.sell_price);
+        formData.append("number", this.state.number);
+        formData.append("post_pic", this.state.post_pic);
+      try {
+        const response = await axios.PUT(
+          `https://5faaa726b5c645001602af7e.mockapi.io/api/v1/post/${this.state.id}`,
+          formData,
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              // Authorization: "Token " + token,
+            },
+          }
+        );
+        
+          this.props.onSuccessFullySave();
+          this.props.onCreate();
+        }
+        catch (e) {}
+    }
       render() {
         const content = this.state.checked 
           ? <div className="sell">   <TextField
@@ -53,6 +92,11 @@ export default class Create extends React.Component {
           price $
           variant="outlined"
           size="small"
+          type="text"
+                name="sell_price"
+                value={this.state.sell_price}
+                onChange={this.handleChange3} 
+          
         /> </div>
           : null;
           const content1 = this.state.checked1
@@ -63,6 +107,10 @@ export default class Create extends React.Component {
           price $
           variant="outlined"
           size="small"
+          type="text"
+                name="rent_price"
+                value={this.state.rent_price}
+                onChange={this.handleChange3} 
         /> </div>
           : null;
     
@@ -98,7 +146,11 @@ export default class Create extends React.Component {
             </Button>
       <br/>
       <div className="description1">
-      <TextField id="standard-secondary" label="Name" color="default" />
+      <TextField id="standard-secondary" label="Name" 
+                type="text"
+                name="bg_name"
+                value={this.state.bg_name}
+                onChange={this.handleChange3} />
        
       <FormControl style={{ marginLeft: "30px"}} >
         <InputLabel  shrink htmlFor="age-native-label-placeholder">
@@ -126,7 +178,11 @@ export default class Create extends React.Component {
       </FormControl>
       </div>
       <div className="description">
-      <TextField id="standard-secondary" label="description" color="default" />
+      <TextField id="standard-secondary" label="description" color="default" 
+      type="text"
+      name="description"
+      value={this.state.description}
+      onChange={this.handleChange3} />
       </div>
           <div>
             <label>Sell</label>
@@ -144,6 +200,9 @@ export default class Create extends React.Component {
             onChange={ this.handleChange1 } />
         </div>
         { content1 }
+        <Button style={{ color: "#303f9f" }} onClick={this.handlePost}>
+            SAVE
+          </Button>
       </div>;
       }
     }

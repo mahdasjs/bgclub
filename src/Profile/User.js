@@ -178,6 +178,7 @@ export default function User() {
       setLoading(false);
     });
   };
+   
 return (
     <div className="pro">
 
@@ -259,13 +260,17 @@ return (
                             Sell / Rent your boardgame !
                           </DialogTitle>
                           <DialogContent>
-                          <Create />
+                          <Create
+                          onSuccessFullySave={() => {
+                            handleClosee();
+                          }}
+                            />
                           </DialogContent>
-                          <DialogActions>
+                          {/* <DialogActions>
                             <Button onClick={handleClosee} color="primary">
                               save
                             </Button>
-                          </DialogActions>
+                          </DialogActions> */}
                         </Dialog>
           
                         </Paper>
