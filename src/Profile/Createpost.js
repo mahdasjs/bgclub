@@ -2,6 +2,10 @@ import React from "react";
 import TextField from '@material-ui/core/TextField';
 import "./Profile.css";
 import Button from "@material-ui/core/Button";
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -10,9 +14,11 @@ export default class Create extends React.Component {
         checked1: false,
         post_picture: null,
         postpic: "",
+        number:"",
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleChange1 = this.handleChange1.bind(this);
+      this.handleChange2 = this.handleChange2.bind(this);
       };
       handleChange() {
         this.setState({
@@ -24,6 +30,13 @@ export default class Create extends React.Component {
           checked1: !this.state.checked1
         })
       }
+       handleChange2 = (event) => {
+        const name = event.target.name;
+        this.setState({
+          ...this.state,
+          [name]: event.target.value,
+        });
+      };
       fileSelectedHandler = (event) => {
         event.preventDefault();
         this.setState({
@@ -84,9 +97,33 @@ export default class Create extends React.Component {
               Add pic 
             </Button>
       <br/>
-      <div className="description">
+      <div className="description1">
       <TextField id="standard-secondary" label="Name" color="default" />
-      
+       
+      <FormControl style={{ marginLeft: "30px"}} >
+        <InputLabel  shrink htmlFor="age-native-label-placeholder">
+          number
+        </InputLabel>
+        <NativeSelect
+          value={this.state.number}
+          onChange={this.handleChange2}
+          inputProps={{
+            name: 'number',
+            id: 'age-native-label-placeholder',
+          }}
+        >
+          <option value="">1</option>
+          <option value={10}>2</option>
+          <option value={20}>3</option>
+          <option value={30}>4</option>
+          <option value={40}>5</option>
+          <option value={50}>6</option>
+          <option value={60}>7</option>
+          <option value={70}>8</option>
+          <option value={80}>9</option>
+          <option value={90}>10</option>
+        </NativeSelect>
+      </FormControl>
       </div>
       <div className="description">
       <TextField id="standard-secondary" label="description" color="default" />
