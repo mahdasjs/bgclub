@@ -14,6 +14,7 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import LinesEllipsis from 'react-lines-ellipsis';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              R
+              S
             </Avatar>
           }
           action={
@@ -61,23 +62,27 @@ const useStyles = makeStyles((theme) => ({
               <MoreVertIcon />
             </IconButton>
           }
-          title="Sara Barati"
+          title="@sarabarati7"
           subheader="monopoly"
         />
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/paella.jpg"
+          image="monopoly.jpg"
           title="Paella dish"
         />
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-          In the game, players roll two six-sided dice to move around the game board, buying and trading properties, and developing them with houses and hotels.
-           Players collect rent from their opponents, with the goal being to drive them into bankruptcy. 
-          Money can also be gained or lost through Chance and Community Chest cards, and tax squares; 
-          players can end up in jail, which they cannot move from until they have met one of several conditions. 
-          The game has numerous house rules, and hundreds of different editions exist, as well as many spin-offs and related media. 
-        
-          </Typography>
+          <LinesEllipsis style={{
+                                      marginTop: -6,
+                                      fontSize: 12,
+                                      }}
+                                      text= "In the game, players roll two six-sided dice to move around the game board, buying and trading properties, and developing them with houses and hotels. Players collect rent from their opponents, with the goal being to drive them into bankruptcy.  Money can also be gained or lost through Chance and Community Chest cards, and tax squares; players can end up in jail, which they cannot move from until they have met one of several conditions.The game has numerous house rules, and hundreds of different editions exist, as well as many spin-offs and related media."
+                                maxLine='4'
+                                ellipsis='...'
+                                trimRight
+                                basedOn='letters'
+                              
+          />
+          
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
