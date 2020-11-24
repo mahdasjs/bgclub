@@ -19,7 +19,7 @@ import axios from 'axios';
 import Postcomments from './comment';
 import {If} from 'rc-if-else';
 import PerfectScrollbar from 'react-perfect-scrollbar'
-
+import cookie from 'js-cookie'
 class boardgames extends React.Component{
       constructor(){
         super()
@@ -40,7 +40,7 @@ class boardgames extends React.Component{
       handlePostComment=(e)=>{
         if(this.state.comment!==null)
         {
-          this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id}}))
+          this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
           this.setState({comment:' '})
         const formData = new FormData();
         formData.append("post",this.state.id);
@@ -114,15 +114,13 @@ class boardgames extends React.Component{
 
       }
     render(){
-      let comments = this.props.comment.map(post => {
+      let comments = this.props.comments.map(post => {
         if(post.data.id==this.state.id){
           return <Postcomments
           avatar={'post.user.profile_picture'}
           id={post.data.id}
           text={post.data.comment}
-          username={'username'}
-          userid={'post.user.id'}
-          postUser={'this.props.postUser'}
+          username={post.data.username}
           action={'this.handle'}
           />;
         }
@@ -163,6 +161,7 @@ class boardgames extends React.Component{
         value={this.state.value}
         precision={0.5}
         onChange={(event, newValue) => {
+
           this.setState({value:newValue});
         }}
 
@@ -279,7 +278,7 @@ const mapStateToProps = (state) => {
     return {
       select: state.select,
       cartsssss:state.cartsssss,
-      comment:state.comment
+      comments:state.comments
     }
   }
 export default connect(mapStateToProps, null)(boardgames);

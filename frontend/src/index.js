@@ -61,7 +61,7 @@ store.subscribe(() => {
     selections: store.getState().selections,
     cartsssss:store.getState().cartsssss,
     counter:store.getState().counter,
-    comment:store.getState().comment
+    comments:store.getState().comments
   })
 })
 

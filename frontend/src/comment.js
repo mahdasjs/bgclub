@@ -51,7 +51,7 @@ const theme = createMuiTheme({
           {this.props.username}<span style={{ fontSize:13}}> {this.props.text}</span>
           </Typography>
           </Grid>
-          <If condition={JSON.stringify (this.props.postUser)===this.state.userid||this.props.postUser===this.state.username||this.props.username===this.state.username}>
+          <If condition={this.props.username===this.state.username}>
           <Grid xs={1} sm={1} ms={1} lg={2}>
             <IconButton onClick={this.del}>
             <MoreVertIcon />

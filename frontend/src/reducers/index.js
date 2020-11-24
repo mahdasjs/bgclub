@@ -12,7 +12,7 @@ export default combineReducers({
     boardGames: boardGamesReducer,
     results:resultsReducer,
     select:selectionreducer,
-    comment:commentReducer,
+    comments:commentReducer,
     counter:counterReducer,
     cartsssss:cartReducer,
     // cart:cartReducer
