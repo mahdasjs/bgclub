@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Grid, hexToRgb } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedData,addToCart,removeFromCart} from './actions/index'
+import {selectedData,addToCart,removeFromCart,addComment} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Button from "@material-ui/core/Button";
@@ -15,7 +15,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
 import { IconButton} from '@material-ui/core';
-
+import axios from 'axios'
 class boardgames extends React.Component{
       constructor(){
         super()
@@ -23,8 +23,56 @@ class boardgames extends React.Component{
           value:2,
           hover:-1,
           count:0,
-          id:window.location.pathname.split('/')[2]
+          id:window.location.pathname.split('/')[2],
+          comment:null
         }
+      }
+      handlechangeComment = (e) => {
+        this.setState({ comment: e.target.value });
+      };
+      handlePostComment=(e)=>{
+        if(this.state.comment!==null)
+        {
+          this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id}}))
+          this.setState({comment:' '})
+        const formData = new FormData();
+        formData.append("post",this.state.id);
+        formData.append("text",this.state.comment)
+        axios({
+          method: "put",
+          url: "https://5faaa726b5c645001602af7e.mockapi.io/api/v1/new",
+          headers: { 
+            "Content-type": "multipart/form-data"},
+            data:formData
+          })
+          .then((res)=>{
+          })
+          // .then((response) => {
+          // this.setState({comment:' '})
+          // axios({
+          //   method: "get",
+          //   url: `http://localhost:8000/api/v1/posts/comment/list/${this.props.postId}`,
+          //   headers: {'Authorization':`Token ${Cookie.get('token')}`},
+          // }).then((response) => {
+          //     console.log(response.data)
+          //       const length=response.data.length;
+          //       const commentdata=response.data;
+          //       const updatedcommentdata=commentdata.map(comment=>{
+          //           return{
+          //             ...comment,
+          //           }
+          //         })
+          //     this.setState({comments:updatedcommentdata,commentArrayLength:length});
+          //     console.log(response.data.length)
+          //     if(response.data.length!==0){              
+          //       console.log(this.state.comments[0].text)
+          //     }
+          //   })
+            // })
+          }
+            else{
+              alert("your comment can't be empty")
+            }
       }
       async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
@@ -59,7 +107,7 @@ class boardgames extends React.Component{
 
       }
     render(){
-      console.log(this.state.value)
+      console.log(this.props.comment)
         const selections = this.props.selections || []
         return(
             <div className='homepage'>
@@ -119,7 +167,7 @@ class boardgames extends React.Component{
                   <Rating name="read-only" value={2} readOnly size="large"  />
 
                 </Grid>
-                <Grid style={{display:'flex',flexWrap:'nowrap', visibility:this.state.visibility,marginLeft:'30px' }}  container item xs={12} sm={12} lg={12}>
+                <Grid style={{display:'flex',flexWrap:'nowrap', visibility:this.state.visibility,marginLeft:'30px' }}  container item xs={12} sm={12} lg={12} style={{marginBottom:100}}>
 
 <Grid item xs={10} sm={10} lg={10} >
   <div style={{ display:'flex',flexWrap:'nowrap',width:'100%'}}>
@@ -148,7 +196,8 @@ Send
 const mapStateToProps = (state) => {
     return {
       select: state.select,
-      cartsssss:state.cartsssss
+      cartsssss:state.cartsssss,
+      comment:state.comment
     }
   }
 export default connect(mapStateToProps, null)(boardgames);

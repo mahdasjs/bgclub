@@ -60,7 +60,8 @@ store.subscribe(() => {
     boardGames: store.getState().boardGames,
     selections: store.getState().selections,
     cartsssss:store.getState().cartsssss,
-    counter:store.getState().counter
+    counter:store.getState().counter,
+    comment:store.getState().comment
   })
 })
 
