@@ -120,7 +120,7 @@ class boardgames extends React.Component{
           avatar={'post.user.profile_picture'}
           id={post.data.id}
           text={post.data.comment}
-          username={'post.user.username'}
+          username={'username'}
           userid={'post.user.id'}
           postUser={'this.props.postUser'}
           action={'this.handle'}
@@ -186,7 +186,7 @@ class boardgames extends React.Component{
                                 <Grid xs={12} sm={12} lg={5}
                                             style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
                   
-                  <Rating name="read-only" value={2} readOnly size="large"  />
+                  <Rating name="read-only" value={this.state.value} readOnly size="large"  />
 
                 </Grid>
                 <Grid style={{display:'flex',flexWrap:'nowrap', visibility:this.state.visibility,marginLeft:'30px' }}  container item xs={12} sm={12} lg={12} style={{marginBottom:100}}>

@@ -49,6 +49,10 @@ class Homepage extends Component{
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
                 {boardGames}
             </div>
+            <div  style={{marginLeft:'20px'}}>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Total cost</h2>
+                {value}
+            </div>
           </Grid> 
           <Grid xs={12} sm={12} lg={2}>
           <div className="news" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:20,paddingLeft:10 , width: '23%', height: '100%'}}>
