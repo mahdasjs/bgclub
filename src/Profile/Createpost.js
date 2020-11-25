@@ -66,8 +66,8 @@ export default class Create extends React.Component {
         formData.append("number", this.state.number);
         formData.append("post_pic", this.state.post_pic);
       try {
-        const response = await axios.PUT(
-          `https://5faaa726b5c645001602af7e.mockapi.io/api/v1/post/${this.state.id}`,
+        const response = await axios.put(
+          `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/post/1`,
           formData,
           {
             headers: {
@@ -81,7 +81,9 @@ export default class Create extends React.Component {
           this.props.onSuccessFullySave();
           this.props.onCreate();
         }
-        catch (e) {}
+        catch (e) {
+          console.log(e)
+        }
     }
       render() {
         const content = this.state.checked 
@@ -200,7 +202,7 @@ export default class Create extends React.Component {
             onChange={ this.handleChange1 } />
         </div>
         { content1 }
-        <Button style={{ color: "#303f9f" }} onClick={this.handlePost}>
+        <Button style={{ color: "#303f9f",marginLeft:"240px" }} onClick={this.handlePost}>
             SAVE
           </Button>
       </div>;

@@ -339,7 +339,7 @@ export default class Edit extends React.Component {
             </FormControl>
           </div>
           <br />
-          <Button style={{ color: "#303f9f" , marginLeft:"200px"}} onClick={this.handleClick}>
+          <Button style={{ color: "#303f9f" }} onClick={this.handleClick}>
             SAVE
           </Button>
         </Grid>

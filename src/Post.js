@@ -14,6 +14,7 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import axios from "axios";
 import LinesEllipsis from 'react-lines-ellipsis';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,17 +45,60 @@ const useStyles = makeStyles((theme) => ({
   export default function Post() {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
-  
+    const [post, setPost] = useState([]);
+    let [state, setState] = useState({
+      username: null,
+      imagee: null,
+    });
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
-  
+    useEffect(() => {
+      handlePlayprofile();
+    }, []);
+    const handlePlayprofile = () => {
+      axios
+        .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            // Authorization: `Token ${Cookie.get("token")}`,
+          },
+        })
+        .then((res) => {
+          setState({
+            imagee: res.data.profile_picture,
+            username: res.data.username,
+          });
+
+        })
+        .catch((error) => {});
+    };
+    useEffect(() => {
+      handlePlaypost();
+    }, []);
+    const handlePlaypost = () => {
+      axios
+        .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/post`, {
+          headers: {
+            
+              "Content-Type": "application/json",
+            // Authorization: `Token ${Cookie.get("token")}`,
+          },
+        })
+        .then((res) => {
+          setPost(res.data);
+        })
+        .catch((error) => {});
+    };
     return (
-      <Card className={classes.root}>
+    <div className="post">
+      {post.map((item) => (
+      <Card  key={item.id} className={classes.root}>
+
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              S
+            <Avatar  src={state.imagee} aria-label="recipe" className={classes.avatar}>
+             
             </Avatar>
           }
           action={
@@ -62,12 +106,13 @@ const useStyles = makeStyles((theme) => ({
               <MoreVertIcon />
             </IconButton>
           }
-          title="@sarabarati7"
-          subheader="monopoly"
+         
+          title={state.username}
+          subheader={item.bg_name}
         />
         <CardMedia
           className={classes.media}
-          image="monopoly.jpg"
+          image={item.post_pic}
           title="Paella dish"
         />
         <CardContent>
@@ -75,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
                                       marginTop: -6,
                                       fontSize: 12,
                                       }}
-                                      text= "In the game, players roll two six-sided dice to move around the game board, buying and trading properties, and developing them with houses and hotels. Players collect rent from their opponents, with the goal being to drive them into bankruptcy.  Money can also be gained or lost through Chance and Community Chest cards, and tax squares; players can end up in jail, which they cannot move from until they have met one of several conditions.The game has numerous house rules, and hundreds of different editions exist, as well as many spin-offs and related media."
+                                      text={item}
                                 maxLine='4'
                                 ellipsis='...'
                                 trimRight
@@ -93,6 +138,9 @@ const useStyles = makeStyles((theme) => ({
           </IconButton>
     
         </CardActions>
-      </Card>
+           </Card>
+         
+     ))}
+   </div>
     );
   }
