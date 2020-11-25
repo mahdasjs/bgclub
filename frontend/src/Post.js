@@ -17,6 +17,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { handlePosts } from "./api";
+import { handlePlayprofile } from "./api";
 const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 500,
@@ -93,14 +95,7 @@ const useStyles = makeStyles((theme) => ({
     useEffect(() => {
       handlePlayprofile();
     }, []);
-    const handlePlayprofile = () => {
-      axios
-        .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            // Authorization: `Token ${Cookie.get("token")}`,
-          },
-        })
+     handlePlayprofile() 
         .then((res) => {
           setState({
             imagee: res.data.profile_picture,
@@ -109,24 +104,15 @@ const useStyles = makeStyles((theme) => ({
 
         })
         .catch((error) => {});
-    };
     useEffect(() => {
-      handlePlaypost();
+      handlePosts();
     }, []);
-    const handlePlaypost = () => {
-      axios
-        .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/post`, {
-          headers: {
-            
-              "Content-Type": "application/json",
-            // Authorization: `Token ${Cookie.get("token")}`,
-          },
-        })
+
+    handlePosts()
         .then((res) => {
           setPost(res.data);
         })
         .catch((error) => {});
-    };
     return (
     <div className="post">
       {post.map((item) => (

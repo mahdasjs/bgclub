@@ -1,7 +1,7 @@
 import { ADD_FETCHED_DATA, 
     ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,ADD_RATINNG,CHECK_RATING } from './types.js';
 import axios from 'axios';
-
+import {newsApi,boardgamesApi,searchApi,selectedApi} from '../api/apis'
 
 export const removeFromCart = (id) => {
     return {
@@ -14,7 +14,7 @@ export const removeFromCart = (id) => {
 
 export const fetchData = () => {
     return (dispatch) => {
-        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/News')
+        return axios.get(newsApi)
             .then(response => {
                 return response.data
             })
@@ -31,7 +31,7 @@ export const fetchData = () => {
 };
 export const bgData = () => {
     return (dispatch) => {
-        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/Boardgames')
+        return axios.get(boardgamesApi)
             .then(response => {
                 return response.data
             })
@@ -48,7 +48,7 @@ export const bgData = () => {
 };
 export const resultData = (entry) => {
     return (dispatch) => {
-        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/Boardgames?name='+entry)
+        return axios.get(searchApi+entry)
             .then(response => {
                 return response.data
             })
@@ -65,7 +65,7 @@ export const resultData = (entry) => {
 };
 export const selectedData = (id) => {
     return (dispatch) => {
-        return axios.get('https://5faaa726b5c645001602af7e.mockapi.io/api/v1/Boardgames/'+id)
+        return axios.get(selectedApi+id)
             .then(response => {
                 return response.data
             })
