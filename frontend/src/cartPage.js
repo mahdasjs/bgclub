@@ -7,20 +7,33 @@ import { Grid, hexToRgb } from "@material-ui/core";
 import FreeScrollBar from 'react-free-scrollbar';
 import './responsive.css';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+import Button from "@material-ui/core/Button";
+
 const mapStateToProps = state => {
   return {
       News: state.News,
-      cart:state.cart
+      cartsssss:state.cartsssss
   };
 };
 class Homepage extends Component{
   render(){
-    console.log(this.props.carts)
-    let boardGames = this.props.cart.map(post => {
+    var value=0
+    const values = [...this.props.cartsssss.reduce( (mp, o) => {
+      if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+      mp.get(o.data.id).count++;
+      return mp;
+  }, new Map).values()];
+  for(var i=0; i<values.length; i++){
+    value=value+values[i].data.price*values[i].count
+  }
+    console.log(value)
+    let boardGames = values.map(post => {
       return <CartItem
         id={post.data.id}
         name={post.data.name}
         data={post.data}
+        count={post.count}
         />;
     });
     let news = this.props.News.map((term, index)=>{
@@ -38,6 +51,17 @@ class Homepage extends Component{
             <div  style={{marginLeft:'20px'}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
                 {boardGames}
+            </div>
+            <div  style={{display:'flex',marginLeft:'20px' ,flexWrap:'nowrap',boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>
+            <Typography className='totalCost'>
+                    Total cost
+                    </Typography>
+                    <Typography className='priceCart'>
+                    {value}
+                    </Typography>
+                    <Button style={{marginTop:15,marginLeft:20}} onClick={this.handlePostComment} disabled color="primary">
+                        pay
+                      </Button>
             </div>
           </Grid> 
           <Grid xs={12} sm={12} lg={2}>

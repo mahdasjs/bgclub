@@ -42,7 +42,7 @@ export default class Login extends React.Component {
         if (this.state.user.password.length >= 8) {
           axios
             .post(
-              "https://5fac415503a60500167e7b7f.mockapi.io/api/v1/login",
+              "http://localhost:8000/api/v1/accounts/login/",
               this.state.user
             )
             .then((response) => {
@@ -53,8 +53,8 @@ export default class Login extends React.Component {
               Cookie.set('userid',response.data.id)
               Cookie.set('username',response.data.username)
               window.location = "/homepage";
-              // this.props.history.push("/homepage");
-              // window.location.reload();
+              this.props.history.push("/homepage");
+              window.location.reload();
             })
             .catch((error) => {
               if (error.response) {

@@ -14,6 +14,7 @@ import Welcome from "./Welcome.js";
 import Bottombar from './bottombar'
 import Cart from './cartPage'
 import User from "./Profile/User";
+import Cookie from 'js-cookie';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
                 </Route>
                 <Route path="/login" exact component={Login}>
                 </Route>
+                {Cookie.get('token')!==undefined?
+                                <div>
+
                 <Route path="/user" exact component={User}>
             <Navbar/>
             <div className='sidebar'>
@@ -106,6 +110,11 @@ function App() {
               <Bottombar/>
             </div>
           </Route>
+          </div>
+                :
+                  <Redirect to="/">
+                  </Redirect>
+                }
         </Switch>
       </Router>
 

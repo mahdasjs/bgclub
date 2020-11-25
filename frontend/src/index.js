@@ -59,8 +59,10 @@ store.subscribe(() => {
   saveState({
     boardGames: store.getState().boardGames,
     selections: store.getState().selections,
-    cart:store.getState().cart,
-    counter:store.getState().counter
+    cartsssss:store.getState().cartsssss,
+    counter:store.getState().counter,
+    comments:store.getState().comments,
+    ratings:store.getState().ratings
   })
 })
 

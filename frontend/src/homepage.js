@@ -10,11 +10,13 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => {
   return {
       News: state.News,
-      boardGames: state.boardGames
+      boardGames: state.boardGames,
+      cartsssss:state.cartsssss
   };
 };
 class Homepage extends Component{
   render(){
+
     let boardGames = this.props.boardGames.map(post => {
       return <BgPage
         id={post.id}
