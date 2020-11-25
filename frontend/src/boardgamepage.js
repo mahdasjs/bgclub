@@ -151,17 +151,17 @@ class boardgames extends React.Component{
                             <Button onClick={this.handleRate}  color="primary">
                               Rate
                             </Button>
-                            <div className='addAndRemove' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
-                              <IconButton aria-label="settings" style={{width:40,height:40,marginRight:0,borderRight:'2px solid'}} onClick={this.handleRemove} >
+                        </div>
+                      </Typography>
+                      <div className='addAndRemoveID' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
+                              <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                     <Minus  style={{color:"#000"}}/>
                                 </IconButton>
                                 {this.state.count}
-                                <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:0,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
+                                <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                   <Plus  style={{color:"#000"}}/>
                                 </IconButton>
                             </div>
-                        </div>
-                      </Typography>
                       <Typography className='bgdescription'>
                         {this.props.select.description}
                       </Typography>
