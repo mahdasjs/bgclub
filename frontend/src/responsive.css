@@ -81,19 +81,33 @@
     margin-left: 300px !important;
     width: 100px !important;
   }
-  .addCart{
-    margin-top: 0px !important;
-    margin-left: 0px !important;
+  .addAndRemoveFromCart{
+    margin-top: 15px !important;
     width: 100px !important;
     height: 41px !important;
   }
   .titleCart{
-    min-width: 200px !important;
+    margin-top: 15px !important;
+
+    min-width: 260px !important;
+    max-width: 260px !important;
+
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+  .totalCost{
+    margin-top: 15px !important;
+
+    min-width: 355px !important;
+    max-width: 355px !important;
+
     font-size: 20px !important;
     font-weight: 500 !important;
   }
   .priceCart{
-    font-size: 15px !important;
+    min-width: 200px !important;
+    margin-top: 17px !important;
+    font-size: 20px !important;
     font-weight: 500 !important;
   }
   @media(max-width:1200px){

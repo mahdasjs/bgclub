@@ -7,6 +7,9 @@ import { Grid, hexToRgb } from "@material-ui/core";
 import FreeScrollBar from 'react-free-scrollbar';
 import './responsive.css';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+import Button from "@material-ui/core/Button";
+
 const mapStateToProps = state => {
   return {
       News: state.News,
@@ -49,9 +52,16 @@ class Homepage extends Component{
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
                 {boardGames}
             </div>
-            <div  style={{marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Total cost</h2>
-                {value}
+            <div  style={{display:'flex',marginLeft:'20px' ,flexWrap:'nowrap',boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>
+            <Typography className='totalCost'>
+                    Total cost
+                    </Typography>
+                    <Typography className='priceCart'>
+                    {value}
+                    </Typography>
+                    <Button style={{marginTop:15,marginLeft:20}} onClick={this.handlePostComment} disabled color="primary">
+                        pay
+                      </Button>
             </div>
           </Grid> 
           <Grid xs={12} sm={12} lg={2}>

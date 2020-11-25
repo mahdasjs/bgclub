@@ -48,7 +48,7 @@ class news extends Component{
 
     render(){
         return(
-            <div style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}}>
+            <div style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>
                       <CardContent style={{display:'flex',flexWrap:'nowrap', alignContent: 'left', alignItems: 'left'}}>
                 <CardMedia
                     image={this.props.data.image}
@@ -59,7 +59,7 @@ class news extends Component{
                     <Typography className='priceCart'>
                     {this.props.data.price}
                     </Typography>
-                    <div className="addCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
+                    <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
                         <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
                     </IconButton>
