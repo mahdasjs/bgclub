@@ -143,7 +143,7 @@ class boardgames extends React.Component{
                       {this.props.select.price}
                         <div>
                             <Rating
-                              name="hover-feedback"
+                              name="simple-controlled"
                               value={this.state.value}
                               precision={0.5}
                               onChange={this.handlechangeRate}
@@ -170,21 +170,21 @@ class boardgames extends React.Component{
                         style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
                       <Rating  precision={0.1} name="read-only" value={value/counter} readOnly size="large"  />
                   </Grid>
-                  <Grid style={{display:'flex',flexWrap:'nowrap', visibility:this.state.visibility,marginLeft:'30px' }}  container item xs={12} sm={12} lg={12} style={{marginBottom:100}}>
+                  <Grid style={{display:'flex',flexWrap:'nowrap',marginLeft:'30px'}}  container item xs={12} sm={12} lg={12}>
                     <Grid item xs={10} sm={10} lg={10} >
-                      <div style={{ display:'flex',flexWrap:'nowrap',width:'100%'}}>
+                      <div style={{ display:'flex',flexWrap:'nowrap',width:'115%'}}>
                         <TextareaAutosize value={this.state.comment} onChange={this.handlechangeComment} rowsMin={1}  rowsMax={1}  aria-label="caption" placeholder="Add comment..." 
                             style={{borderStyle:'hidden',  outline:'none',backgroundColor:"rgb(245, 250, 252)", padding:10,  fontSize:15, width:'100%'}}/>
                       </div>
                     </Grid>
-                    <Grid  item xs={2} sm={2} lg={2}>
+                    <Grid  item xs={2} sm={2} lg={2} style={{marginLeft:100}}>
                       <Button onClick={this.handlePostComment}  color="primary">
                         Send
                       </Button>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid  item xs={12} sm={12} lg={12}  >
+                <Grid  item xs={12} sm={12} lg={12}  style={{marginLeft:'30px',marginTop:10}} >
                   <PerfectScrollbar>
                     {comments}
                   </PerfectScrollbar>

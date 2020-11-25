@@ -61,7 +61,7 @@ const theme = createMuiTheme({
         
           </Grid>
 
-          <Divider style={{marginTop:10,marginBottom:10}}/>
+          <Divider style={{marginTop:5,marginBottom:5,width:'90%'}}/>
           {/* </Card> */}
   </div>
 );
