@@ -19,7 +19,7 @@ class boardgames extends React.Component{
       constructor(){
         super()
         this.state={
-          value:2,
+          value:0,
           hover:-1,
           count:0,
           id:window.location.pathname.split('/')[2],

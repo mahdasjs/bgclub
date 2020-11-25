@@ -51,6 +51,10 @@ class news extends Component{
             <div style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>
                       <CardContent style={{display:'flex',flexWrap:'nowrap', alignContent: 'left', alignItems: 'left'}}>
                 <CardMedia
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    window.location.href='/bgpage/' + this.props.id;
+                                    }}
                     image={this.props.data.image}
                     style={{marginRight:20, maxHeight: 60, maxWidth: 60, minWidth: 60, minHeight: 60}}/>   
                   <Typography className='titleCart'>
