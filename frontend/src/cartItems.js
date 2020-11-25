@@ -6,18 +6,46 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import AddCart from '@material-ui/icons/AddShoppingCart'
-import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box } from '@material-ui/core';
+import { connect } from 'react-redux';
 import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 class news extends Component{
+    constructor(){
+        super()
+        this.state={
+            counter:[],
+            count:0,
+        }
+    }
+    async count(){
+        const result = [...this.props.cartsssss.reduce( (mp, o) => {
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
+            return mp;
+        }, new Map).keys()];
+        const values = [...this.props.cartsssss.reduce( (mp, o) => {
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
+            return mp;
+        }, new Map).values()];
+        for(var i=0; i<result.length; i++){
+            if(this.props.id==result[i]){
+                await this.setState({count:values[i].count})
+            }
+        }
+    }
     handleAdd=(e)=>{
         this.count();
         this.props.dispatch(addToCart({data:this.props.data}))
-        this.setState({count:this.props.count+1})
+        this.setState({count:this.state.count+1})
     }
+    handleRemove=(e)=>{
+        this.count();
+        this.props.dispatch(removeFromCart(this.props.id))
+        this.setState({count:this.state.count-1})
+
+    }
+
     render(){
         return(
             <div style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}}>
@@ -46,4 +74,10 @@ class news extends Component{
         )
     }
 }
-export default news
+const mapStateToProps = state => {
+    return {
+        News: state.News,
+        cartsssss:state.cartsssss
+    };
+  };
+export default connect(mapStateToProps, null)(news);
