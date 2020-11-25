@@ -17,22 +17,16 @@ import AddCart from '@material-ui/icons/AddShoppingCart'
 import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box } from '@material-ui/core';
 import Axios from 'axios';
-const names = [{data:{id:0}},{data:{id:0}},{data:{id:0}},{data:{id:1}}];
+import Rating from '@material-ui/lab/Rating';
 
-const result = [...names.reduce( (mp, o) => {
-    if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-    mp.get(o.data.id).count++;
-    return mp;
-}, new Map).values()];
-
-console.log(result);
 class boardgames extends React.Component{
     constructor(){
         super()
         this.state={
             checkCart:false,
             counter:[],
-            count:0
+            count:0,
+            rate:0,
         }
     }
     async count(){
@@ -51,6 +45,16 @@ class boardgames extends React.Component{
                 await this.setState({count:values[i].count})
             }
         }
+        var value=0
+        var counter=0
+        const ratingValues = [...this.props.ratings.values()];
+        for(var i=0; i<ratingValues.length; i++){
+          if(ratingValues[i].data.id===this.props.id){
+            counter++
+            value=value+parseFloat (ratingValues[i].data.rate)
+          }
+        }
+        await this.setState({rate:value/counter})
     }
     handleAdd=(e)=>{
         this.count();
@@ -89,6 +93,9 @@ class boardgames extends React.Component{
 
                         {this.props.name.substring(0,25)}
                         </Typography>
+                        <div style={{marginTop:10}}>
+                        <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
+                        </div>
                         <div className='addAndRemove' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
                         <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
@@ -108,7 +115,7 @@ const mapStateToProps = (state) => {
     return {
         select: state.select,
         cartsssss:state.cartsssss,
-        counter:state.counter
+        ratings:state.ratings
     }
   }
   export default connect(mapStateToProps, null)(boardgames);
