@@ -17,7 +17,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { handlePosts } from "./api";
+import Cookie from "js-cookie";
+// import { handlePosts } from "./api";
 import { handlePlayprofile } from "./api";
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -75,6 +76,8 @@ const useStyles = makeStyles((theme) => ({
   }))(MenuItem);
   export default function Post() {
     const classes = useStyles();
+    const token = Cookie.get("token");
+    const userid = Cookie.get("userid");
     const [expanded, setExpanded] = React.useState(false);
     const [post, setPost] = useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -107,12 +110,20 @@ const useStyles = makeStyles((theme) => ({
     useEffect(() => {
       handlePosts();
     }, []);
-
-    handlePosts()
-        .then((res) => {
-          setPost(res.data);
-        })
-        .catch((error) => {});
+    const handlePosts = () => {
+        axios
+          .get(`http://localhost:8000/posts/profile/list/${userid}`, {
+            headers: {
+              "Content-type": "multipart/form-data",
+              'Authorization':`Token ${Cookie.get('token')}`
+            },
+          })
+          .then((res) => {
+            setPost(res.data);
+            console.log(res.data)
+          })
+          .catch((error) => {});
+      };
     return (
     <div className="post">
       {post.map((item) => (

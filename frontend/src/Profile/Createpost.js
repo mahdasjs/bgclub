@@ -7,6 +7,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import Cookie from "js-cookie";
+const FormData = require("form-data");
+const token = Cookie.get("token");
+const userid = Cookie.get("userid")
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -53,38 +57,34 @@ export default class Create extends React.Component {
       fileSelectedHandler = (event) => {
         event.preventDefault();
         this.setState({
-          post_picture: event.target.files[0],
+          post_pic: event.target.files[0],
           postpic: URL.createObjectURL(event.target.files[0]),
         });
       };
       handlePost = async () => {
-        const formData = new FormData();
-        formData.append("bg_name", this.state.bg_name);
+      const formData = new FormData();
+      formData.append("bg_name", this.state.bg_name);
         formData.append("description", this.state.description);
         formData.append("rent_price", this.state.rent_price);
         formData.append("sell_price", this.state.sell_price);
         formData.append("number", this.state.number);
         formData.append("post_pic", this.state.post_pic);
-      try {
-        const response = await axios.put(
-          `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/post/1`,
-          formData,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              // Authorization: "Token " + token,
-            },
+        axios({
+        method: "post",
+        url: "http://localhost:8000/api/v1/posts/profile/create/",
+        headers: { 
+          "Content-type": "multipart/form-data",
+          'Authorization':`Token ${Cookie.get('token')}`},
+          data:formData
+      }).then((response) => {
+        this.props.onSuccessFullySave();
+        this.props.onCreate();
+          })
+          .catch((error) => {
+            
+             });
           }
-        );
-        
-          this.props.onSuccessFullySave();
-          this.props.onCreate();
-        }
-        catch (e) {
-          console.log(e)
-        }
-    }
+
       render() {
         const content = this.state.checked 
           ? <div className="sell">   <TextField
@@ -153,31 +153,11 @@ export default class Create extends React.Component {
                 name="bg_name"
                 value={this.state.bg_name}
                 onChange={this.handleChange3} />
-       
-      <FormControl style={{ marginLeft: "30px"}} >
-        <InputLabel  shrink htmlFor="age-native-label-placeholder">
-          number
-        </InputLabel>
-        <NativeSelect
-          value={this.state.number}
-          onChange={this.handleChange2}
-          inputProps={{
-            name: 'number',
-            id: 'age-native-label-placeholder',
-          }}
-        >
-          <option value="">1</option>
-          <option value={10}>2</option>
-          <option value={20}>3</option>
-          <option value={30}>4</option>
-          <option value={40}>5</option>
-          <option value={50}>6</option>
-          <option value={60}>7</option>
-          <option value={70}>8</option>
-          <option value={80}>9</option>
-          <option value={90}>10</option>
-        </NativeSelect>
-      </FormControl>
+       <TextField id="standard-secondary" label="number" 
+                type="text"
+                name="number"
+                value={this.state.number}
+                onChange={this.handleChange3} />
       </div>
       <div className="description">
       <TextField id="standard-secondary" label="description" color="default" 

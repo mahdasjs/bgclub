@@ -158,7 +158,6 @@ export default function User() {
           firstname: res.data.first_name,
         });
         setLoading(false);
-        console.log(state.imagee);
       })
       .catch((error) => {});
   };

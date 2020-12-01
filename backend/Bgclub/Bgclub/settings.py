@@ -12,6 +12,7 @@ SECRET_KEY = '_fi!loe0po&%^tv7bi3-jkvpcz_d5^h+@0rd^8vvut)-m3=2p1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AUTH_USER_MODEL = 'accounts.User'
 ALLOWED_HOSTS = []
 
 
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'django.contrib.sites',
+    'accounts',
     'posts',
 ]
 
@@ -58,6 +60,28 @@ CORS_ORIGIN_WHITELIST=(
     'http://localhost:3004',
 
 )
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny', ), 
+
+}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
+    'LOGIN_SERIALIZER': 'accounts.serializers.AccountLoginSerializer',
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "accounts.serializers.AccountRegistrationSerializer",
+}
+
 ROOT_URLCONF = 'Bgclub.urls'
 
 TEMPLATES = [

@@ -80,7 +80,7 @@ class SignUpContainer extends Component {
 
     axios
       .post(
-        "https://5fac415503a60500167e7b7f.mockapi.io/api/v1/signup ",
+        "http://localhost:8000/api/v1/accounts/rest-auth/registration/ ",
         params
       )
       .then(function (response) {})
