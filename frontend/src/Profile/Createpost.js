@@ -7,6 +7,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -21,6 +26,7 @@ export default class Create extends React.Component {
         post_pic: null,
         postpic: "",
         number:"",
+        value:'sell'
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleChange1 = this.handleChange1.bind(this);
@@ -31,6 +37,11 @@ export default class Create extends React.Component {
       handleChange() {
         this.setState({
           checked: !this.state.checked
+        })
+      }
+      handleChangeSell=(e)=> {
+        this.setState({
+          value: e.target.value
         })
       }
       handleChange1() {
@@ -147,7 +158,7 @@ export default class Create extends React.Component {
               Add pic 
             </Button>
       <br/>
-      <div className="description1">
+      <div >
       <TextField id="standard-secondary" label="Name" 
                 type="text"
                 name="bg_name"
@@ -179,7 +190,23 @@ export default class Create extends React.Component {
         </NativeSelect>
       </FormControl>
       </div>
-      <div className="description">
+      <div >
+      <TextareaAutosize onChange={this.handlechangeCaption} rowsMin={3} aria-label="caption" placeholder="descreption" style={{marginLeft:0,marginTop:20,width:'95%'}} />
+      </div>
+      <div>
+      <FormControl component="fieldset">
+      <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChangeSell} >
+        <FormControlLabel value="sell" control={<Radio />} label="Sell" />
+        <FormControlLabel value="rent" control={<Radio />} label="Rent" />
+      </RadioGroup>
+    </FormControl>
+    <TextField 
+    style={{marginTop:15,marginLeft:30}}
+    onChange={this.handleChangePrice} rowsMin={3} aria-label="caption" placeholder="price" />
+
+      </div>
+
+      {/* <div className="description">
       <TextField id="standard-secondary" label="description" color="default" 
       type="text"
       name="description"
@@ -200,7 +227,7 @@ export default class Create extends React.Component {
             type="checkbox" 
             checked1={ this.state.checked1 } 
             onChange={ this.handleChange1 } />
-        </div>
+        </div> */}
         { content1 }
         <Button style={{ color: "#303f9f",marginLeft:"240px" }} onClick={this.handlePost}>
             SAVE
