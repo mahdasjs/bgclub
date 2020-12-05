@@ -4,7 +4,6 @@ import boardGamesReducer from './boardGamesReducer';
 import resultsReducer from './resultsReducer'
 import selectionreducer from './selectionreducer'
 import cartReducer from './cartReducer';
-import counterReducer from './counterLength'
 import cartPage from '../cartPage';
 import commentReducer from './commenReducer'
 import ratingReducer from './ratingReducer'
@@ -15,7 +14,6 @@ export default combineReducers({
     select:selectionreducer,
     comments:commentReducer,
     ratings:ratingReducer,
-    counter:counterReducer,
     cartsssss:cartReducer,
     // cart:cartReducer
 });
