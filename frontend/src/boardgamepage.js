@@ -140,13 +140,12 @@ class boardgames extends React.Component{
                       {this.props.select.name}
                     </Typography>
                     <Typography className='bgprice'>
-                      {this.props.select.price}
+                    ${this.props.select.price}
                         <div>
                             <Rating
-                              name="simple-controlled"
+                              onClick={this.handlechangeRate}
                               value={this.state.value}
                               precision={0.5}
-                              onChange={this.handlechangeRate}
                             />
                             <Button onClick={this.handleRate}  color="primary">
                               Rate
@@ -167,8 +166,13 @@ class boardgames extends React.Component{
                       </Typography>
                   </Grid>
                   <Grid xs={12} sm={12} lg={5}
-                        style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
+                        style={{flexWrap:'nowrap', justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
                       <Rating  precision={0.1} name="read-only" value={value/counter} readOnly size="large"  />
+                      <Typography className='bgdescription'>
+
+                      {counter} votes
+                                            </Typography>
+
                   </Grid>
                   <Grid style={{display:'flex',flexWrap:'nowrap',marginLeft:'30px'}}  container item xs={12} sm={12} lg={12}>
                     <Grid item xs={10} sm={10} lg={10} >
