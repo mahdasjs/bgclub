@@ -110,6 +110,17 @@
   font-size: 20px !important;
   font-weight: 500 !important;
 }
+.tagstyle{
+  position: absolute;
+  min-width: 80px !important;
+  margin-top: 17px !important;
+  margin-left: 170px;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  transform: rotate(45deg);
+  background-color: yellow;
+  border-radius: 20%;
+}
 @media(max-width:1200px){
     .news{
         display: none;
