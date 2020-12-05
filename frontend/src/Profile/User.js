@@ -306,7 +306,7 @@ return (
                           }
                           
                       </div>
-                      <div>
+                      <div style={{display:'flex',flexWrap:'wrap'}}>
                             {boardGames.map(post => {
       return <Post
         id={post.id}

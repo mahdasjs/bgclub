@@ -199,7 +199,8 @@ import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Cookies from 'js-cookie'
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -255,13 +256,13 @@ class boardgames extends React.Component{
     
     render(){
         return(
-            <div style={{marginLeft:180}}>
+            <div style={{marginLeft:45}}>
                 <Card       
                     onClick={()=>this.props.dispatch(selectedData(this.props.id))}  
-                    style={{marginTop:15, maxWidth:350,minWidth:350,maxHeight:400,minHeight:400,marginleft:10,marginRight:10 }}>
+                    style={{marginTop:15, maxWidth:280,minWidth:280,maxHeight:400,minHeight:400}}>
                               <CardHeader
           avatar={
-            <Avatar  src="a" aria-label="recipe" >
+            <Avatar  src="a" aria-label="recipe" style={{marginLeft:10}} >
              
             </Avatar>
           }
@@ -270,23 +271,30 @@ class boardgames extends React.Component{
               <MoreVertIcon />
             </IconButton>
           }
+          title={Cookies.get('username')}
         />
-                    <CardContent>
-                    <CardMedia
+                    <CardContent style={{marginTop:-20}}>
+                    <img
                             onClick={(e) => {
                                 e.preventDefault();
                                 window.location.href='/bgpage/' + this.props.id;
                                 }}
-                        image={this.props.data.image}
+                        src={this.props.data.image}
                         style={{
-                            justifyContent: 'center', alignItems: 'center', textAlign: 'center',
-                            display:'flex'
-                        ,maxHeight: 250, maxWidth: 180, minWidth: 180, minHeight: 165}}/>  
-                                          <Typography className='name'>
+                          display:'block',
+                          margin:'0 auto',
+                          maxWidth:'100%',
+                          height:'auto',
+                          maxHeight:220
+                      }} 
+                        // style={{marginTop:-13,
+                        // maxHeight: 230, maxWidth: 300, minWidth: 300, minHeight: 230}}
+                        />  
+                                          <Typography className='name' style={{marginLeft:12}}>
 
                         {this.props.name.substring(0,25)}
                         </Typography>
-                        <div style={{marginTop:10}}>
+                        <div style={{marginTop:10,marginLeft:10}}>
                         <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
                         </div>
                         <div className='addAndRemove' style={{borderRadius:100}} >
