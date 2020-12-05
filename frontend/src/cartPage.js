@@ -57,7 +57,7 @@ class Homepage extends Component{
                     Total cost
                     </Typography>
                     <Typography className='priceCart'>
-                    {value}
+                    ${value}
                     </Typography>
                     <Button style={{marginTop:15,marginLeft:20}} onClick={this.handlePostComment} disabled color="primary">
                         pay

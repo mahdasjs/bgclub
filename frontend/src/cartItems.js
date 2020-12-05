@@ -61,7 +61,7 @@ class news extends Component{
                     {this.props.name}
                     </Typography>
                     <Typography className='priceCart'>
-                    {this.props.data.price}
+                    ${this.props.data.price}
                     </Typography>
                     <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
                         <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
