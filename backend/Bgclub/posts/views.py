@@ -27,6 +27,7 @@ class ProfilePostListAPIView(generics.ListAPIView):
 	serializer_class = ListPostSerializer
 
 	def get_queryset(self):
-		queryset = Post.objects.filter(user = self.kwargs['user_id'])
+		user = User.objects.get(pk=self.kwargs['user_id'])
+		queryset = Post.objects.filter(user = user)
 		return queryset.order_by('-date')
 

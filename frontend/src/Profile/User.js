@@ -105,7 +105,9 @@ export default function User() {
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
+    const [post, setPost] = useState([]);
     let [state, setState] = useState({
       username: null,
       firstname: null,
@@ -161,6 +163,23 @@ export default function User() {
       })
       .catch((error) => {});
   };
+  useEffect(() => {
+    handlePosts();
+  }, []);
+  const handlePosts = () => {
+      axios
+        .get(`http://localhost:8000/api/v1/posts/profile/list/${userid}`, {
+          headers: {
+            "Content-type": "multipart/form-data",
+            'Authorization':`Token ${Cookie.get('token')}`
+          },
+        })
+        .then((res) => {
+          setPost(res.data);
+          console.log(res.data)
+        })
+        .catch((error) => {});
+    };
   useEffect(() => {
     handleNews();
   }, []);
@@ -262,6 +281,7 @@ return (
                           <Create
                           onSuccessFullySave={() => {
                             handleClosee();
+                            handlePosts();
                           }}
                             />
                           </DialogContent>

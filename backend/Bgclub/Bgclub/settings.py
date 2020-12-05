@@ -135,7 +135,7 @@ CACHES = {
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bgclubdb',
+        'NAME': 'bgclubdbbb',
         'USER': 'bgclub',
         'PASSWORD': 'bgclub20',
         'HOST': 'localhost',

@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     }, []);
     const handlePosts = () => {
         axios
-          .get(`http://localhost:8000/posts/profile/list/${userid}`, {
+          .get(`http://localhost:8000/api/v1/posts/profile/list/${userid}`, {
             headers: {
               "Content-type": "multipart/form-data",
               'Authorization':`Token ${Cookie.get('token')}`
