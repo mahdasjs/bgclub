@@ -12,7 +12,19 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Cookie from 'js-cookie'
+import Cookie from 'js-cookie';
+
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+} from "@material-ui/pickers";
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+  } from '@material-ui/pickers';
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -24,11 +36,21 @@ export default class Create extends React.Component {
         post_pic: null,
         postpic: "",
         number:'',
-        value:'sell'
+        value:'sell',
+        startDate: '2017-05-24T10:30',
+        endDate: new Date(),
       };
       this.handleChange2 = this.handleChange2.bind(this);
       this.handlePost = this.handlePost.bind(this);
+      this.handleStartDate=this.handleStartDate.bind(this)
       };
+      handleStartDate = (e) => {
+        this.setState({
+            startDate: e.target.value
+        });
+        console.log(this.state.startDate)
+      };
+
       handleChange() {
         this.setState({
           checked: !this.state.checked
@@ -163,6 +185,20 @@ export default class Create extends React.Component {
       onChange={this.handleChangeDescreption}
       rowsMin={2} placeholder="address" style={{marginLeft:0,marginTop:15,width:'95%'}} />
       </div>
+      <div>
+      <form noValidate>
+      <TextField
+        id="datetime-local"
+        label="Starts at"
+        type="datetime-local"
+        defaultValue="2017-05-24T10:30"
+        onChange={this.handleStartDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+</form>
+</div>
         <Button style={{ color: "#303f9f",marginLeft:"240px" }} onClick={this.handlePost}>
             SAVE
           </Button>
