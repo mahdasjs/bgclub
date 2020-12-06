@@ -161,13 +161,13 @@ export default class Create extends React.Component {
             </Button>
       <br/>
       <div >
-      <TextField id="standard-secondary" label="name" 
+      <TextField id="standard-secondary" placeholder="name" 
                 type="text"
                 name="bg_name"
                 value={this.state.bg_name}
                 onChange={this.handleChange3} style={{width:'190px'}} />
              <TextField 
-    style={{marginTop:16,width:'70px',marginLeft:'30px'}}
+    style={{marginTop:0,width:'70px',marginLeft:'30px'}}
     value={this.state.number}
     onChange={this.handleChangeNum} rowsMin={3} aria-label="caption" placeholder="number" />
       </div>
@@ -192,6 +192,7 @@ export default class Create extends React.Component {
         label="Starts at"
         type="datetime-local"
         defaultValue="2017-05-24T10:30"
+        style={{width:300}}
         onChange={this.handleStartDate}
         InputLabelProps={{
           shrink: true,
