@@ -27,6 +27,7 @@ class boardgames extends React.Component{
           visibility:'hidden',
           toggle:false,
           showAll:false,
+          limitation:10
         }
       }
       handlechangeComment = (e) => {
@@ -140,20 +141,19 @@ class boardgames extends React.Component{
                       {this.props.select.name}
                     </Typography>
                     <Typography className='bgprice'>
-                      {this.props.select.price}
+                    ${this.props.select.price}
                         <div>
                             <Rating
-                              name="simple-controlled"
+                              onClick={this.handlechangeRate}
                               value={this.state.value}
                               precision={0.5}
-                              onChange={this.handlechangeRate}
                             />
                             <Button onClick={this.handleRate}  color="primary">
                               Rate
                             </Button>
                         </div>
                       </Typography>
-                      <div className='addAndRemoveID' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
+                      {/* <div className='addAndRemoveID' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
                               <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                     <Minus  style={{color:"#000"}}/>
                                 </IconButton>
@@ -161,14 +161,39 @@ class boardgames extends React.Component{
                                 <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                   <Plus  style={{color:"#000"}}/>
                                 </IconButton>
-                            </div>
+                            </div> */}
+                                 <div className='addAndRemoveID' style={{borderRadius:100}} >
+                          {this.state.count!=0?
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                                <Minus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                    <Minus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    {this.state.count}
+                    {this.state.count<this.state.limitation?
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                                <Plus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :
+                    <IconButton aria-label="settings" disabled style={{backgroundColor:' rgba(0, 0, 0, 0.1)',width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                    <Plus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    </div>
                       <Typography className='bgdescription'>
                         {this.props.select.description}
                       </Typography>
                   </Grid>
                   <Grid xs={12} sm={12} lg={5}
-                        style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
+                        style={{flexWrap:'nowrap', justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
                       <Rating  precision={0.1} name="read-only" value={value/counter} readOnly size="large"  />
+                      <Typography className='bgdescription'>
+
+                      {counter} votes
+                                            </Typography>
+
                   </Grid>
                   <Grid style={{display:'flex',flexWrap:'nowrap',marginLeft:'30px'}}  container item xs={12} sm={12} lg={12}>
                     <Grid item xs={10} sm={10} lg={10} >

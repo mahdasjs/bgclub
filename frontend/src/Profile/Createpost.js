@@ -7,6 +7,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Cookie from 'js-cookie'
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -15,12 +21,12 @@ export default class Create extends React.Component {
         checked1: false,
         id: "",
         bg_name: "",
-        rent_price: "",
-        sell_price: "",
+        price: '',
         description:"",
         post_pic: null,
         postpic: "",
-        number:"",
+        number:'',
+        value:'sell'
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleChange1 = this.handleChange1.bind(this);
@@ -31,6 +37,11 @@ export default class Create extends React.Component {
       handleChange() {
         this.setState({
           checked: !this.state.checked
+        })
+      }
+      handleChangeSell=(e)=> {
+        this.setState({
+          value: e.target.value
         })
       }
       handleChange1() {
@@ -49,72 +60,57 @@ export default class Create extends React.Component {
         let name = event.target.name;
         let value = event.target.value;
         this.setState({ [name]: value });
+        console.log(name,value)
+      }
+      handleChangeDescreption=(event)=>{
+        this.setState({description:event.target.value})
+        console.log(this.state.description)
+      }
+      handleChangePrice=(event)=>{
+        this.setState({price:event.target.value})
+      }
+      handleChangeNum=(event)=>{
+        this.setState({number:event.target.value})
+      }
+      handleChangeRentPrice=(event)=>{
+        this.setState({rent_price:event.target.value})
       }
       fileSelectedHandler = (event) => {
         event.preventDefault();
         this.setState({
-          post_picture: event.target.files[0],
+          post_pic: event.target.files[0],
           postpic: URL.createObjectURL(event.target.files[0]),
         });
       };
       handlePost = async () => {
         const formData = new FormData();
         formData.append("bg_name", this.state.bg_name);
-        formData.append("description", this.state.description);
-        formData.append("rent_price", this.state.rent_price);
-        formData.append("sell_price", this.state.sell_price);
-        formData.append("number", this.state.number);
-        formData.append("post_pic", this.state.post_pic);
-      try {
-        const response = await axios.put(
-          `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/post/1`,
-          formData,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              // Authorization: "Token " + token,
-            },
+          formData.append("description", this.state.description);
+          if(this.state.value=='sell'){
+            formData.append("sell_price", this.state.price);
           }
-        );
-        
+          else{
+            formData.append("rent_price", this.state.price);
+          }
+          formData.append("number",this.state.number);
+          formData.append("post_pic", this.state.post_pic);
+          axios({
+          method: "post",
+          url: "http://localhost:8000/api/v1/posts/profile/create/",
+          headers: { 
+            "Content-type": "multipart/form-data",
+            'Authorization':`Token ${Cookie.get('token')}`},
+            data:formData
+        }).then((response) => {
+          console.log(response)
           this.props.onSuccessFullySave();
           this.props.onCreate();
-        }
-        catch (e) {
-          console.log(e)
-        }
-    }
+            })
+            .catch((error) => {
+              
+               });
+            }
       render() {
-        const content = this.state.checked 
-          ? <div className="sell">   <TextField
-          id="outlined-textarea"
-          label="Your bid price"
-          placeholder="price $"
-          price $
-          variant="outlined"
-          size="small"
-          type="text"
-                name="sell_price"
-                value={this.state.sell_price}
-                onChange={this.handleChange3} 
-          
-        /> </div>
-          : null;
-          const content1 = this.state.checked1
-          ? <div className="rent">   <TextField
-          id="outlined-textarea"
-          label="Your bid price"
-          placeholder="price $"
-          price $
-          variant="outlined"
-          size="small"
-          type="text"
-                name="rent_price"
-                value={this.state.rent_price}
-                onChange={this.handleChange3} 
-        /> </div>
-          : null;
     
         return  <div>
           <input
@@ -147,39 +143,45 @@ export default class Create extends React.Component {
               Add pic 
             </Button>
       <br/>
-      <div className="description1">
-      <TextField id="standard-secondary" label="Name" 
+      <div >
+      <TextField id="standard-secondary" label="name" 
                 type="text"
                 name="bg_name"
                 value={this.state.bg_name}
-                onChange={this.handleChange3} />
-       
-      <FormControl style={{ marginLeft: "30px"}} >
-        <InputLabel  shrink htmlFor="age-native-label-placeholder">
-          number
-        </InputLabel>
-        <NativeSelect
-          value={this.state.number}
-          onChange={this.handleChange2}
-          inputProps={{
-            name: 'number',
-            id: 'age-native-label-placeholder',
-          }}
-        >
-          <option value="">1</option>
-          <option value={10}>2</option>
-          <option value={20}>3</option>
-          <option value={30}>4</option>
-          <option value={40}>5</option>
-          <option value={50}>6</option>
-          <option value={60}>7</option>
-          <option value={70}>8</option>
-          <option value={80}>9</option>
-          <option value={90}>10</option>
-        </NativeSelect>
-      </FormControl>
+                onChange={this.handleChange3} style={{width:'190px'}} />
+             <TextField 
+    style={{marginTop:16,width:'70px',marginLeft:'30px'}}
+    value={this.state.number}
+    onChange={this.handleChangeNum} rowsMin={3} aria-label="caption" placeholder="number" />
       </div>
-      <div className="description">
+      <div >
+      <TextareaAutosize       
+      type="text"
+      value={this.state.description}
+      onChange={this.handleChangeDescreption}
+      rowsMin={3} placeholder="descreption" style={{marginLeft:0,marginTop:20,width:'95%'}} />
+      </div>
+      <div>
+      <FormControl component="fieldset">
+      <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChangeSell} >
+        <FormControlLabel value="sell" control={<Radio />} label="Sell" />
+        <FormControlLabel value="rent" control={<Radio />} label="Rent" />
+      </RadioGroup>
+    </FormControl>
+    {/* {this.state.value=='sell'? */}
+    <TextField 
+    style={{marginTop:15,marginLeft:30}}
+    value={this.state.price}
+    onChange={this.handleChangePrice} rowsMin={3} aria-label="caption" placeholder="price" />
+    {/* :<TextField 
+    style={{marginTop:15,marginLeft:30}}
+    onChange={this.handleChangeRentPrice} rowsMin={3} aria-label="caption" placeholder="price" />
+
+    } */}
+
+      </div>
+
+      {/* <div className="description">
       <TextField id="standard-secondary" label="description" color="default" 
       type="text"
       name="description"
@@ -200,8 +202,7 @@ export default class Create extends React.Component {
             type="checkbox" 
             checked1={ this.state.checked1 } 
             onChange={ this.handleChange1 } />
-        </div>
-        { content1 }
+        </div> */}
         <Button style={{ color: "#303f9f",marginLeft:"240px" }} onClick={this.handlePost}>
             SAVE
           </Button>

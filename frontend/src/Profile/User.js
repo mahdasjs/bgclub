@@ -22,6 +22,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
+import { connect } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -98,7 +99,7 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-export default function User() {
+function User({boardGames}) {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
@@ -305,8 +306,14 @@ return (
                           }
                           
                       </div>
-                      <div>
-                          <Post/>
+                      <div style={{display:'flex',flexWrap:'wrap'}}>
+                            {boardGames.map(post => {
+      return <Post
+        id={post.id}
+        name={post.name}
+        data={post}
+        />;
+    })}
                         </div>
                         </Grid>
                         
@@ -314,3 +321,13 @@ return (
        </div>
     );
  }
+ function mapStateToProps  (state) {
+  return {
+    select: state.select,
+    cartsssss:state.cartsssss,
+    comments:state.comments,
+    ratings:state.ratings,
+    boardGames:state.boardGames
+  }
+}
+export default connect(mapStateToProps)(User);
