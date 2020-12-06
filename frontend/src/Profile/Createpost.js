@@ -12,6 +12,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import Cookie from 'js-cookie'
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -60,6 +61,17 @@ export default class Create extends React.Component {
         let name = event.target.name;
         let value = event.target.value;
         this.setState({ [name]: value });
+        console.log(name,value)
+      }
+      handleChangeDescreption=(event)=>{
+        this.setState({description:event.target.value})
+        console.log(this.state.description)
+      }
+      handleChangeSellPrice=(event)=>{
+        this.setState({sell_price:event.target.value})
+      }
+      handleChangeRentPrice=(event)=>{
+        this.setState({rent_price:event.target.value})
       }
       fileSelectedHandler = (event) => {
         event.preventDefault();
@@ -68,34 +80,30 @@ export default class Create extends React.Component {
           postpic: URL.createObjectURL(event.target.files[0]),
         });
       };
-      handlePost = async () => {
-        const formData = new FormData();
-        formData.append("bg_name", this.state.bg_name);
+        handlePost = async () => {
+      const formData = new FormData();
+      formData.append("bg_name", this.state.bg_name);
         formData.append("description", this.state.description);
         formData.append("rent_price", this.state.rent_price);
         formData.append("sell_price", this.state.sell_price);
         formData.append("number", this.state.number);
         formData.append("post_pic", this.state.post_pic);
-      try {
-        const response = await axios.put(
-          `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/post/1`,
-          formData,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              // Authorization: "Token " + token,
-            },
+        console.log( this.state.bg_name,this.state.description, this.state.rent_price, this.state.sell_price, this.state.number, this.state.post_pic)
+        axios({
+        method: "post",
+        url: "http://localhost:8000/api/v1/posts/profile/create/",
+        headers: { 
+          "Content-type": "multipart/form-data",
+          'Authorization':`Token ${Cookie.get('token')}`},
+          data:formData
+      }).then((response) => {
+        this.props.onSuccessFullySave();
+        this.props.onCreate();
+          })
+          .catch((error) => {
+            
+             });
           }
-        );
-        
-          this.props.onSuccessFullySave();
-          this.props.onCreate();
-        }
-        catch (e) {
-          console.log(e)
-        }
-    }
       render() {
         const content = this.state.checked 
           ? <div className="sell">   <TextField
@@ -191,7 +199,11 @@ export default class Create extends React.Component {
       </FormControl>
       </div>
       <div >
-      <TextareaAutosize onChange={this.handlechangeCaption} rowsMin={3} aria-label="caption" placeholder="descreption" style={{marginLeft:0,marginTop:20,width:'95%'}} />
+      <TextareaAutosize       
+      type="text"
+      value={this.state.description}
+      onChange={this.handleChangeDescreption}
+      rowsMin={3} placeholder="descreption" style={{marginLeft:0,marginTop:20,width:'95%'}} />
       </div>
       <div>
       <FormControl component="fieldset">
@@ -200,9 +212,15 @@ export default class Create extends React.Component {
         <FormControlLabel value="rent" control={<Radio />} label="Rent" />
       </RadioGroup>
     </FormControl>
+    {this.state.value=='sell'?
     <TextField 
     style={{marginTop:15,marginLeft:30}}
-    onChange={this.handleChangePrice} rowsMin={3} aria-label="caption" placeholder="price" />
+    onChange={this.handleChangeSellPrice} rowsMin={3} aria-label="caption" placeholder="price" />
+    :<TextField 
+    style={{marginTop:15,marginLeft:30}}
+    onChange={this.handleChangeRentPrice} rowsMin={3} aria-label="caption" placeholder="price" />
+
+    }
 
       </div>
 
