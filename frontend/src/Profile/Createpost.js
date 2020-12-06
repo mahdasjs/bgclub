@@ -21,11 +21,11 @@ export default class Create extends React.Component {
         checked1: false,
         id: "",
         bg_name: "",
-        price: 0,
+        price: '',
         description:"",
         post_pic: null,
         postpic: "",
-        number:1,
+        number:'',
         value:'sell'
       };
       this.handleChange = this.handleChange.bind(this);
@@ -68,6 +68,9 @@ export default class Create extends React.Component {
       }
       handleChangePrice=(event)=>{
         this.setState({price:event.target.value})
+      }
+      handleChangeNum=(event)=>{
+        this.setState({number:event.target.value})
       }
       handleChangeRentPrice=(event)=>{
         this.setState({rent_price:event.target.value})
@@ -141,36 +144,15 @@ export default class Create extends React.Component {
             </Button>
       <br/>
       <div >
-      <TextField id="standard-secondary" label="Name" 
+      <TextField id="standard-secondary" label="name" 
                 type="text"
                 name="bg_name"
                 value={this.state.bg_name}
-                onChange={this.handleChange3} />
-       
-      <FormControl style={{ marginLeft: "30px"}} >
-        <InputLabel  shrink htmlFor="age-native-label-placeholder">
-          number
-        </InputLabel>
-        <NativeSelect
-          value={this.state.number}
-          onChange={this.handleChange2}
-          inputProps={{
-            name: 'number',
-            id: 'age-native-label-placeholder',
-          }}
-        >
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-          <option value={6}>6</option>
-          <option value={7}>7</option>
-          <option value={8}>8</option>
-          <option value={9}>9</option>
-          <option value={10}>10</option>
-        </NativeSelect>
-      </FormControl>
+                onChange={this.handleChange3} style={{width:'190px'}} />
+             <TextField 
+    style={{marginTop:16,width:'70px',marginLeft:'30px'}}
+    value={this.state.number}
+    onChange={this.handleChangeNum} rowsMin={3} aria-label="caption" placeholder="number" />
       </div>
       <div >
       <TextareaAutosize       
