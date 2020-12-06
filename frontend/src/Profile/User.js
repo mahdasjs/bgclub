@@ -24,6 +24,7 @@ import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
 import { connect } from 'react-redux';
+import Events from "../events";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -187,7 +188,13 @@ function User({boardGames}) {
       setLoading(false);
     });
   };
-   
+   const boardgame=boardGames.map(post => {
+    return <Events
+      id={post.id}
+      name={post.name}
+      data={post}
+      />;
+  })     
 return (
     <div className="pro">
 
@@ -325,10 +332,10 @@ return (
                         <div>
                         
       </div>
-      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
-      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1 }}>Events </h2>
+      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '100%'}} >
+      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1,marginLeft:5 }}>Events </h2>
       <Button
-                        style={{marginTop:"-70px",marginLeft: "150px"}}
+                        style={{marginTop:"-70px",marginLeft: "167px"}}
         variant="contained"
         size="small"
         color="primary"
@@ -337,7 +344,12 @@ return (
       >
       create event
       </Button>
-                        {/* {news
+      <div style={{marginLeft:-40,marginTop:-20, height: '100%'}}>
+        <FreeScrollBar>
+        {boardgame}
+
+        </FreeScrollBar>
+    </div>                   {/* {news
                           .map((item) => (
                             <News
                               title={item.title}
