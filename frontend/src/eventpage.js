@@ -126,11 +126,10 @@ class eventpage extends React.Component{
                 <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
                 </Grid>
                 <Grid xs={12} sm={12} lg={5}
-                  style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >            
+                  style={{backgroundColor:'#fff' ,marginTop:'30px',marginLeft:30}} >            
                     <img
                     src={this.props.select.image}
                     style={{
-                      justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                       maxWidth:'100%',
                       height:'auto',
                       maxHeight:350          
@@ -138,7 +137,7 @@ class eventpage extends React.Component{
                     />
                 </Grid>
                 <Grid xs={12} sm={12} lg={6}
-                      style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
+                      style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px'}} >
                    <Typography className='bgname'>
                       {this.props.select.name}
                     </Typography>
@@ -150,7 +149,7 @@ class eventpage extends React.Component{
                       </Typography>
                   </Grid>
                   <Grid xs={12} sm={12} lg={12} style={{display:'flex',flexWrap:'nowrap',marginLeft:30,marginTop:20}}>
-                          <Grid  lg={6} style={{display:'flex',flexWrap:'nowrap',marginLeft:30}} >
+                          <Grid  lg={6} style={{display:'flex',flexWrap:'nowrap'}} >
                       <Typography className='bgdescription' style={{marginTop:15}}>
                         memebers         
                       </Typography>
@@ -164,7 +163,7 @@ class eventpage extends React.Component{
                       </Grid>
                       <Grid  lg={6}  style={{display:'flex',flexWrap:'nowrap'}} >
 
-                      <div className='raisedTag' style={{borderRadius:5,marginLeft:138,width:90,height:40,marginTop:13}}>
+                      <div className='raisedTag' style={{borderRadius:5,marginLeft:232,width:90,height:40,marginTop:13}}>
                       <Typography style={{marginTop:10,fontSize:15,marginLeft:10}}>
                         only 4 left      
                       </Typography>
@@ -182,13 +181,13 @@ class eventpage extends React.Component{
                       </Grid>
                   </Grid>
                   <Grid style={{display:'flex',flexWrap:'nowrap',marginLeft:'30px',marginTop:20}}  container item xs={12} sm={12} lg={12}>
-                    <Grid item xs={10} sm={10} lg={10} >
-                      <div style={{ display:'flex',flexWrap:'nowrap',width:'115%'}}>
+                    <Grid item xs={10} sm={10} lg={11} >
+                      <div style={{ display:'flex',flexWrap:'nowrap',width:'94%'}}>
                         <TextareaAutosize value={this.state.comment} onChange={this.handlechangeComment} rowsMin={1}  rowsMax={1}  aria-label="caption" placeholder="Add comment..." 
                             style={{borderStyle:'hidden',  outline:'none',backgroundColor:"rgb(245, 250, 252)", padding:10,  fontSize:15, width:'100%'}}/>
                       </div>
                     </Grid>
-                    <Grid  item xs={2} sm={2} lg={2} style={{marginLeft:100}}>
+                    <Grid  item xs={2} sm={2} lg={1} style={{marginLeft:-35}}>
                       <Button onClick={this.handlePostComment}  color="primary">
                         Send
                       </Button>

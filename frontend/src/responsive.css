@@ -39,6 +39,8 @@
 .bgname{
   font-size: 39px !important;
   font-weight: 500 !important;
+  text-align: justify;
+
 } 
 .raisedTag{
   background-color: rgba(165, 42, 42, 0.212);
@@ -68,6 +70,7 @@
   font-size: 20px !important;
   font-weight: 500 !important;
   color: dimgrey !important;
+  text-align: justify;
 }
 .boardgames{
   margin-left: 20px !important;
