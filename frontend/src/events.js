@@ -50,7 +50,7 @@ class boardgames extends React.Component{
                     <img
                             onClick={(e) => {
                                 e.preventDefault();
-                                window.location.href='/bgpage/' + this.props.id;
+                                window.location.href='/eventpage/' + this.props.id;
                                 }}
                         src={this.props.data.image}
                         style={{
@@ -71,7 +71,7 @@ starts at 18 november
 </Typography>
 <div style={{display:'flex',flexWrap:'nowrap'}}>
 <Typography style={{marginLeft:12,marginTop:15,fontSize:11,fontWeight:400}}>
-    18:40AM
+    18:40 am
 </Typography>
 <Button
                         style={{marginTop:10,marginLeft:25}}
