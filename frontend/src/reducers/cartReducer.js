@@ -8,10 +8,10 @@ export default function addToCart(state = [], action) {
         case REMOVE_FROM_CART:
             var counter=0
             return state.filter((e) => {
-                if (e.data.id === action.payload.id) {
+                if (e.data.bgid === action.payload.bgid) {
                     counter++;
                 }
-                if (e.data.id !== action.payload.id||counter>1) {
+                if (e.data.bgid !== action.payload.bgid||counter>1) {
                     return true;
                 }
                 return false;
