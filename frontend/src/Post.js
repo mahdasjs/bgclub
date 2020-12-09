@@ -19,7 +19,9 @@ import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Cookies from 'js-cookie';
 import { connect } from 'react-redux';
-
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -28,6 +30,8 @@ class boardgames extends React.Component{
             counter:[],
             count:0,
             rate:0,
+            anchorEl: null,
+            openAdd:false,
         }
     }
     async count(){
@@ -77,13 +81,25 @@ class boardgames extends React.Component{
         this.setState({count:this.state.count-1})
 
     }
-
+    handleClick = event => {
+      this.setState({ anchorEl: event.currentTarget });
+    };
+    handleClose = () => {
+      this.setState({ anchorEl: null });
+    };
+    handelDelPost=()=>{
+      this.props.action()
+      this.handleClose()
+    }
     componentDidMount(){
       console.log(this.props.cartsssss)
         this.count()
     }
     
     render(){
+      const { anchorEl } = this.state;
+      const open = Boolean(anchorEl);
+  
         return(
             <div style={{marginLeft:45}}>
                 <Card       
@@ -96,9 +112,18 @@ class boardgames extends React.Component{
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings" >
+            <div>
+            <IconButton aria-label="settings"  onClick={this.handleClick}>
               <MoreVertIcon />
             </IconButton>
+             <Menu
+                                           anchorEl={anchorEl}
+                                           open={open}
+                                           onClose={this.handleClose}
+                                         >
+                                           <MenuItem onClick={this.handelDelPost}>Delete</MenuItem>
+                                         </Menu>
+                                         </div>
           }
           title={this.props.data.user.username}
         />

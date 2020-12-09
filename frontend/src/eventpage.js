@@ -236,8 +236,7 @@ class eventpage extends React.Component{
                             {this.props.cartsssss.map((item) => (
                               <Card
                                 key={item.id}
-                                style={{
-                                  backgroundColor: "white",
+                                style={{backgroundColor: "white",
                                   maxWidth: 260,
                                   minWidth: 260,
                                   maxHeight: 60,
@@ -253,7 +252,6 @@ class eventpage extends React.Component{
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-          
                                       marginLeft: 50,
                                     }}
                                   >

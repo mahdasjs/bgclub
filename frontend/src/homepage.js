@@ -61,9 +61,9 @@ class Homepage extends Component{
           <Grid xs={12} sm={12} lg={2}>
           <div className="news" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:20,paddingLeft:10 , width: '23%', height: '100%'}}>
           <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>News </h2>
-
+          
                 <FreeScrollBar  >
-                  {news}
+                  
                 </FreeScrollBar>
           </div>
           <div className="newsprime" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', marginTop:70,marginLeft:20,paddingLeft:10 , width: '100%', height: '500px',marginBottom:'100px'}}>
