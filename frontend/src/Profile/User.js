@@ -25,6 +25,7 @@ import News from '../news'
 import Post from '../Post'
 import { connect } from 'react-redux';
 import Events from "../events";
+import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating,postData} from '../actions/index'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +102,7 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-function User({boardGames}) {
+function User({boardGames,posts,dispatch}) {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
@@ -125,12 +126,14 @@ function User({boardGames}) {
     setOpenEvent(true);
    }
    const handleClosee = () => {
+    dispatch(postData(window.location.pathname.split('/')[2]))
     setOpenn(false);
   };
   const handleCloseEvent = () => {
     setOpenEvent(false);
   };
     useEffect(() => {
+        dispatch(postData(window.location.pathname.split('/')[2]))
         handleClickOpen();
     }, []);
     const handleClickOpen = (scrollType) => () => {
@@ -138,6 +141,7 @@ function User({boardGames}) {
         setScroll(scrollType);
       };
       const handleClose = () => {
+        dispatch(postData(window.location.pathname.split('/')[2]))
         setOpen(false);
       };
       const descriptionElementRef = React.useRef(null);
@@ -361,10 +365,10 @@ return (
                           
                       </div>
                       <div style={{display:'flex',flexWrap:'wrap'}}>
-                            {boardGames.map(post => {
+                            {posts.map(post => {
       return <Post
         id={post.id}
-        name={post.name}
+        name={post.bg_name}
         data={post}
         />;
     })}
@@ -381,7 +385,9 @@ return (
     cartsssss:state.cartsssss,
     comments:state.comments,
     ratings:state.ratings,
-    boardGames:state.boardGames
+    boardGames:state.boardGames,
+    posts:state.posts
+
   }
 }
 export default connect(mapStateToProps)(User);

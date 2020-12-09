@@ -1,5 +1,7 @@
 import { ADD_FETCHED_DATA, 
-    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,ADD_RATINNG,CHECK_RATING } from './types.js';
+    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
+    REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
+    ADD_RATINNG,CHECK_RATING,ADD_POST_DATA } from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi} from '../api/apis'
 
@@ -38,6 +40,23 @@ export const bgData = () => {
             .then(data => {
                 dispatch({
                     type: ADD_bg_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const postData = (id) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:8000/api/v1/posts/profile/list/${id}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_POST_DATA,
                     payload: data
                 })
             })
