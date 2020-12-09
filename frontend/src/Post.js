@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import headerImage from './back.jpg';
 import { connect } from 'react-redux';
-import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {addToCart, removePostFromCart, addPostToCart, selectedData,counterPlus} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import CartBorder from '@material-ui/icons/AddShoppingCart';
 import Cart from '@material-ui/icons/RemoveShoppingCart';
@@ -33,12 +33,12 @@ class boardgames extends React.Component{
         }
     }
     async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
+        const result = [...this.props.cartPost.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
             return mp;
         }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
+        const values = [...this.props.cartPost.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
             return mp;
@@ -60,18 +60,22 @@ class boardgames extends React.Component{
         await this.setState({rate:value/counter})
     }
     handleAdd=(e)=>{
+
         this.count();
-        this.props.dispatch(addToCart({data:this.props.data}))
+        this.props.dispatch(addPostToCart({data:this.props.data}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
         this.count();
-        this.props.dispatch(removeFromCart(this.props.id))
+        this.props.dispatch(removePostFromCart(this.props.id))
         this.setState({count:this.state.count-1})
 
     }
 
     componentDidMount(){
+      console.log(this.props.cartPost)
+      console.log(this.props.cartsssss)
+
         this.count()
     }
     
@@ -177,7 +181,8 @@ const mapStateToProps = (state) => {
         select: state.select,
         cartsssss:state.cartsssss,
         ratings:state.ratings,
-        posts:state.posts
+        posts:state.posts,
+        cartPost:state.cartPost
     }
   }
   export default connect(mapStateToProps, null)(boardgames);

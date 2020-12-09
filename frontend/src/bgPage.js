@@ -18,7 +18,7 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-
+import Cookies from 'js-cookie'
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -29,47 +29,50 @@ class boardgames extends React.Component{
             rate:0,
         }
     }
-    async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-        }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-        }, new Map).values()];
-        for(var i=0; i<result.length; i++){
-            if(this.props.id==result[i]){
-                await this.setState({count:values[i].count})
-            }
-        }
-        var value=0
-        var counter=0
-        const ratingValues = [...this.props.ratings.values()];
-        for(var i=0; i<ratingValues.length; i++){
-          if(ratingValues[i].data.id===this.props.id){
-            counter++
-            value=value+parseFloat (ratingValues[i].data.rate)
-          }
-        }
-        await this.setState({rate:value/counter})
-    }
+    // async count(){
+    //     const result = [...this.props.cartsssss.reduce( (mp, o) => {
+    //         if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+    //         mp.get(o.data.id).count++;
+    //         return mp;
+    //     }, new Map).keys()];
+    //     const values = [...this.props.cartsssss.reduce( (mp, o) => {
+    //         if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+    //         mp.get(o.data.id).count++;
+    //         return mp;
+    //     }, new Map).values()];
+    //     for(var i=0; i<result.length; i++){
+    //         if(this.props.id==result[i]){
+    //             await this.setState({count:values[i].count})
+    //         }
+    //     }
+    //     var value=0
+    //     var counter=0
+    //     const ratingValues = [...this.props.ratings.values()];
+    //     for(var i=0; i<ratingValues.length; i++){
+    //       if(ratingValues[i].data.id===this.props.id){
+    //         counter++
+    //         value=value+parseFloat (ratingValues[i].data.rate)
+    //       }
+    //     }
+    //     await this.setState({rate:value/counter})
+    // }
     handleAdd=(e)=>{
-        this.count();
-        this.props.dispatch(addToCart({data:this.props.data}))
+        // this.count();
+        this.props.dispatch(addToCart({data:{description:this.props.data.description,id:this.props.data.id,
+        image:this.props.data.image,name:this.props.data.name,sell_price:this.props.data.price,
+        rent_price:this.props.data.price,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
-        this.count();
+        // this.count();
         this.props.dispatch(removeFromCart(this.props.id))
         this.setState({count:this.state.count-1})
 
     }
 
     componentDidMount(){
-        this.count()
+        console.log(this.props.cartsssss)
+        // this.count()
     }
     
     render(){

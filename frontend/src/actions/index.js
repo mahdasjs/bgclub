@@ -1,13 +1,22 @@
 import { ADD_FETCHED_DATA, 
     ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
-    ADD_RATINNG,CHECK_RATING,ADD_POST_DATA } from './types.js';
+    ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
+    ,REMOVE_POST_FROM_CART } from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi} from '../api/apis'
 
 export const removeFromCart = (id) => {
     return {
       type: REMOVE_FROM_CART,
+      payload: {
+          id
+      }
+    }
+}
+export const removePostFromCart = (id) => {
+    return {
+      type: REMOVE_POST_FROM_CART,
       payload: {
           id
       }
@@ -102,6 +111,12 @@ export const selectedData = (id) => {
 export const addToCart =  (data) => {
     return {
       type: ADD_TO_CART,
+      payload: data
+    }
+};
+export const addPostToCart =  (data) => {
+    return {
+      type: ADD_POST_TO_CART,
       payload: data
     }
 };

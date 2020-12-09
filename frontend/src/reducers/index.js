@@ -4,7 +4,7 @@ import boardGamesReducer from './boardGamesReducer';
 import resultsReducer from './resultsReducer'
 import selectionreducer from './selectionreducer'
 import cartReducer from './cartReducer';
-import cartPage from '../cartPage';
+import cartPostReducer from './cartPostReducer';
 import commentReducer from './commenReducer'
 import ratingReducer from './ratingReducer'
 import postReducer from './postReducer'
@@ -16,5 +16,6 @@ export default combineReducers({
     comments:commentReducer,
     ratings:ratingReducer,
     cartsssss:cartReducer,
-    posts:postReducer
+    cartPost:cartPostReducer,
+    posts:postReducer,
 });
