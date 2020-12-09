@@ -22,12 +22,18 @@ class news extends Component{
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            mp.get(o.data.bgid).count++;
+            if(Cookies.get('username')==o.data.username)
+            {
+                mp.get(o.data.bgid).count++;
+            }
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            mp.get(o.data.bgid).count++;
+            if(Cookies.get('username')==o.data.username)
+            {
+                mp.get(o.data.bgid).count++;
+            }
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){

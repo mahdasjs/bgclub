@@ -3,6 +3,7 @@ import HorizontalScroll from 'react-scroll-horizontal'
 import Axios from "axios";
 import BgPage from './bgPage';
 import News from './news'
+import Post from './Post'
 import { Grid, hexToRgb } from "@material-ui/core";
 import FreeScrollBar from 'react-free-scrollbar';
 import './responsive.css';
@@ -11,7 +12,8 @@ const mapStateToProps = state => {
   return {
       News: state.News,
       boardGames: state.boardGames,
-      cartsssss:state.cartsssss
+      cartsssss:state.cartsssss,
+      posts:state.posts
   };
 };
 class Homepage extends Component{
@@ -30,6 +32,13 @@ class Homepage extends Component{
       image={term.image}
       />
     })
+    let posts = this.props.posts.map((post, index)=>{
+      return<Post
+      id={post.id}
+      name={post.bg_name}
+      data={post}
+      />
+    })
     return(
       <div className='homepage'>
         <Grid container >
@@ -40,6 +49,12 @@ class Homepage extends Component{
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Boardgames </h2>
               <HorizontalScroll  >
                 {boardGames}
+              </HorizontalScroll>
+            </div>
+            <div  style={{height:'430px',marginLeft:'20px',marginTop:70,marginBottom:140}}>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Posts </h2>
+              <HorizontalScroll style={{marginLeft:-40}}  >
+                {posts}
               </HorizontalScroll>
             </div>
           </Grid> 

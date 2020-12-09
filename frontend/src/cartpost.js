@@ -73,11 +73,11 @@ class news extends Component{
                     </Typography>
                     }
                       {this.props.data.sell_price!=""?
-                       <div className='tagstyle'>
+                       <div className='carttagstyle'>
                        On Sell
                      </div>
                      :             
-                      <div className='tagstyle' style={{backgroundColor:'rgba(240, 16, 16, 0.4)'}}>
+                      <div className='carttagstyle' style={{backgroundColor:'rgba(240, 16, 16, 0.4)'}}>
                      On Rent
                    </div>
                     }
