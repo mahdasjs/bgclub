@@ -16,6 +16,13 @@ import {If} from 'rc-if-else';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import cookie from 'js-cookie'
 import Avatar from "@material-ui/core/Avatar";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import CardContent from "@material-ui/core/CardContent";
+import Card from "@material-ui/core/Card";
+import CheckIcon from "@material-ui/icons/Check";
 
 class eventpage extends React.Component{
       constructor(){
@@ -29,7 +36,8 @@ class eventpage extends React.Component{
           visibility:'hidden',
           toggle:false,
           showAll:false,
-          limitation:10
+          limitation:10,
+          openMemberPopUp:false
         }
       }
       handlechangeComment = (e) => {
@@ -94,6 +102,13 @@ class eventpage extends React.Component{
         this.props.dispatch(removeFromCart(this.state.id))
         this.setState({count:this.state.count-1})
     }
+    handleClickMembers=()=>{
+      this.setState({openMemberPopUp: !this.state.openMemberPopUp})
+
+    }
+    handleClosePopUp=()=>{
+      this.setState({openMemberPopUp: !this.state.openMemberPopUp})
+    }
     componentDidMount(){
         this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
         this.count()
@@ -157,7 +172,7 @@ class eventpage extends React.Component{
                       <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
                       <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
                       <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
-                      <Typography className='bgdescription' style={{marginTop:15}}>
+                      <Typography className='bgdescription' style={{marginTop:15}} onClick={this.handleClickMembers}>
                         + 6 more         
                       </Typography>
                       </Grid>
@@ -205,6 +220,86 @@ class eventpage extends React.Component{
                     {/* {comments[this.state.commentArrayLength-2]} */}
                   </Grid>
                 </If>
+                <Dialog
+                          style={{zIndex:100000000}}
+                          open={this.state.openMemberPopUp}
+                          onClose={this.handleClosePopUp}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" }}
+                            id="draggable-dialog-title"
+                          >
+                            Members
+                          </DialogTitle>
+                          <DialogContent>
+                            {this.props.cartsssss.map((item) => (
+                              <Card
+                                key={item.id}
+                                style={{
+                                  backgroundColor: "white",
+                                  maxWidth: 260,
+                                  minWidth: 260,
+                                  maxHeight: 60,
+                                  minHeight: 60,
+                                  marginLeft: -7,
+                                  marginTop: 10,
+                                }}
+                              >
+                                <CardContent>
+                                  <Typography
+                                    variant="body1"
+                                    align="justify"
+                                    style={{
+                                      fontFamily: "Roboto",
+                                      fontSize: 12,
+          
+                                      marginLeft: 50,
+                                    }}
+                                  >
+                                    {item.data.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body1"
+                                    align="justify"
+                                    style={{
+                                      fontFamily: "Roboto",
+                                      fontSize: 11,
+                                      color: "grey",
+                                      marginLeft: 50,
+                                    }}
+                                  >
+                                    {item.name}
+                                    {item.name}
+                                  </Typography>
+          
+                                  <Avatar
+                                    style={{
+                                      marginTop:-30,
+                                      width: 48,
+                                      height: 48,
+                                      left: -5,
+                                    }}
+                                  />
+                                  <IconButton
+                                  style={{marginTop: "-150px",
+                                    marginLeft: "190px"}}
+                                    type="submit"
+                                    // className={classes.iconButton}
+                                    aria-label="search"
+                                  >
+                                    <CheckIcon color="primary" />
+                                  </IconButton>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={this.handleClosePopUp} color="primary">
+                              ok
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
                 <If  condition ={comments.length>1 &&this.state.showAll===false}>
                   <Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
                     <Button 
