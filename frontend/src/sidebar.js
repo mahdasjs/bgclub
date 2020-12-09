@@ -20,6 +20,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Boardgames from './boardgames';
 import Cafes from './cafes';
 import Boardgamespage from './boardgamepage';
+import Eventpage from './eventpage';
 import Producers from './producers';
 import Welcome from './Welcome';
 import Search from './search';
@@ -201,8 +202,8 @@ class PersistentDrawerLeft extends React.Component {
           
         </Drawer>
                   <Switch >
-                  <Route path="/bgpage" exact component={Boardgamespage} />
                   <Route path="/bgpage/:id" exact component={Boardgamespage} />
+                  <Route path="/eventpage/:id" exact component={Eventpage} />
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                    <Route path="/producers" component={Producers} />

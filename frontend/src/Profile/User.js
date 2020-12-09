@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Create from "./Createpost";
+import CreateEvent from "../createEvent";
 import "./Profile.css";
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -23,6 +24,7 @@ import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
 import { connect } from 'react-redux';
+import Events from "../events";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -105,6 +107,7 @@ function User({boardGames}) {
     const [scroll, setScroll] = React.useState("paper");
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
+    const [openEvent, setOpenEvent] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const [news, setNews] = useState([]);
     let [state, setState] = useState({
@@ -118,8 +121,14 @@ function User({boardGames}) {
     const handleClickOpenn = () => {
     setOpenn(true);
    }
+   const handleClickOpenEvent = () => {
+    setOpenEvent(true);
+   }
    const handleClosee = () => {
     setOpenn(false);
+  };
+  const handleCloseEvent = () => {
+    setOpenEvent(false);
   };
     useEffect(() => {
         handleClickOpen();
@@ -179,7 +188,13 @@ function User({boardGames}) {
       setLoading(false);
     });
   };
-   
+   const boardgame=boardGames.map(post => {
+    return <Events
+      id={post.id}
+      name={post.name}
+      data={post}
+      />;
+  })     
 return (
     <div className="pro">
 
@@ -273,7 +288,32 @@ return (
                             </Button>
                           </DialogActions> */}
                         </Dialog>
-          
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={openEvent}
+                          onClose={handleCloseEvent}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Hold an event
+                          </DialogTitle>
+                          <DialogContent>
+                          <CreateEvent
+                          onSuccessFullySave={() => {
+                            handleCloseEvent();
+                          }}
+                            />
+                          </DialogContent>
+                          {/* <DialogActions>
+                            <Button onClick={handleClosee} color="primary">
+                              save
+                            </Button>
+                          </DialogActions> */}
+                        </Dialog>
                         </Paper>
                        
                   <Dialog
@@ -292,10 +332,24 @@ return (
                         <div>
                         
       </div>
-      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
-      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1 }}>News </h2>
-                         
-                        {news
+      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '100%'}} >
+      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1,marginLeft:5 }}>Events </h2>
+      <Button
+                        style={{marginTop:"-70px",marginLeft: "167px"}}
+        variant="contained"
+        size="small"
+        color="primary"
+        onClick={handleClickOpenEvent}
+        className={classes.eventButton}
+      >
+      create event
+      </Button>
+      <div style={{marginLeft:-40,marginTop:-20, height: '100%'}}>
+        <FreeScrollBar>
+        {boardgame}
+
+        </FreeScrollBar>
+    </div>                   {/* {news
                           .map((item) => (
                             <News
                               title={item.title}
@@ -303,7 +357,7 @@ return (
                               
                             />
                           ))
-                          }
+                          } */}
                           
                       </div>
                       <div style={{display:'flex',flexWrap:'wrap'}}>
