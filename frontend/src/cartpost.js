@@ -9,7 +9,8 @@ import Minus from '@material-ui/icons/Remove';
 import { IconButton,Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie'
-import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+
+import {addToCart, removePostFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 class news extends Component{
     constructor(){
         super()
@@ -21,13 +22,13 @@ class news extends Component{
     }
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            mp.get(o.data.bgid).count++;
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            mp.get(o.data.bgid).count++;
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -35,18 +36,21 @@ class news extends Component{
                 await this.setState({count:values[i].count})
             }
         }
+        var value=0
+        var counter=0
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:this.props.data.id,postid:-1,
-            image:this.props.data.image,name:this.props.data.name,sell_price:this.props.data.price,
-            rent_price:this.props.data.price,number:0,username:Cookies.get('username')}}))
+        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:-1,postid:this.props.data.id,
+            image:this.props.data.post_pic,name:this.props.data.bg_name,sell_price:this.props.data.sell_price,
+            rent_price:this.props.data.rent_price,number:this.props.data.number,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
         this.count();
-        this.props.dispatch(removeFromCart(this.props.id))
+        this.props.dispatch(removePostFromCart(this.props.id))
         this.setState({count:this.state.count-1})
+
     }
 
     render(){

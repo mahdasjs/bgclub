@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HorizontalScroll from 'react-scroll-horizontal'
 import Axios from "axios";
 import CartItem from './cartItems';
+import Cartpost from './cartpost';
 import News from './news'
 import { Grid, hexToRgb } from "@material-ui/core";
 import FreeScrollBar from 'react-free-scrollbar';
@@ -20,17 +21,30 @@ class Homepage extends Component{
   render(){
     var value=0
     const values = [...this.props.cartsssss.reduce( (mp, o) => {
-      if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-      mp.get(o.data.id).count++;
+      if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+      mp.get(o.data.bgid).count++;
       return mp;
   }, new Map).values()];
+  const posts = [...this.props.cartsssss.reduce( (mp, o) => {
+    if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+    mp.get(o.data.bgid).count++;
+    return mp;
+}, new Map).values()];
   for(var i=0; i<values.length; i++){
     value=value+values[i].data.price*values[i].count
   }
     console.log(value)
     let boardGames = values.map(post => {
       return <CartItem
-        id={post.data.id}
+        id={post.data.bgid}
+        name={post.data.name}
+        data={post.data}
+        count={post.count}
+        />;
+    });
+    let post = posts.map(post => {
+      return <Cartpost
+        id={post.data.postid}
         name={post.data.name}
         data={post.data}
         count={post.count}
@@ -48,9 +62,13 @@ class Homepage extends Component{
         <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
           </Grid>
           <Grid xs={12} sm={12} lg={10}>
-            <div  style={{marginLeft:'20px'}}>
+          <div  style={{marginLeft:'20px'}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
                 {boardGames}
+            </div>
+            <div  style={{marginLeft:'20px'}}>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
+                {post}
             </div>
             <div  style={{display:'flex',marginLeft:'20px' ,flexWrap:'nowrap',boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>
             <Typography className='totalCost'>
