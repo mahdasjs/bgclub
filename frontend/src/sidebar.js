@@ -23,14 +23,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Boardgames from './boardgames';
 import Cafes from './cafes';
 import Boardgamespage from './boardgamepage';
+import Eventpage from './eventpage';
 import Producers from './producers';
 import Welcome from './Welcome';
 import Search from './search';
 import User from "./Profile/User";
-import ExpandMoreIcon from "material-ui-icons/ExpandMore";
-import ExpandLessIcon from "material-ui-icons/ExpandLess";
-import IconButton from "material-ui/IconButton";
 import ShoppingCart from '@material-ui/icons/ShoppingCart'
+import CartPage from "./cartPage";
 const theme = createMuiTheme({
   typography: {
     body1: {
@@ -86,33 +85,6 @@ class PersistentDrawerLeft extends React.Component {
       Cookie.remove('userid')
       Cookie.remove('url')
       Cookie.remove('username')
-  
-    }
-  
-    componentDidMount(){
-      axios({
-        method: 'get',
-        url:`http://localhost:8000/api/v1/accounts/users/userprofile/${Cookie.get('userid')}`,
-        headers: { 'Authorization': `Token ${Cookie.get('token')}` },
-    })
-        .then(response => {
-          this.setState({       userprofile: response.data.user_profile.profile_picture,
-            username: response.data.username,})
-        })
-      axios({
-        method: 'get',
-        url: `http://localhost:8000/api/v1/playlist/${Cookie.get('userid')}`,
-        headers: { 'Authorization': `Token ${Cookie.get('token')}` },
-    })
-        .then(response => {
-          this.setState({id:response.data.id})
-        })
-    }
-    handleChange = ()=> {
-      this.setState({expanded:!this.state.expanded});
-    };
-    toggleSubmenu=()=>{
-      this.setState({expanded:!this.state.expanded});
     }
     render(){
       const { classes, theme } = this.props;
@@ -151,7 +123,7 @@ class PersistentDrawerLeft extends React.Component {
                           >
                             Homepage
                             </Typography>              </ListItem>
-              <ListItem button key={'Profile'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/user'} >
+              <ListItem button key={'Profile'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/user/'+Cookie.get('userid')} >
                 <ListItemIcon>
                 <Avatar
                                   style={{width:30,height:30}}
@@ -202,21 +174,7 @@ class PersistentDrawerLeft extends React.Component {
                             cafes
                             </Typography>
       </ListItem>    
-      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/boardgames'}>
-        <ListItemIcon>
-            <PlaylistIcon />
-        </ListItemIcon>
-        <Typography
-                            variant="body1"
-                            align="justify"
-                            style={{
-                              fontFamily: "Open Sans",
-                            }}
-                          >
-                            events
-                            </Typography>
-      </ListItem>    
-      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/boardgames'}>
+      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/cart'}>
         <ListItemIcon>
             <ShoppingCart />
         </ListItemIcon>
@@ -229,7 +187,7 @@ class PersistentDrawerLeft extends React.Component {
                           >
                             Cart
                             </Typography>
-      </ListItem>    
+      </ListItem>
               <ListItem button key={ 'logout'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} onClick={this.handleClick}  component={Link} to={'/'}>
         <ListItemIcon>
             <Logout />
@@ -246,15 +204,16 @@ class PersistentDrawerLeft extends React.Component {
           </List>
         </Drawer>
                   <Switch >
-                  <Route path="/bgpage" exact component={Boardgamespage} />
                   <Route path="/bgpage/:id" exact component={Boardgamespage} />
+                  <Route path="/eventpage/:id" exact component={Eventpage} />
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                    <Route path="/producers" component={Producers} />
                    <Route path="/cafes" component={Cafes} />
-                    <Route path="/user" exact component={User} />
+                    <Route path="/user/:id" exact component={User} />
                     <Route path="/boardgames"  component={Boardgames} />
                     <Route path="/search" exact component={Search}/>
+                    <Route path="/cart" exact component={CartPage}/>
                   </Switch>
                 </React.Fragment>
             )}

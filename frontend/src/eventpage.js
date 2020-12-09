@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import './responsive.css';
 import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
@@ -15,7 +15,9 @@ import Postcomments from './comment';
 import {If} from 'rc-if-else';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import cookie from 'js-cookie'
-class boardgames extends React.Component{
+import Avatar from "@material-ui/core/Avatar";
+
+class eventpage extends React.Component{
       constructor(){
         super()
         this.state={
@@ -62,19 +64,13 @@ class boardgames extends React.Component{
       }
       async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(cookie.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
             }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(cookie.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -125,16 +121,15 @@ class boardgames extends React.Component{
         }
       });
         return(
-            <div className='homepage'>
+            <div className='eventpage'>
               <Grid container>
                 <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
                 </Grid>
                 <Grid xs={12} sm={12} lg={5}
-                  style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >            
+                  style={{backgroundColor:'#fff' ,marginTop:'30px',marginLeft:30}} >            
                     <img
                     src={this.props.select.image}
                     style={{
-                      justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                       maxWidth:'100%',
                       height:'auto',
                       maxHeight:350          
@@ -142,73 +137,57 @@ class boardgames extends React.Component{
                     />
                 </Grid>
                 <Grid xs={12} sm={12} lg={6}
-                      style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
+                      style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px'}} >
                    <Typography className='bgname'>
                       {this.props.select.name}
                     </Typography>
-                    <Typography className='bgprice'>
-                    ${this.props.select.price}
-                        <div>
-                            <Rating
-                              onClick={this.handlechangeRate}
-                              value={this.state.value}
-                              precision={0.5}
-                            />
-                            <Button onClick={this.handleRate}  color="primary">
-                              Rate
-                            </Button>
-                        </div>
-                      </Typography>
-                      {/* <div className='addAndRemoveID' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
-                              <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
-                                    <Minus  style={{color:"#000"}}/>
-                                </IconButton>
-                                {this.state.count}
-                                <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
-                                  <Plus  style={{color:"#000"}}/>
-                                </IconButton>
-                            </div> */}
-                                 <div className='addAndRemoveID' style={{borderRadius:100}} >
-                          {this.state.count!=0?
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
-                                <Minus  style={{color:"#000"}}/>
-                    </IconButton>
-                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
-                    <Minus  style={{color:"#000"}}/>
-        </IconButton>
-    }
-                    {this.state.count}
-                    {this.state.count<this.state.limitation?
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
-                                <Plus  style={{color:"#000"}}/>
-                    </IconButton>
-                    :
-                    <IconButton aria-label="settings" disabled style={{backgroundColor:' rgba(0, 0, 0, 0.1)',width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
-                    <Plus  style={{color:"#000"}}/>
-        </IconButton>
-    }
-                    </div>
-                      <Typography className='bgdescription'>
+                    <Typography >
+                        by username
+                    </Typography>
+                     <Typography className='bgdescription'>
                         {this.props.select.description}
                       </Typography>
                   </Grid>
-                  <Grid xs={12} sm={12} lg={5}
-                        style={{flexWrap:'nowrap', justifyContent: 'left', alignItems: 'left', textAlign: 'left',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >
-                      <Rating  precision={0.1} name="read-only" value={value/counter} readOnly size="large"  />
-                      <Typography className='bgdescription'>
+                  <Grid xs={12} sm={12} lg={12} style={{display:'flex',flexWrap:'nowrap',marginLeft:30,marginTop:20}}>
+                          <Grid  lg={6} style={{display:'flex',flexWrap:'nowrap'}} >
+                      <Typography className='bgdescription' style={{marginTop:15}}>
+                        memebers         
+                      </Typography>
+                      <Avatar style={{marginLeft:10,width:55,height:55}}></Avatar>
+                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                      <Typography className='bgdescription' style={{marginTop:15}}>
+                        + 6 more         
+                      </Typography>
+                      </Grid>
+                      <Grid  lg={6}  style={{display:'flex',flexWrap:'nowrap'}} >
 
-                      {counter} votes
-                                            </Typography>
-
+                      <div className='raisedTag' style={{borderRadius:5,marginLeft:232,width:90,height:40,marginTop:13}}>
+                      <Typography style={{marginTop:10,fontSize:15,marginLeft:10}}>
+                        only 4 left      
+                      </Typography>
+                      </div>
+                      <div>
+                      <Button
+                        style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
+        variant="contained"
+        size="small"
+        color="#fff"
+      >
+          join
+      </Button>
+      </div>
+                      </Grid>
                   </Grid>
-                  <Grid style={{display:'flex',flexWrap:'nowrap',marginLeft:'30px'}}  container item xs={12} sm={12} lg={12}>
-                    <Grid item xs={10} sm={10} lg={10} >
-                      <div style={{ display:'flex',flexWrap:'nowrap',width:'115%'}}>
+                  <Grid style={{display:'flex',flexWrap:'nowrap',marginLeft:'30px',marginTop:20}}  container item xs={12} sm={12} lg={12}>
+                    <Grid item xs={10} sm={10} lg={11} >
+                      <div style={{ display:'flex',flexWrap:'nowrap',width:'94%'}}>
                         <TextareaAutosize value={this.state.comment} onChange={this.handlechangeComment} rowsMin={1}  rowsMax={1}  aria-label="caption" placeholder="Add comment..." 
                             style={{borderStyle:'hidden',  outline:'none',backgroundColor:"rgb(245, 250, 252)", padding:10,  fontSize:15, width:'100%'}}/>
                       </div>
                     </Grid>
-                    <Grid  item xs={2} sm={2} lg={2} style={{marginLeft:100}}>
+                    <Grid  item xs={2} sm={2} lg={1} style={{marginLeft:-35}}>
                       <Button onClick={this.handlePostComment}  color="primary">
                         Send
                       </Button>
@@ -279,4 +258,4 @@ const mapStateToProps = (state) => {
       ratings:state.ratings
     }
   }
-export default connect(mapStateToProps, null)(boardgames);
+export default connect(mapStateToProps, null)(eventpage);

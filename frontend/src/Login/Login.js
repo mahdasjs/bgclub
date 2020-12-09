@@ -2,10 +2,10 @@ import "./styleLogin.css";
 import React from "react";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
+import Button from '@material-ui/core/Button';
 import axios from "axios";
 import * as yup from "yup";
 import Cookie from 'js-cookie'
-import Button from '@material-ui/core/Button';
 
 export default class Login extends React.Component {
   validationSchema = yup.object().shape({
@@ -42,7 +42,7 @@ export default class Login extends React.Component {
         if (this.state.user.password.length >= 8) {
           axios
             .post(
-              "",
+              "http://localhost:8000/api/v1/accounts/login/",
               this.state.user
             )
             .then((response) => {
@@ -53,8 +53,8 @@ export default class Login extends React.Component {
               Cookie.set('userid',response.data.id)
               Cookie.set('username',response.data.username)
               window.location = "/homepage";
-              // this.props.history.push("/homepage");
-              // window.location.reload();
+              this.props.history.push("/homepage");
+              window.location.reload();
             })
             .catch((error) => {
               if (error.response) {

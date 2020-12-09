@@ -2,27 +2,26 @@ import React, { Component } from "react";
 import HorizontalScroll from 'react-scroll-horizontal'
 import Axios from "axios";
 import BgPage from './bgPage';
-import News from './news'
-import Post from './Post'
 import { Grid, hexToRgb } from "@material-ui/core";
-import FreeScrollBar from 'react-free-scrollbar';
-import './responsive.css';
+import Navbar from './navbar';
 import { connect } from 'react-redux';
+import News from './news'
+import FreeScrollBar from 'react-free-scrollbar';
+
 const mapStateToProps = state => {
   return {
-      News: state.News,
       boardGames: state.boardGames,
-      cartsssss:state.cartsssss,
-      posts:state.posts
+      News: state.News,
+
   };
 };
+
 class Homepage extends Component{
   render(){
-
     let boardGames = this.props.boardGames.map(post => {
       return <BgPage
-        id={post.id}
         name={post.name}
+        id={post.id}
         data={post}
         />;
     });
@@ -32,32 +31,22 @@ class Homepage extends Component{
       image={term.image}
       />
     })
-    let posts = this.props.posts.map((post, index)=>{
-      return<Post
-      id={post.id}
-      name={post.bg_name}
-      data={post}
-      />
-    })
     return(
       <div className='homepage'>
         <Grid container >
         <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
           </Grid>
           <Grid xs={12} sm={12} lg={10}>
-            <div  style={{height:'300px',marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Boardgames </h2>
-              <HorizontalScroll  >
-                {boardGames}
-              </HorizontalScroll>
-            </div>
-            <div  style={{height:'430px',marginLeft:'20px',marginTop:70,marginBottom:140}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Posts </h2>
-              <HorizontalScroll style={{marginLeft:-40}}  >
-                {posts}
-              </HorizontalScroll>
-            </div>
-          </Grid> 
+          <div className='boardgames' >
+
+          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of boardgames </h2>
+
+            <div style={{display:'flex',flexWrap:'wrap'}}>
+          {boardGames}
+          </div>
+          </div>
+
+          </Grid>
           <Grid xs={12} sm={12} lg={2}>
           <div className="news" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:20,paddingLeft:10 , width: '23%', height: '100%'}}>
           <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>News </h2>
@@ -79,4 +68,5 @@ class Homepage extends Component{
     )
   }
 }
+
 export default connect(mapStateToProps, null)(Homepage);
