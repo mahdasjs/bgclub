@@ -38,9 +38,7 @@ class news extends Component{
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:this.props.data.id,postid:-1,
-            image:this.props.data.image,name:this.props.data.name,sell_price:this.props.data.price,
-            rent_price:this.props.data.price,number:0,username:Cookies.get('username')}}))
+        this.props.dispatch(addToCart({data:this.props.data}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
@@ -64,7 +62,7 @@ class news extends Component{
                     {this.props.name}
                     </Typography>
                     <Typography className='priceCart'>
-                    ${this.props.data.price}
+                    ${this.props.data.sell_price}
                     </Typography>
                     {/* <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
                         <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >

@@ -22,9 +22,8 @@ class Homepage extends Component{
   render(){
     var value=0
     const values = [...this.props.cartsssss.reduce( (mp, o) => {
-      if (!mp.has(o.data.bgid)&&o.data.bgid!=-1)
-      mp.set(o.data.bgid, { ...o, count: 0 });
-      mp.get(o.data.bgid).count++;
+      if (!mp.has(o.data.bgid))
+      mp.set(o.data.bgid, { ...o, count: 0 });mp.get(o.data.bgid).count++;
       return mp;
   }, new Map).values()];
   const posts = [...this.props.cartPost.reduce( (mp, o) => {
@@ -34,7 +33,15 @@ class Homepage extends Component{
     return mp;
 }, new Map).values()];
   for(var i=0; i<values.length; i++){
-    value=value+values[i].data.price*values[i].count
+    value=value+values[i].data.rent_price*values[i].count
+  }
+  for(var i=0; i<posts.length; i++){
+    if(posts[i].data.sell_price==""){
+      value=value+posts[i].data.rent_price*posts[i].count
+    }
+    else{
+      value=value+posts[i].data.sell_price*posts[i].count
+    }
   }
     console.log(value)
     let boardGames = values.map(post => {
@@ -66,11 +73,11 @@ class Homepage extends Component{
           </Grid>
           <Grid xs={12} sm={12} lg={10}>
           <div  style={{marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>BoardGames items</h2>
                 {boardGames}
             </div>
             <div  style={{marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Posts items</h2>
                 {post}
             </div>
             <div  style={{display:'flex',marginLeft:'20px' ,flexWrap:'nowrap',boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>

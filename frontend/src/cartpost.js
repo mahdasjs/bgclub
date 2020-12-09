@@ -9,8 +9,7 @@ import Minus from '@material-ui/icons/Remove';
 import { IconButton,Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie'
-
-import {addToCart, removePostFromCart} from './actions/index'
+import {addPostToCart, removePostFromCart} from './actions/index'
 class news extends Component{
     constructor(){
         super()
@@ -41,9 +40,7 @@ class news extends Component{
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:-1,postid:this.props.data.id,
-            image:this.props.data.post_pic,name:this.props.data.bg_name,sell_price:this.props.data.sell_price,
-            rent_price:this.props.data.rent_price,number:this.props.data.number,username:Cookies.get('username')}}))
+        this.props.dispatch(addPostToCart({data:this.props.data}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
@@ -67,18 +64,23 @@ class news extends Component{
                   <Typography className='titleCart'>
                     {this.props.name}
                     </Typography>
+                    {this.props.data.sell_price!=""?
                     <Typography className='priceCart'>
-                    ${this.props.data.price}
+                    ${this.props.data.sell_price}
                     </Typography>
-                    {/* <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
-                                <Minus  style={{color:"#000"}}/>
-                    </IconButton>
-                    {this.props.count}
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
-                                <Plus  style={{color:"#000"}}/>
-                    </IconButton>
-                    </div> */}
+                    :                    <Typography className='priceCart'>
+                    ${this.props.data.rent_price}
+                    </Typography>
+                    }
+                      {this.props.data.sell_price!=""?
+                       <div className='tagstyle'>
+                       On Sell
+                     </div>
+                     :             
+                      <div className='tagstyle' style={{backgroundColor:'rgba(240, 16, 16, 0.4)'}}>
+                     On Rent
+                   </div>
+                    }
                     <div className='addAndRemoveFromCart' style={{borderRadius:100}} >
                           {this.props.count!=0?
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
