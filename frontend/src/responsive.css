@@ -44,13 +44,13 @@
 } 
 .raisedTag{
   background-color: rgba(165, 42, 42, 0.212);
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
   transition: 0.3s;
   width: 40%;
 }
 .name{
   margin-top: 15px !important;
-  font-size: 15px !important;
+  font-size: 20px !important;
   font-weight: 500 !important;
 }  
 .eventname{
@@ -137,7 +137,7 @@
   font-size: 20px !important;
   font-weight: 500 !important;
   transform: rotate(45deg);
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.555);
   border-radius: 20%;
 }
 @media(max-width:1200px){

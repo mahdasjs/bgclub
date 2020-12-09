@@ -25,23 +25,18 @@ import News from '../news'
 import Post from '../Post'
 import { connect } from 'react-redux';
 import Events from "../events";
-import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating,postData} from '../actions/index'
+import {postData} from '../actions/index'
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: "rgba(228, 233, 237, 0.4)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     flexGrow: 1,
-     //display: "flex",
-    // flexDirection: "row-reverse",
   },
   paper: {
     width: theme.spacing(86.5),
     height: theme.spacing(22),
-  
-    // backgroundColor: "rgba( 255,255,255, 0.1)",
     backgroundColor: "rgba(191, 191, 191, 0.5)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -158,7 +153,7 @@ function User({boardGames,posts,dispatch}) {
   }, []);
   const handlePlayprofile = () => {
     axios
-      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
+      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${window.location.pathname.split('/')[2]}`, {
         headers: {
           "Content-Type": "multipart/form-data",
           // Authorization: `Token ${Cookie.get("token")}`,
@@ -312,11 +307,6 @@ return (
                           }}
                             />
                           </DialogContent>
-                          {/* <DialogActions>
-                            <Button onClick={handleClosee} color="primary">
-                              save
-                            </Button>
-                          </DialogActions> */}
                         </Dialog>
                         </Paper>
                        
@@ -353,16 +343,7 @@ return (
         {boardgame}
 
         </FreeScrollBar>
-    </div>                   {/* {news
-                          .map((item) => (
-                            <News
-                              title={item.title}
-                              image={item.image}
-                              
-                            />
-                          ))
-                          } */}
-                          
+    </div>                  
                       </div>
                       <div style={{display:'flex',flexWrap:'wrap'}}>
                             {posts.map(post => {
