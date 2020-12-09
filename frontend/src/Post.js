@@ -1,11 +1,7 @@
 import React from 'react';
-import {BrowserRouter as Router, Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import headerImage from './back.jpg';
-import { connect } from 'react-redux';
-import {addToCart, removePostFromCart, addPostToCart, selectedData,counterPlus} from './actions/index'
+import {addPostToCart, selectedData,removePostFromCart} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import CartBorder from '@material-ui/icons/AddShoppingCart';
 import Cart from '@material-ui/icons/RemoveShoppingCart';
@@ -21,7 +17,9 @@ import Rating from '@material-ui/lab/Rating';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import { connect } from 'react-redux';
+
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -33,12 +31,12 @@ class boardgames extends React.Component{
         }
     }
     async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
+        const result = [...this.props.cartPost.reduce( (mp, o) => {
             if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
             mp.get(o.data.postid).count++;
             return mp;
         }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
+        const values = [...this.props.cartPost.reduce( (mp, o) => {
             if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
             mp.get(o.data.postid).count++;
             return mp;
@@ -61,7 +59,7 @@ class boardgames extends React.Component{
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:-1,postid:this.props.data.id,
+        this.props.dispatch(addPostToCart({data:{description:this.props.data.description,bgid:-1,postid:this.props.data.id,
           image:this.props.data.post_pic,name:this.props.data.bg_name,sell_price:this.props.data.sell_price,
           rent_price:this.props.data.rent_price,number:this.props.data.number,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
@@ -181,6 +179,7 @@ const mapStateToProps = (state) => {
         cartsssss:state.cartsssss,
         ratings:state.ratings,
         posts:state.posts,
+        cartPost:state.cartPost
     }
   }
   export default connect(mapStateToProps, null)(boardgames);

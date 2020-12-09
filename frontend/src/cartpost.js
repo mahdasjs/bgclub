@@ -10,7 +10,7 @@ import { IconButton,Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie'
 
-import {addToCart, removePostFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {addToCart, removePostFromCart} from './actions/index'
 class news extends Component{
     constructor(){
         super()
@@ -108,7 +108,8 @@ class news extends Component{
 const mapStateToProps = state => {
     return {
         News: state.News,
-        cartsssss:state.cartsssss
+        cartsssss:state.cartsssss,
+        cartPost:state.cartPost
     };
   };
 export default connect(mapStateToProps, null)(news);

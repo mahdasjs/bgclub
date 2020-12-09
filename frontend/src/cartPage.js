@@ -14,20 +14,23 @@ import Button from "@material-ui/core/Button";
 const mapStateToProps = state => {
   return {
       News: state.News,
-      cartsssss:state.cartsssss
+      cartsssss:state.cartsssss,
+      cartPost:state.cartPost
   };
 };
 class Homepage extends Component{
   render(){
     var value=0
     const values = [...this.props.cartsssss.reduce( (mp, o) => {
-      if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+      if (!mp.has(o.data.bgid)&&o.data.bgid!=-1)
+      mp.set(o.data.bgid, { ...o, count: 0 });
       mp.get(o.data.bgid).count++;
       return mp;
   }, new Map).values()];
-  const posts = [...this.props.cartsssss.reduce( (mp, o) => {
-    if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-    mp.get(o.data.bgid).count++;
+  const posts = [...this.props.cartPost.reduce( (mp, o) => {
+    if (!mp.has(o.data.postid)) 
+    mp.set(o.data.postid, { ...o, count: 0 });
+    mp.get(o.data.postid).count++;
     return mp;
 }, new Map).values()];
   for(var i=0; i<values.length; i++){
