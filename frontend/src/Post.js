@@ -33,14 +33,14 @@ class boardgames extends React.Component{
         }
     }
     async count(){
-        const result = [...this.props.cartPost.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+        const result = [...this.props.cartsssss.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
             return mp;
         }, new Map).keys()];
-        const values = [...this.props.cartPost.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+        const values = [...this.props.cartsssss.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -60,9 +60,10 @@ class boardgames extends React.Component{
         await this.setState({rate:value/counter})
     }
     handleAdd=(e)=>{
-
         this.count();
-        this.props.dispatch(addPostToCart({data:this.props.data}))
+        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:-1,postid:this.props.data.id,
+          image:this.props.data.post_pic,name:this.props.data.bg_name,sell_price:this.props.data.sell_price,
+          rent_price:this.props.data.rent_price,number:this.props.data.number,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
@@ -73,9 +74,7 @@ class boardgames extends React.Component{
     }
 
     componentDidMount(){
-      console.log(this.props.cartPost)
       console.log(this.props.cartsssss)
-
         this.count()
     }
     
@@ -182,7 +181,6 @@ const mapStateToProps = (state) => {
         cartsssss:state.cartsssss,
         ratings:state.ratings,
         posts:state.posts,
-        cartPost:state.cartPost
     }
   }
   export default connect(mapStateToProps, null)(boardgames);
