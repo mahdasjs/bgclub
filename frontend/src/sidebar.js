@@ -120,7 +120,7 @@ class PersistentDrawerLeft extends React.Component {
                           >
                             Homepage
                             </Typography>              </ListItem>
-              <ListItem button key={'Profile'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/user'} >
+              <ListItem button key={'Profile'} style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/user/'+Cookie.get('userid')} >
                 <ListItemIcon>
                 <Avatar
                                   style={{width:30,height:30}}
@@ -208,7 +208,7 @@ class PersistentDrawerLeft extends React.Component {
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                    <Route path="/producers" component={Producers} />
                    <Route path="/cafes" component={Cafes} />
-                    <Route path="/user" exact component={User} />
+                    <Route path="/user/:id" exact component={User} />
                     <Route path="/boardgames"  component={Boardgames} />
                     <Route path="/search" exact component={Search}/>
                     <Route path="/cart" exact component={CartPage}/>
