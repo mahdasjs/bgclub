@@ -39,16 +39,18 @@
 .bgname{
   font-size: 39px !important;
   font-weight: 500 !important;
+  text-align: justify;
+
 } 
 .raisedTag{
   background-color: rgba(165, 42, 42, 0.212);
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.212);
   transition: 0.3s;
   width: 40%;
 }
 .name{
   margin-top: 15px !important;
-  font-size: 15px !important;
+  font-size: 20px !important;
   font-weight: 500 !important;
 }  
 .eventname{
@@ -68,6 +70,7 @@
   font-size: 20px !important;
   font-weight: 500 !important;
   color: dimgrey !important;
+  text-align: justify;
 }
 .boardgames{
   margin-left: 20px !important;
@@ -134,8 +137,19 @@
   font-size: 20px !important;
   font-weight: 500 !important;
   transform: rotate(45deg);
-  background-color: yellow;
-  border-radius: 20%;
+  background-color: rgba(255, 255, 0, 0.555);
+  border-radius: 50%;
+}
+.carttagstyle{
+  position: absolute;
+  min-width: 80px !important;
+  min-height: 33px !important;
+  margin-top: 17px !important;
+  margin-left: 420px;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  background-color: rgba(255, 255, 0, 0.555);
+  border-radius: 50%;
 }
 @media(max-width:1200px){
     .news{

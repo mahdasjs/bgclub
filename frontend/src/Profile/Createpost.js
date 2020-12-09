@@ -12,7 +12,9 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Cookie from 'js-cookie'
+import Cookie from 'js-cookie';
+import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating,postData} from '../actions/index'
+
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -105,6 +107,7 @@ export default class Create extends React.Component {
           console.log(response)
           this.props.onSuccessFullySave();
           this.props.onCreate();
+          this.props.dispatch(postData(window.location.pathname.split('/')[2]))
             })
             .catch((error) => {
               

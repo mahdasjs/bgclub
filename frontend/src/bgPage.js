@@ -18,7 +18,7 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-
+import Cookies from 'js-cookie'
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -31,13 +31,16 @@ class boardgames extends React.Component{
     }
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+            if (!mp.has(o.data.bgid) ) mp.set(o.data.bgid, { ...o, count: 0 });
+            mp.get(o.data.bgid).count++;
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+            if(Cookies.get('username')==o.data.username)
+            {
+                mp.get(o.data.bgid).count++;
+            }
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -58,17 +61,19 @@ class boardgames extends React.Component{
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:this.props.data}))
+        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:this.props.data.id,postid:-1,
+        image:this.props.data.image,name:this.props.data.name,sell_price:this.props.data.price,
+        rent_price:this.props.data.price,number:0,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
         this.count();
         this.props.dispatch(removeFromCart(this.props.id))
         this.setState({count:this.state.count-1})
-
     }
 
     componentDidMount(){
+        console.log(this.props.cartsssss)
         this.count()
     }
     

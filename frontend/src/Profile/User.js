@@ -25,22 +25,18 @@ import News from '../news'
 import Post from '../Post'
 import { connect } from 'react-redux';
 import Events from "../events";
+import {postData} from '../actions/index'
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: "rgba(228, 233, 237, 0.4)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     flexGrow: 1,
-     //display: "flex",
-    // flexDirection: "row-reverse",
   },
   paper: {
     width: theme.spacing(86.5),
     height: theme.spacing(22),
-  
-    // backgroundColor: "rgba( 255,255,255, 0.1)",
     backgroundColor: "rgba(191, 191, 191, 0.5)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -101,7 +97,7 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-function User({boardGames}) {
+function User({boardGames,posts,dispatch}) {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
@@ -125,12 +121,14 @@ function User({boardGames}) {
     setOpenEvent(true);
    }
    const handleClosee = () => {
+    dispatch(postData(window.location.pathname.split('/')[2]))
     setOpenn(false);
   };
   const handleCloseEvent = () => {
     setOpenEvent(false);
   };
     useEffect(() => {
+        dispatch(postData(window.location.pathname.split('/')[2]))
         handleClickOpen();
     }, []);
     const handleClickOpen = (scrollType) => () => {
@@ -138,6 +136,7 @@ function User({boardGames}) {
         setScroll(scrollType);
       };
       const handleClose = () => {
+        dispatch(postData(window.location.pathname.split('/')[2]))
         setOpen(false);
       };
       const descriptionElementRef = React.useRef(null);
@@ -154,7 +153,7 @@ function User({boardGames}) {
   }, []);
   const handlePlayprofile = () => {
     axios
-      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
+      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${window.location.pathname.split('/')[2]}`, {
         headers: {
           "Content-Type": "multipart/form-data",
           // Authorization: `Token ${Cookie.get("token")}`,
@@ -308,11 +307,6 @@ return (
                           }}
                             />
                           </DialogContent>
-                          {/* <DialogActions>
-                            <Button onClick={handleClosee} color="primary">
-                              save
-                            </Button>
-                          </DialogActions> */}
                         </Dialog>
                         </Paper>
                        
@@ -349,22 +343,13 @@ return (
         {boardgame}
 
         </FreeScrollBar>
-    </div>                   {/* {news
-                          .map((item) => (
-                            <News
-                              title={item.title}
-                              image={item.image}
-                              
-                            />
-                          ))
-                          } */}
-                          
+    </div>                  
                       </div>
                       <div style={{display:'flex',flexWrap:'wrap'}}>
-                            {boardGames.map(post => {
+                            {posts.map(post => {
       return <Post
         id={post.id}
-        name={post.name}
+        name={post.bg_name}
         data={post}
         />;
     })}
@@ -381,7 +366,9 @@ return (
     cartsssss:state.cartsssss,
     comments:state.comments,
     ratings:state.ratings,
-    boardGames:state.boardGames
+    boardGames:state.boardGames,
+    posts:state.posts
+
   }
 }
 export default connect(mapStateToProps)(User);

@@ -29,7 +29,7 @@ function App() {
                 {Cookie.get('token')!==undefined?
                                 <div>
 
-                <Route path="/user" exact component={User}>
+                <Route path="/user/:id" exact component={User}>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>

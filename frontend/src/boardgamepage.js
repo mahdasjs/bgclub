@@ -62,13 +62,19 @@ class boardgames extends React.Component{
       }
       async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+            if(cookie.get('username')==o.data.username)
+            {
+                mp.get(o.data.bgid).count++;
+            }
             return mp;
             }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+            if(cookie.get('username')==o.data.username)
+            {
+                mp.get(o.data.bgid).count++;
+            }
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){

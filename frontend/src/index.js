@@ -1,22 +1,3 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import './index.css';
-// import App from './App';
-// import * as serviceWorker from './serviceWorker';
-// import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-// import store from './store/store'
-// import {Provider} from 'react-redux';
-// ReactDOM.render(
-//   <Provider store={store}>
-//   <MuiThemeProvider>
-//     <App />
-//   </MuiThemeProvider>
-//   </Provider>,
-
-//   document.getElementById('root')
-// );
-
-// serviceWorker.unregister();
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -28,7 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { addToCart, bgData, fetchData, resultData,selectedData } from './actions';
+import { addToCart, bgData, fetchData, postData, resultData,selectedData } from './actions';
 
 
 const saveState = (state) => {
@@ -54,15 +35,18 @@ store.dispatch(fetchData());
 store.dispatch(bgData());
 store.dispatch(resultData());
 store.dispatch(selectedData());
+store.dispatch(postData());
 
 store.subscribe(() => {
   saveState({
     boardGames: store.getState().boardGames,
     selections: store.getState().selections,
-    cartsssss:store.getState().cartsssss,
     counter:store.getState().counter,
     comments:store.getState().comments,
-    ratings:store.getState().ratings
+    ratings:store.getState().ratings,
+    posts:store.getState().posts,
+    cartPost:store.getState().cartPost,
+    cartsssss:store.getState().cartsssss,
   })
 })
 

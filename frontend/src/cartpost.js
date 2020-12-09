@@ -9,7 +9,7 @@ import Minus from '@material-ui/icons/Remove';
 import { IconButton,Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie'
-import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {addPostToCart, removePostFromCart} from './actions/index'
 class news extends Component{
     constructor(){
         super()
@@ -21,19 +21,13 @@ class news extends Component{
     }
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(Cookies.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(Cookies.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -41,16 +35,19 @@ class news extends Component{
                 await this.setState({count:values[i].count})
             }
         }
+        var value=0
+        var counter=0
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:this.props.data}))
+        this.props.dispatch(addPostToCart({data:this.props.data}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
         this.count();
-        this.props.dispatch(removeFromCart(this.props.id))
+        this.props.dispatch(removePostFromCart(this.props.id))
         this.setState({count:this.state.count-1})
+
     }
 
     render(){
@@ -67,18 +64,23 @@ class news extends Component{
                   <Typography className='titleCart'>
                     {this.props.name}
                     </Typography>
+                    {this.props.data.sell_price!=""?
                     <Typography className='priceCart'>
                     ${this.props.data.sell_price}
                     </Typography>
-                    {/* <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
-                                <Minus  style={{color:"#000"}}/>
-                    </IconButton>
-                    {this.props.count}
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
-                                <Plus  style={{color:"#000"}}/>
-                    </IconButton>
-                    </div> */}
+                    :                    <Typography className='priceCart'>
+                    ${this.props.data.rent_price}
+                    </Typography>
+                    }
+                      {this.props.data.sell_price!=""?
+                       <div className='carttagstyle'>
+                       On Sell
+                     </div>
+                     :             
+                      <div className='carttagstyle' style={{backgroundColor:'rgba(240, 16, 16, 0.4)'}}>
+                     On Rent
+                   </div>
+                    }
                     <div className='addAndRemoveFromCart' style={{borderRadius:100}} >
                           {this.props.count!=0?
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
@@ -108,7 +110,8 @@ class news extends Component{
 const mapStateToProps = state => {
     return {
         News: state.News,
-        cartsssss:state.cartsssss
+        cartsssss:state.cartsssss,
+        cartPost:state.cartPost
     };
   };
 export default connect(mapStateToProps, null)(news);
