@@ -13,6 +13,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Cookie from 'js-cookie';
+import {eventsData} from './actions/index'
 
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import {
@@ -93,6 +94,8 @@ export default class Create extends React.Component {
           console.log(response)
           this.props.onSuccessFullySave();
           this.props.onCreate();
+          this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
+
             })
             .catch((error) => {
               

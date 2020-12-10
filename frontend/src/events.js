@@ -52,7 +52,7 @@ class boardgames extends React.Component{
                                 e.preventDefault();
                                 window.location.href='/eventpage/' + this.props.id;
                                 }}
-                        src={this.props.data.image}
+                        src={this.props.data.event_pic}
                         style={{
                           display:'block',
                           maxWidth:'100%',
@@ -63,15 +63,15 @@ class boardgames extends React.Component{
                         <div style={{flexWrap:'nowrap'}}> 
                                           <Typography className='eventname' style={{marginLeft:12}}>
 
-                        {this.props.name.substring(0,15)} ...
+                        {this.props.data.title.substring(0,15)}
                         </Typography>
                         <Typography style={{marginLeft:12,marginTop:10,fontSize:13,fontWeight:500}}>
 
-starts at 18 november
+starts at {this.props.data.event_date}
 </Typography>
 <div style={{display:'flex',flexWrap:'nowrap'}}>
 <Typography style={{marginLeft:12,marginTop:15,fontSize:11,fontWeight:400}}>
-    18:40 am
+{this.props.data.event_time}
 </Typography>
 <Button
                         style={{marginTop:10,marginLeft:25}}

@@ -2,7 +2,7 @@ import { ADD_FETCHED_DATA,
     ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
-    ,REMOVE_POST_FROM_CART } from './types.js';
+    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA } from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi} from '../api/apis'
 
@@ -66,6 +66,23 @@ export const postData = (id) => {
             .then(data => {
                 dispatch({
                     type: ADD_POST_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const eventsData = (id) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:8000/api/v1/events/list/${id}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_EVENT_DATA,
                     payload: data
                 })
             })
