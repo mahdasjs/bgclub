@@ -9,6 +9,7 @@ import commentReducer from './commenReducer'
 import ratingReducer from './ratingReducer'
 import postReducer from './postReducer'
 import eventsReducer from './eventReducer'
+import selectEventReducer from './selectEventreducer copy'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
@@ -19,5 +20,6 @@ export default combineReducers({
     cartsssss:cartReducer,
     posts:postReducer,
     events:eventsReducer,
-    cartPost:cartPstReducer
+    cartPost:cartPstReducer,
+    selectEvent:selectEventReducer
 });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating} from './actions/index'
+import {selectedEventData,addToCart,removeFromCart,addComment, addRating, checkRating} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -110,7 +110,8 @@ class eventpage extends React.Component{
       this.setState({openMemberPopUp: !this.state.openMemberPopUp})
     }
     componentDidMount(){
-        this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
+
+        this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
         this.count()
     }
     render(){
@@ -143,7 +144,7 @@ class eventpage extends React.Component{
                 <Grid xs={12} sm={12} lg={5}
                   style={{backgroundColor:'#fff' ,marginTop:'30px',marginLeft:30}} >            
                     <img
-                    src={this.props.select.image}
+                    src={this.props.selectEvent.event_pic}
                     style={{
                       maxWidth:'100%',
                       height:'auto',
@@ -154,13 +155,13 @@ class eventpage extends React.Component{
                 <Grid xs={12} sm={12} lg={6}
                       style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px'}} >
                    <Typography className='bgname'>
-                      {this.props.select.name}
+                      {this.props.selectEvent.title}
                     </Typography>
                     <Typography >
-                        by username
+                        by mohadese
                     </Typography>
                      <Typography className='bgdescription'>
-                        {this.props.select.description}
+                        {this.props.selectEvent.description}
                       </Typography>
                   </Grid>
                   <Grid xs={12} sm={12} lg={12} style={{display:'flex',flexWrap:'nowrap',marginLeft:30,marginTop:20}}>
@@ -348,7 +349,9 @@ const mapStateToProps = (state) => {
       select: state.select,
       cartsssss:state.cartsssss,
       comments:state.comments,
-      ratings:state.ratings
+      ratings:state.ratings,
+      selectEvent:state.selectEvent
+
     }
   }
 export default connect(mapStateToProps, null)(eventpage);

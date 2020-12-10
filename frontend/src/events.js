@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { connect } from 'react-redux';
-import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {selectedEventData, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import { IconButton,Box } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -30,7 +30,7 @@ class boardgames extends React.Component{
         return(
             <div style={{marginLeft:45}}>
                 <Card       
-                    onClick={()=>this.props.dispatch(selectedData(this.props.id))}  
+                    onClick={()=>this.props.dispatch(selectedEventData(this.props.id))}  
                     style={{marginTop:15, maxWidth:280,minWidth:280,height:'auto',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} >
                               <CardHeader
           avatar={
@@ -94,7 +94,8 @@ const mapStateToProps = (state) => {
     return {
         select: state.select,
         cartsssss:state.cartsssss,
-        ratings:state.ratings
+        ratings:state.ratings,
+        selectEvent:state.selectEvent
     }
   }
   export default connect(mapStateToProps, null)(boardgames);
