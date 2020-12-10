@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Create from "./Createpost";
-import CreateEvent from "../createEvent";
 import "./Profile.css";
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -23,20 +22,22 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
-import { connect } from 'react-redux';
-import Events from "../events";
-import {postData} from '../actions/index'
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    // backgroundColor: "rgba(228, 233, 237, 0.4)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     flexGrow: 1,
+     //display: "flex",
+    // flexDirection: "row-reverse",
   },
   paper: {
     width: theme.spacing(86.5),
     height: theme.spacing(22),
+  
+    // backgroundColor: "rgba( 255,255,255, 0.1)",
     backgroundColor: "rgba(191, 191, 191, 0.5)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -97,38 +98,34 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-function User({boardGames,posts,dispatch}) {
+export default function User() {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
-    const [openEvent, setOpenEvent] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
+    const [post, setPost] = useState([]);
     let [state, setState] = useState({
       username: null,
       firstname: null,
       id: null,
       userid: Cookie.get("userid"),
       imagee: null,
+    });
+    let [profilepic, setProfilepic] = useState({
+      imagee: null,
       header:null,
     });
     const handleClickOpenn = () => {
     setOpenn(true);
    }
-   const handleClickOpenEvent = () => {
-    setOpenEvent(true);
-   }
    const handleClosee = () => {
-    dispatch(postData(window.location.pathname.split('/')[2]))
     setOpenn(false);
   };
-  const handleCloseEvent = () => {
-    setOpenEvent(false);
-  };
     useEffect(() => {
-        dispatch(postData(window.location.pathname.split('/')[2]))
         handleClickOpen();
     }, []);
     const handleClickOpen = (scrollType) => () => {
@@ -136,7 +133,6 @@ function User({boardGames,posts,dispatch}) {
         setScroll(scrollType);
       };
       const handleClose = () => {
-        dispatch(postData(window.location.pathname.split('/')[2]))
         setOpen(false);
       };
       const descriptionElementRef = React.useRef(null);
@@ -153,24 +149,58 @@ function User({boardGames,posts,dispatch}) {
   }, []);
   const handlePlayprofile = () => {
     axios
-      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${window.location.pathname.split('/')[2]}`, {
+      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          // Authorization: `Token ${Cookie.get("token")}`,
+          Authorization: `Token ${Cookie.get("token")}`,
         },
       })
       .then((res) => {
         setState({
-          header:res.data.header_picture,
           imagee: res.data.profile_picture,
           username: res.data.username,
           firstname: res.data.first_name,
         });
-        setLoading(false);
-        console.log(state.imagee);
       })
       .catch((error) => {});
   };
+  useEffect(() => {
+    handleprofilepic();
+  }, []);
+  const handleprofilepic = () => {
+    axios
+      .get(`http://localhost:8000/api/v1/accounts/users/profile/${userid}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Token ${Cookie.get("token")}`,
+        },
+      })
+      .then((res) => {
+        setProfilepic({
+          imagee: res.data.profile_picture,
+          header:res.data.profile_header_picture,
+        });
+      })
+      .catch((error) => {});
+  };
+  useEffect(() => {
+    handlePosts();
+  }, []);
+  const handlePosts = () => {
+      axios
+        .get(`http://localhost:8000/api/v1/posts/profile/list/${userid}`, {
+          headers: {
+            "Content-type": "multipart/form-data",
+            'Authorization':`Token ${Cookie.get('token')}`
+          },
+        })
+        .then((res) => {
+          setPost(res.data);
+          console.log(res.data)
+        })
+        .catch((error) => {});
+    };
   useEffect(() => {
     handleNews();
   }, []);
@@ -187,13 +217,7 @@ function User({boardGames,posts,dispatch}) {
       setLoading(false);
     });
   };
-   const boardgame=boardGames.map(post => {
-    return <Events
-      id={post.id}
-      name={post.name}
-      data={post}
-      />;
-  })     
+   
 return (
     <div className="pro">
 
@@ -212,9 +236,9 @@ return (
                 
               >
                 
-                      <Paper elevation={3} style={{backgroundImage:` url(${state.header})`,}}className={classes.paper}>
+                      <Paper elevation={3} style={{backgroundImage:` url(${profilepic.header})`,}}className={classes.paper}>
                         <Avatar
-                          src={state.imagee}
+                          src={profilepic.imagee}
                           // style={{marginTop:-104,marginLeft:-34}}
                           className={classes.large}
                         ></Avatar>
@@ -278,6 +302,7 @@ return (
                           <Create
                           onSuccessFullySave={() => {
                             handleClosee();
+                            handlePosts();
                           }}
                             />
                           </DialogContent>
@@ -287,27 +312,7 @@ return (
                             </Button>
                           </DialogActions> */}
                         </Dialog>
-                        <Dialog
-                                  style={{zIndex:100000000}}
-                          open={openEvent}
-                          onClose={handleCloseEvent}
-                          PaperComponent={PaperComponent}
-                          aria-labelledby="draggable-dialog-title"
-                        >
-                          <DialogTitle
-                            style={{ cursor: "move" ,textAlign:"center"}}
-                            id="draggable-dialog-title"
-                          >
-                            Hold an event
-                          </DialogTitle>
-                          <DialogContent>
-                          <CreateEvent
-                          onSuccessFullySave={() => {
-                            handleCloseEvent();
-                          }}
-                            />
-                          </DialogContent>
-                        </Dialog>
+          
                         </Paper>
                        
                   <Dialog
@@ -320,39 +325,34 @@ return (
                         >
                           <DialogTitle id="scroll-dialog-title">Edit Profile</DialogTitle>
                           <DialogContent dividers={scroll === "paper"}>
-                            <Edit />
+                            <Edit 
+                             onSuccessFullySave={() => {
+                              handleClose();
+                              handlePlayprofile();
+                              handleprofilepic();
+                            }}
+                             />
                           </DialogContent>
                         </Dialog>
                         <div>
                         
       </div>
-      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '100%'}} >
-      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1,marginLeft:5 }}>Events </h2>
-      <Button
-                        style={{marginTop:"-70px",marginLeft: "167px"}}
-        variant="contained"
-        size="small"
-        color="primary"
-        onClick={handleClickOpenEvent}
-        className={classes.eventButton}
-      >
-      create event
-      </Button>
-      <div style={{marginLeft:-40,marginTop:-20, height: '100%'}}>
-        <FreeScrollBar>
-        {boardgame}
-
-        </FreeScrollBar>
-    </div>                  
+      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
+      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1 }}>News </h2>
+                         
+                        {news
+                          .map((item) => (
+                            <News
+                              title={item.title}
+                              image={item.image}
+                              
+                            />
+                          ))
+                          }
+                          
                       </div>
-                      <div style={{display:'flex',flexWrap:'wrap'}}>
-                            {posts.map(post => {
-      return <Post
-        id={post.id}
-        name={post.bg_name}
-        data={post}
-        />;
-    })}
+                      <div>
+                          <Post/>
                         </div>
                         </Grid>
                         
@@ -360,15 +360,3 @@ return (
        </div>
     );
  }
- function mapStateToProps  (state) {
-  return {
-    select: state.select,
-    cartsssss:state.cartsssss,
-    comments:state.comments,
-    ratings:state.ratings,
-    boardGames:state.boardGames,
-    posts:state.posts
-
-  }
-}
-export default connect(mapStateToProps)(User);

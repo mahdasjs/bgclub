@@ -43,8 +43,10 @@
   margin-left: 65px;
 }
 .description1{
-  margin-left: 20px;
+  margin-left: 70px;
+  width: 160px !important;
 }
+
 .profile {
   position: absolute;
   width: 59%;

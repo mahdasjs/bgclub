@@ -4,10 +4,10 @@ import boardGamesReducer from './boardGamesReducer';
 import resultsReducer from './resultsReducer'
 import selectionreducer from './selectionreducer'
 import cartReducer from './cartReducer';
-import cartPstReducer from './cartPost';
+import counterReducer from './counterLength'
+import cartPage from '../cartPage';
 import commentReducer from './commenReducer'
 import ratingReducer from './ratingReducer'
-import postReducer from './postReducer'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
@@ -15,7 +15,7 @@ export default combineReducers({
     select:selectionreducer,
     comments:commentReducer,
     ratings:ratingReducer,
+    counter:counterReducer,
     cartsssss:cartReducer,
-    posts:postReducer,
-    cartPost:cartPstReducer
+    // cart:cartReducer
 });
