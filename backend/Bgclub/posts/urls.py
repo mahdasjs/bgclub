@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('profile/list/<int:user_id>', views.ProfilePostListAPIView.as_view()),
      path('profile/create/', views.ProfilePostCreateAPIView.as_view()),
+     path('profile/<int:pk>', views.ProfilePostRetrieveDestroyAPIView.as_view()),
 ]

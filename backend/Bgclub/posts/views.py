@@ -31,3 +31,8 @@ class ProfilePostListAPIView(generics.ListAPIView):
 		queryset = Post.objects.filter(user = user)
 		return queryset.order_by('-date')
 
+
+class ProfilePostRetrieveDestroyAPIView(generics.RetrieveDestroyAPIView):
+    serializer_class = ListPostSerializer
+    queryset = Post.objects.all()
+

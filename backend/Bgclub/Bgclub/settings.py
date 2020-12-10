@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'accounts',
     'posts',
+    'events',
 ]
 
 SITE_ID = 1
