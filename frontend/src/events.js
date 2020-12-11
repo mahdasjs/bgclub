@@ -2,15 +2,17 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { connect } from 'react-redux';
-import {selectedEventData, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {selectedEventData, eventsData, saveSelectValue, selectedData,counterPlus} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import { IconButton,Box } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 import Button from '@material-ui/core/Button';
-
+import axios from 'axios'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -20,13 +22,30 @@ class boardgames extends React.Component{
             count:0,
             rate:0,
             limitation:10,
+            anchorEl: null,
         }
     }
-
+    handleClick = event => {
+      this.setState({ anchorEl: event.currentTarget });
+    };
+    handleClose = () => {
+      this.setState({ anchorEl: null });
+    };
+    handelDelPost=()=>{
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then( ()=>this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
+    )
+      this.handleClose()
+    }
     componentDidMount(){
     }
     
     render(){
+      const { anchorEl } = this.state;
+      const open = Boolean(anchorEl);
         return(
             <div style={{marginLeft:45}}>
                 <Card       
@@ -39,11 +58,20 @@ class boardgames extends React.Component{
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings" style={{marginLeft:80}} >
+            <div>
+            <IconButton aria-label="settings"  onClick={this.handleClick}>
               <MoreVertIcon />
             </IconButton>
+             <Menu
+                                           anchorEl={anchorEl}
+                                           open={open}
+                                           onClose={this.handleClose}
+                                         >
+                                           <MenuItem onClick={this.handelDelPost}>Delete</MenuItem>
+                                         </Menu>
+                                         </div>
           }
-          title={Cookies.get('username')}
+          title={this.props.data.user.username}
         />
                     <CardContent style={{marginTop:-20 }}>
                         <div style={{display:'flex',flexWrap:'nowrap'}}> 
