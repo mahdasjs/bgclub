@@ -71,7 +71,7 @@ class boardgames extends React.Component{
         var counter=0
         const ratingValues = [...this.props.ratings.values()];
         for(var i=0; i<ratingValues.length; i++){
-          if(ratingValues[i].data.id===this.props.id){
+          if(ratingValues[i].data.id===JSON.stringify (this.props.id)){
             counter++
             value=value+parseFloat (ratingValues[i].data.rate)
           }
@@ -138,7 +138,7 @@ class boardgames extends React.Component{
       })
       .catch((error) => {});
 
-      console.log(this.props.cartsssss)
+      console.log(this.props.ratings)
         this.count()
     }
     handelEditPost=()=>{
