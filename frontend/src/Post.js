@@ -8,7 +8,7 @@ import Cookie from 'js-cookie';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
 import Checkbox from '@material-ui/core/Checkbox';
-import Create from "./Profile/Createpost";
+import Create from "./editPost";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -34,8 +34,14 @@ class boardgames extends React.Component{
             anchorEl: null,
             openAdd:false,
             value:'sell',
-            openEdit:false
-
+            openEdit:false,
+            id: "",
+            bg_name: "",
+            price: '',
+            description:"",
+            post_pic: '',
+            number:'',
+            value:'sell'
         }
     }
     async count(){
@@ -100,21 +106,20 @@ class boardgames extends React.Component{
     )
       this.handleClose()
     }
-    handelEditPost=()=>{
-      this.setState({openEdit:true})
-    }
     componentDidMount(){
       axios
       .get(`http://localhost:8000/api/v1/posts/profile/${this.props.id}`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Token " + Cookies.get('tokn'),
+          Authorization: "Token " + Cookies.get('token'),
         },
       })
       .then((res) => {
+        console.log(res)
         if(res.data.sell_price==""){
           this.setState({
             price: res.data.rent_price,
+            value:'rent'
           });
         }
         else{
@@ -123,6 +128,7 @@ class boardgames extends React.Component{
           });
         }
         this.setState({
+          id:res.data.id,
           bg_name: res.data.bg_name,
           description: res.data.description,
           post_pic: res.data.post_pic,
@@ -131,14 +137,51 @@ class boardgames extends React.Component{
         });
       })
       .catch((error) => {});
-   
+
       console.log(this.props.cartsssss)
         this.count()
     }
+    handelEditPost=()=>{
+      this.handleClose()
+      console.log(this.state.bg_name)
+      this.setState({openEdit:true})
+    }
     handleClosee = () => {
+      axios
+      .get(`http://localhost:8000/api/v1/posts/profile/${this.props.id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Token " + Cookies.get('token'),
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        if(res.data.sell_price==""){
+          this.setState({
+            price: res.data.rent_price,
+            value:'rent'
+          });
+        }
+        else{
+          this.setState({
+            price: res.data.sell_price,
+          });
+        }
+        this.setState({
+          id:res.data.id,
+          bg_name: res.data.bg_name,
+          description: res.data.description,
+          post_pic: res.data.post_pic,
+          number: res.data.number,
+        
+        });
+      })
+      .catch((error) => {});
+
       this.props.dispatch(postData(window.location.pathname.split('/')[2]))
       this.setState({openEdit:false})
     };
+    
     render(){
       const { anchorEl } = this.state;
       const open = Boolean(anchorEl);
@@ -155,7 +198,7 @@ class boardgames extends React.Component{
             </Avatar>
           }
           action={
-            <div>
+            <div> 
             <IconButton aria-label="settings"  onClick={this.handleClick}>
               <MoreVertIcon />
             </IconButton>
@@ -262,6 +305,13 @@ class boardgames extends React.Component{
                           onSuccessFullySave={() => {
                             this.handleClosee();
                           }}
+                          id={this.state.id}
+                          bg_name={this.state.bg_name}
+                          description={this.state.description}
+                          price={this.state.price}
+                          postpic={this.state.post_pic}
+                          number={this.state.number}
+                          value={this.state.value}
                             />
                           </DialogContent>
                           {/* <DialogActions>

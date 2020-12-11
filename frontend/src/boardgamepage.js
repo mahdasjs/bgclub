@@ -132,7 +132,7 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={5}
                   style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >            
                     <img
-                    src={this.props.select.image}
+                    src={this.props.select.post_pic}
                     style={{
                       justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                       maxWidth:'100%',
@@ -144,7 +144,7 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={6}
                       style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
                    <Typography className='bgname'>
-                      {this.props.select.name}
+                      {this.props.select.bg_name}
                     </Typography>
                     <Typography className='bgprice'>
                     ${this.props.select.price}
