@@ -85,6 +85,8 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     backgroundColor: "rgba(228, 233, 237, 0.5)",
+    left: 85,
+    
   },
 }));
 function PaperComponent(props) {
@@ -107,6 +109,9 @@ function User({events,posts,dispatch}) {
     const [loading, setLoading] = React.useState(true);
     const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
+    const [uuuser, setUser] = useState({ user: "" });
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState([]);
     let [state, setState] = useState({
       username: null,
       firstname: null,
@@ -154,6 +159,50 @@ function User({events,posts,dispatch}) {
       }
     }
   }, [open]);
+  useEffect(() => {
+    const userList = () => {
+      axios
+        .get("http://localhost:8000/api/v1/accounts/users/", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${Cookie.get("token")}`,
+          },
+        })
+        .then((res) => {
+          if (users == [null]) {
+            setUsers([]);
+          } else {
+            setUsers(res.data);
+            console.log(res.data)
+          }
+        })
+        .catch((error) => {});
+    };
+    userList();
+  }, []);
+  const searchUsers = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:8000/api/v1/accounts/users/?search=${uuuser.user}`,
+        {
+          headers: {
+            Authorization: `Token ${Cookie.get("token")}`,
+          },
+        }
+      );
+      if (search == [null]) {
+        setSearch([]);
+      } else {
+        setSearch(result.data);
+      }
+    } catch (err) {}
+  };useEffect(() => {
+    searchUsers();
+  }, [uuuser]);
+
+  useEffect(() => {
+    handlePlayprofile();
+  }, []);
   useEffect(() => {
     handlePlayprofile();
   }, []);
