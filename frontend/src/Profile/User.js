@@ -105,12 +105,16 @@ function User({events,posts,dispatch}) {
     const [openn, setOpenn] = React.useState(false);
     const [openEvent, setOpenEvent] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
     let [state, setState] = useState({
       username: null,
       firstname: null,
       id: null,
       userid: Cookie.get("userid"),
+      imagee: null,
+    });
+    let [profilepic, setProfilepic] = useState({
       imagee: null,
       header:null,
     });
@@ -153,6 +157,26 @@ function User({events,posts,dispatch}) {
   useEffect(() => {
     handlePlayprofile();
   }, []);
+  useEffect(() => {
+    handleprofilepic();
+  }, []);
+  const handleprofilepic = () => {
+    axios
+      .get(`http://localhost:8000/api/v1/accounts/users/profile/${userid}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Token ${Cookie.get("token")}`,
+        },
+      })
+      .then((res) => {
+        setProfilepic({
+          imagee: res.data.profile_picture,
+          header:res.data.profile_header_picture,
+        });
+      })
+      .catch((error) => {});
+  };
   const handlePlayprofile = () => {
     axios
       .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${window.location.pathname.split('/')[2]}`, {
