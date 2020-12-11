@@ -1,72 +1,129 @@
-import React, { Component } from "react";
-import HorizontalScroll from 'react-scroll-horizontal'
-import Axios from "axios";
-import BgPage from './bgPage';
-import { Grid, hexToRgb } from "@material-ui/core";
-import Navbar from './navbar';
+import React from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import { connect } from 'react-redux';
-import News from './news'
-import FreeScrollBar from 'react-free-scrollbar';
-
-const mapStateToProps = state => {
-  return {
-      boardGames: state.boardGames,
-      News: state.News,
-
-  };
-};
-
-class Homepage extends Component{
-  render(){
-    let boardGames = this.props.boardGames.map(post => {
-      return <BgPage
-        name={post.name}
-        id={post.id}
-        data={post}
-        />;
-    });
-    let news = this.props.News.map((term, index)=>{
-      return<News
-      title={term.title}
-      image={term.image}
-      />
-    })
-    return(
-      <div className='homepage'>
-        <Grid container >
-        <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
-          </Grid>
-          <Grid xs={12} sm={12} lg={10}>
-          <div className='boardgames' >
-
-          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>List of boardgames </h2>
-
-            <div style={{display:'flex',flexWrap:'wrap'}}>
-          {boardGames}
-          </div>
-          </div>
-
-          </Grid>
-          <Grid xs={12} sm={12} lg={2}>
-          <div className="news" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:20,paddingLeft:10 , width: '23%', height: '100%'}}>
-          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>News </h2>
-
-                <FreeScrollBar  >
-                  {news}
-                </FreeScrollBar>
-          </div>
-          <div className="newsprime" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', marginTop:70,marginLeft:20,paddingLeft:10 , width: '100%', height: '500px',marginBottom:'100px'}}>
-          <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>News </h2>
-
-                <FreeScrollBar  >
-                  {news}
-                </FreeScrollBar>
-          </div>
-          </Grid>
-        </Grid>
-      </div>
+import {selectedEventData, eventsData, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import Typography from '@material-ui/core/Typography';
+import { IconButton,Box } from '@material-ui/core';
+import CardHeader from '@material-ui/core/CardHeader';
+import Avatar from '@material-ui/core/Avatar';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Cookie from 'js-cookie';
+import Button from '@material-ui/core/Button';
+import axios from 'axios'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+class boardgames extends React.Component{
+    constructor(){
+        super()
+        this.state={
+            checkCart:false,
+            counter:[],
+            count:0,
+            rate:0,
+            limitation:10,
+            anchorEl: null,
+        }
+    }
+    handleClick = event => {
+      this.setState({ anchorEl: event.currentTarget });
+    };
+    handleClose = () => {
+      this.setState({ anchorEl: null });
+    };
+    handelDelPost=()=>{
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then( ()=>this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
     )
-  }
-}
+      this.handleClose()
+    }
+    componentDidMount(){
+    }
+    
+    render(){
+      const { anchorEl } = this.state;
+      const open = Boolean(anchorEl);
+        return(
+            <div style={{marginLeft:45}}>
+                <Card       
+                    onClick={()=>this.props.dispatch(selectedEventData(this.props.id))}  
+                    style={{marginTop:15, maxWidth:280,minWidth:280,height:'auto',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} >
+                              <CardHeader
+          avatar={
+            <Avatar  src="a" aria-label="recipe" style={{marginLeft:0,width:40,height:40}} >
+             
+            </Avatar>
+          }
+          action={
+            <div>
+            <IconButton aria-label="settings"  onClick={this.handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+             <Menu
+                                           anchorEl={anchorEl}
+                                           open={open}
+                                           onClose={this.handleClose}
+                                         >
+                                           <MenuItem onClick={this.handelDelPost}>Delete</MenuItem>
+                                         </Menu>
+                                         </div>
+          }
+          title={this.props.data.user.username}
+        />
+                    <CardContent style={{marginTop:-20 }}>
+                        <div style={{display:'flex',flexWrap:'nowrap'}}> 
+                    <img
+                            onClick={(e) => {
+                                e.preventDefault();
+                                window.location.href='/eventpage/' + this.props.id;
+                                }}
+                        src={this.props.data.event_pic}
+                        style={{
+                          display:'block',
+                          maxWidth:'100%',
+                          height:'auto',
+                          maxHeight:100,
+                      }} 
+                        />  
+                        <div style={{flexWrap:'nowrap'}}> 
+                                          <Typography className='eventname' style={{marginLeft:12}}>
 
-export default connect(mapStateToProps, null)(Homepage);
+                        {this.props.data.title.substring(0,15)}
+                        </Typography>
+                        <Typography style={{marginLeft:12,marginTop:10,fontSize:13,fontWeight:500}}>
+
+starts at {this.props.data.event_date}
+</Typography>
+<div style={{display:'flex',flexWrap:'nowrap'}}>
+<Typography style={{marginLeft:12,marginTop:15,fontSize:11,fontWeight:400}}>
+{this.props.data.event_time}
+</Typography>
+<Button
+                        style={{marginTop:10,marginLeft:25}}
+        variant="contained"
+        size="small"
+        color="#fff"
+      >
+          join
+      </Button>
+      </div>
+</div>
+                        </div>
+                    </CardContent> 
+                </Card>
+             </div>
+        )
+    }
+}
+const mapStateToProps = (state) => {
+    return {
+        select: state.select,
+        cartsssss:state.cartsssss,
+        ratings:state.ratings,
+        selectEvent:state.selectEvent
+    }
+  }
+  export default connect(mapStateToProps, null)(boardgames);

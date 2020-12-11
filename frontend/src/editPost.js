@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from '@material-ui/core/TextField';
-import "./Profile.css";
+import "./Profile/Profile.css";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,7 +13,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Cookie from 'js-cookie';
-import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating,postData} from '../actions/index'
+import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating,postData} from './actions/index'
 
 export default class Create extends React.Component {
     constructor(props) {
@@ -21,14 +21,13 @@ export default class Create extends React.Component {
       this.state = {
         checked: false,
         checked1: false,
-        id: "",
-        bg_name: "",
-        price: '',
-        description:"",
-        post_pic: null,
-        postpic: "",
-        number:'',
-        value:'sell'
+        id: this.props.id,
+        bg_name: this.props.bg_name,
+        price:this.props.price,
+        description:this.props.description,
+        postpic: this.props.postpic,
+        number: this.props.number,
+        value:this.props.value
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleChange1 = this.handleChange1.bind(this);
@@ -41,10 +40,12 @@ export default class Create extends React.Component {
           checked: !this.state.checked
         })
       }
-      handleChangeSell=(e)=> {
-        this.setState({
+      handleChangeSell= async (e)=> {
+        await this.setState({
           value: e.target.value
         })
+        console.log(this.state.value)
+
       }
       handleChange1() {
         this.setState({
@@ -97,8 +98,8 @@ export default class Create extends React.Component {
           formData.append("number",this.state.number);
           formData.append("post_pic", this.state.post_pic);
           axios({
-          method: "post",
-          url: "http://localhost:8000/api/v1/posts/profile/create/",
+          method: "put",
+          url: `http://localhost:8000/api/v1/posts/profile/${this.state.id}`,
           headers: { 
             "Content-type": "multipart/form-data",
             'Authorization':`Token ${Cookie.get('token')}`},
@@ -112,6 +113,9 @@ export default class Create extends React.Component {
             .catch((error) => {
               
                });
+            }
+            componentDidMount(){
+                console.log(this.state.value)
             }
       render() {
     
@@ -211,3 +215,4 @@ export default class Create extends React.Component {
       </div>;
       }
     }
+    

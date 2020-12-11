@@ -22,6 +22,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
+import SearchIcon from "@material-ui/icons/Search";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardActions from "@material-ui/core/CardActions";
+import InputBase from "@material-ui/core/InputBase";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,8 +93,13 @@ const useStyles = makeStyles((theme) => ({
       top: theme.spacing(7),
     },
   },
+  iconButton: {
+    marginLeft: 20,
+  },
   input: {
     backgroundColor: "rgba(228, 233, 237, 0.5)",
+    left: 85,
+    
   },
 }));
 function PaperComponent(props) {
@@ -104,6 +118,7 @@ export default function User() {
     const [scroll, setScroll] = React.useState("paper");
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
+    const [opennn, setOpennn] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
@@ -119,11 +134,24 @@ export default function User() {
       imagee: null,
       header:null,
     });
+    const [uuuser, setUser] = useState({ user: "" });
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState([]);
+    const handleChange2 = (event) => {
+      let value = event.target.value;
+      setUser({ user: value });
+    };
     const handleClickOpenn = () => {
     setOpenn(true);
    }
    const handleClosee = () => {
     setOpenn(false);
+  };
+  const handleClickOpennn = () => {
+    setOpennn(true);
+   }
+   const handleCloseee = () => {
+    setOpennn(false);
   };
     useEffect(() => {
         handleClickOpen();
@@ -144,6 +172,47 @@ export default function User() {
       }
     }
   }, [open]);
+  useEffect(() => {
+    const userList = () => {
+      axios
+        .get("http://localhost:8000/api/v1/accounts/users/", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${Cookie.get("token")}`,
+          },
+        })
+        .then((res) => {
+          if (users == [null]) {
+            setUsers([]);
+          } else {
+            setUsers(res.data);
+            console.log(res.data)
+          }
+        })
+        .catch((error) => {});
+    };
+    userList();
+  }, []);
+  const searchUsers = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:8000/api/v1/accounts/users/?search=${uuuser.user}`,
+        {
+          headers: {
+            Authorization: `Token ${Cookie.get("token")}`,
+          },
+        }
+      );
+      if (search == [null]) {
+        setSearch([]);
+      } else {
+        setSearch(result.data);
+      }
+    } catch (err) {}
+  };useEffect(() => {
+    searchUsers();
+  }, [uuuser]);
+
   useEffect(() => {
     handlePlayprofile();
   }, []);
@@ -201,37 +270,10 @@ export default function User() {
         })
         .catch((error) => {});
     };
-  useEffect(() => {
-    handleNews();
-  }, []);
-  const handleNews = () => {
-    axios({
-      method: "get",
-      url: `https://5faaa726b5c645001602af7e.mockapi.io/api/v1/News`,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        // Authorization: `Token ${Cookie.get("token")}`,
-      },
-    }).then((res) => {
-      setNews(res.data);
-      setLoading(false);
-    });
-  };
-   
+  
 return (
     <div className="pro">
-
-        {loading?
-                    <div style={{display: "flex",
-                    fontFamily:'Open Sans',
-
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height:'80%'}}>
-                        <CircularProgress disableShrink />
-                         Loading ...
-                    </div> 
-                :  <Grid
+ <Grid
                 container
                 
               >
@@ -338,25 +380,124 @@ return (
                         
       </div>
       <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
-      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1 }}>News </h2>
-                         
-                        {news
-                          .map((item) => (
-                            <News
-                              title={item.title}
-                              image={item.image}
-                              
-                            />
-                          ))
-                          }
+
+                              <InputBase
+                                className={classes.input}
+                                placeholder="Search for users"
+                                style={{ fontSize: 13, marginLeft: "-10px" }}
+                                //inputProps={{ "aria-label": "Search for users" }}
+                                type="text"
+                                value={uuuser.user}
+                                onChange={(event) =>
+                                  setUser({ user: event.target.value })
+                                }
+                              />
+                              <IconButton
+                                type="submit"
+                                className={classes.iconButton}
+                                aria-label="search"
+                                onClick={handleClickOpennn}
+                              >
+                                <SearchIcon />
+                              </IconButton>
+                              <Dialog
+                                        style={{zIndex:100000000}}
+
+                                open={opennn}
+                                onClose={handleCloseee}
+                                PaperComponent={PaperComponent}
+                                aria-labelledby="draggable-dialog-title"
+                              >
+                                <DialogTitle
+                                  style={{ cursor: "move" }}
+                                  id="draggable-dialog-title"
+                                >
+                                  Search for {uuuser.user}
+                                </DialogTitle>
+                                <DialogContent>
+                                  {search.length === 0 && (
+                                    <p
+                                      style={{
+                                        textAlign: "center",
+                                        fontFamily: "Roboto",
+                                      }}
+                                    >
+                                      Nothing to Show !
+                                    </p>
+                                  )}
+                                  {search.map((item) => {
+                                    return (
+                                      <Card
+                                        key={item.id}
+                                        style={{
+                                          backgroundColor: "white",
+                                          maxWidth: 260,
+                                          minWidth: 260,
+                                          maxHeight: 60,
+                                          minHeight: 60,
+                                          marginLeft: -7,
+                                          marginTop: 3,
+                                        }}
+                                      >
+                                        <CardContent className={classes.card}>
+                                          <Typography
+                                            variant="body1"
+                                            align="justify"
+                                            style={{
+                                              fontFamily: "Roboto",
+                                              marginTop: -5,
+                                              fontSize: 12,
+          
+                                              marginLeft: 50,
+                                            }}
+                                            
+                                          >
+                                            {item.username}
+                                          </Typography>
+                                          <Typography
+                                            variant="body1"
+                                            align="justify"
+                                            style={{
+                                              fontFamily: "Roboto",
+                                              fontSize: 11,
+                                              color: "grey",
+                                              marginLeft: 50,
+                                            }}
+                                          >
+                                            {item.first_name}
+                                            {item.last_name}
+                                          </Typography>
+                                          <Avatar
+                                            src={item.profile_picture}
+                                            style={{
+                                              width: 48,
+                                              height: 48,
+                                              bottom: 38,
+                                              left: -5,
+                                            }}
+                                          />
+                                        </CardContent>
+                                      </Card>
+                                    );
+                                  })}
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={handleCloseee} color="primary">
+                                    ok
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                              <Divider
+                                className={classes.divider}
+                                orientation="vertical"
+                              />
                           
                       </div>
                       <div>
-                          <Post/>
+                         
                         </div>
                         </Grid>
                         
- } 
-       </div>
+    </div>
     );
  }

@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from '@material-ui/core/TextField';
-import "./Profile.css";
+import "./Profile/Profile.css";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,69 +13,59 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Cookie from 'js-cookie';
-import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating,postData} from '../actions/index'
+import {eventsData} from './actions/index'
 
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+} from "@material-ui/pickers";
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+  } from '@material-ui/pickers';
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        checked: false,
-        checked1: false,
         id: "",
-        bg_name: "",
+        name: "",
         price: '',
         description:"",
+        address:"",
         post_pic: null,
         postpic: "",
         number:'',
-        value:'sell'
+        value:'sell',
+        startDate: '2017-05-24T10:30',
       };
-      this.handleChange = this.handleChange.bind(this);
-      this.handleChange1 = this.handleChange1.bind(this);
-      this.handleChange2 = this.handleChange2.bind(this);
-      this.handleChange3 = this.handleChange3.bind(this);
       this.handlePost = this.handlePost.bind(this);
+      this.handleStartDate=this.handleStartDate.bind(this)
       };
-      handleChange() {
+      handleStartDate = (e) => {
         this.setState({
-          checked: !this.state.checked
-        })
-      }
-      handleChangeSell=(e)=> {
-        this.setState({
-          value: e.target.value
-        })
-      }
-      handleChange1() {
-        this.setState({
-          checked1: !this.state.checked1
-        })
-      }
-       handleChange2 = (event) => {
-        const name = event.target.name;
-        this.setState({
-          ...this.state,
-          [name]: event.target.value,
+            startDate: e.target.value
         });
+        console.log(this.state.startDate)
       };
-      handleChange3(event) {
-        let name = event.target.name;
-        let value = event.target.value;
-        this.setState({ [name]: value });
-        console.log(name,value)
+      handleChangeName=(event)=>{
+        this.setState({name:event.target.value})
+        console.log(this.state.name)
       }
       handleChangeDescreption=(event)=>{
         this.setState({description:event.target.value})
         console.log(this.state.description)
       }
-      handleChangePrice=(event)=>{
-        this.setState({price:event.target.value})
+      handleChangeAddress=(event)=>{
+        this.setState({address:event.target.value})
+        console.log(this.state.address)
+
       }
       handleChangeNum=(event)=>{
         this.setState({number:event.target.value})
-      }
-      handleChangeRentPrice=(event)=>{
-        this.setState({rent_price:event.target.value})
+        console.log(this.state.number)
       }
       fileSelectedHandler = (event) => {
         event.preventDefault();
@@ -86,19 +76,16 @@ export default class Create extends React.Component {
       };
       handlePost = async () => {
         const formData = new FormData();
-        formData.append("bg_name", this.state.bg_name);
+        formData.append("title", this.state.name);
           formData.append("description", this.state.description);
-          if(this.state.value=='sell'){
-            formData.append("sell_price", this.state.price);
-          }
-          else{
-            formData.append("rent_price", this.state.price);
-          }
+          formData.append("address", this.state.address);
+          formData.append("event_date", this.state.startDate.split('T')[0]);
+          formData.append("event_time", this.state.startDate.split('T')[1]);
           formData.append("number",this.state.number);
-          formData.append("post_pic", this.state.post_pic);
+          formData.append("event_pic", this.state.post_pic);
           axios({
           method: "post",
-          url: "http://localhost:8000/api/v1/posts/profile/create/",
+          url: "http://localhost:8000/api/v1/events/create/",
           headers: { 
             "Content-type": "multipart/form-data",
             'Authorization':`Token ${Cookie.get('token')}`},
@@ -107,7 +94,8 @@ export default class Create extends React.Component {
           console.log(response)
           this.props.onSuccessFullySave();
           this.props.onCreate();
-          this.props.dispatch(postData(window.location.pathname.split('/')[2]))
+          this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
+
             })
             .catch((error) => {
               
@@ -147,13 +135,13 @@ export default class Create extends React.Component {
             </Button>
       <br/>
       <div >
-      <TextField id="standard-secondary" label="name" 
+      <TextField id="standard-secondary" placeholder="name" 
                 type="text"
-                name="bg_name"
-                value={this.state.bg_name}
-                onChange={this.handleChange3} style={{width:'190px'}} />
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChangeName} style={{width:'190px'}} />
              <TextField 
-    style={{marginTop:16,width:'70px',marginLeft:'30px'}}
+    style={{marginTop:0,width:'70px',marginLeft:'30px'}}
     value={this.state.number}
     onChange={this.handleChangeNum} rowsMin={3} aria-label="caption" placeholder="number" />
       </div>
@@ -164,50 +152,32 @@ export default class Create extends React.Component {
       onChange={this.handleChangeDescreption}
       rowsMin={3} placeholder="descreption" style={{marginLeft:0,marginTop:20,width:'95%'}} />
       </div>
-      <div>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChangeSell} >
-        <FormControlLabel value="sell" control={<Radio />} label="Sell" />
-        <FormControlLabel value="rent" control={<Radio />} label="Rent" />
-      </RadioGroup>
-    </FormControl>
-    {/* {this.state.value=='sell'? */}
-    <TextField 
-    style={{marginTop:15,marginLeft:30}}
-    value={this.state.price}
-    onChange={this.handleChangePrice} rowsMin={3} aria-label="caption" placeholder="price" />
-    {/* :<TextField 
-    style={{marginTop:15,marginLeft:30}}
-    onChange={this.handleChangeRentPrice} rowsMin={3} aria-label="caption" placeholder="price" />
-    } */}
-
-      </div>
-
-      {/* <div className="description">
-      <TextField id="standard-secondary" label="description" color="default" 
+      <div >
+      <TextareaAutosize       
       type="text"
-      name="description"
-      value={this.state.description}
-      onChange={this.handleChange3} />
+      value={this.state.address}
+      onChange={this.handleChangeAddress}
+      rowsMin={2} placeholder="address" style={{marginLeft:0,marginTop:15,width:'95%'}} />
       </div>
-          <div>
-            <label>Sell</label>
-            <input 
-              type="checkbox" 
-              checked={ this.state.checked } 
-              onChange={ this.handleChange } />
-          </div>
-          { content }
-        <div>
-          <label>Rent</label>
-          <input 
-            type="checkbox" 
-            checked1={ this.state.checked1 } 
-            onChange={ this.handleChange1 } />
-        </div> */}
+      <div>
+      <form noValidate>
+      <TextField
+        id="datetime-local"
+        label="Starts at"
+        type="datetime-local"
+        defaultValue="2017-05-24T10:30"
+        style={{width:300}}
+        onChange={this.handleStartDate}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+</form>
+</div>
         <Button style={{ color: "#303f9f",marginLeft:"240px" }} onClick={this.handlePost}>
             SAVE
           </Button>
       </div>;
       }
     }
+    

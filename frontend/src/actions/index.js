@@ -1,11 +1,22 @@
 import { ADD_FETCHED_DATA, 
-    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,ADD_RATINNG,CHECK_RATING } from './types.js';
+    ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
+    REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
+    ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
+    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT} from './types.js';
 import axios from 'axios';
-import {newsApi,boardgamesApi,searchApi,selectedApi} from '../api/apis'
+import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi} from '../api/apis'
 
 export const removeFromCart = (id) => {
     return {
       type: REMOVE_FROM_CART,
+      payload: {
+          id
+      }
+    }
+}
+export const removePostFromCart = (id) => {
+    return {
+      type: REMOVE_POST_FROM_CART,
       payload: {
           id
       }
@@ -38,6 +49,40 @@ export const bgData = () => {
             .then(data => {
                 dispatch({
                     type: ADD_bg_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const postData = (id) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:8000/api/v1/posts/profile/list/${id}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_POST_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const eventsData = (id) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:8000/api/v1/events/list/${id}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_EVENT_DATA,
                     payload: data
                 })
             })
@@ -80,9 +125,32 @@ export const selectedData = (id) => {
             });
     };
 };
+export const selectedEventData = (id) => {
+    return (dispatch) => {
+        return axios.get(selectedEventApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: SAVE_SELECT_EVENT,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
 export const addToCart =  (data) => {
     return {
       type: ADD_TO_CART,
+      payload: data
+    }
+};
+export const addPostToCart =  (data) => {
+    return {
+      type: ADD_POST_TO_CART,
       payload: data
     }
 };
