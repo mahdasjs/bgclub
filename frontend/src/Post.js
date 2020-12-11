@@ -1,10 +1,10 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import {addPostToCart, selectedData,removePostFromCart} from './actions/index'
+import {addPostToCart, selectedData,removePostFromCart,postData} from './actions/index'
 import Typography from '@material-ui/core/Typography';
-import CartBorder from '@material-ui/icons/AddShoppingCart';
-import Cart from '@material-ui/icons/RemoveShoppingCart';
+import axios from 'axios';
+import Cookie from 'js-cookie';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -88,7 +88,12 @@ class boardgames extends React.Component{
       this.setState({ anchorEl: null });
     };
     handelDelPost=()=>{
-      this.props.action()
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/posts/profile/${this.props.id}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then( ()=>this.props.dispatch(postData(window.location.pathname.split('/')[2]))
+    )
       this.handleClose()
     }
     componentDidMount(){
