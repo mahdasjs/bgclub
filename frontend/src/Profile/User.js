@@ -170,9 +170,11 @@ function User({events,posts,dispatch}) {
         },
       })
       .then((res) => {
+        console.log(res.data)
+
         setProfilepic({
           imagee: res.data.profile_picture,
-          header:res.data.profile_header_picture,
+          header:res.data.header_picture
         });
       })
       .catch((error) => {});
@@ -237,9 +239,9 @@ return (
                 
               >
                 
-                      <Paper elevation={3} style={{backgroundImage:` url(${state.header})`,}}className={classes.paper}>
+                      <Paper elevation={3} style={{backgroundImage:` url(${profilepic.header})`,}}className={classes.paper}>
                         <Avatar
-                          src={state.imagee}
+                          src={profilepic.imagee}
                           // style={{marginTop:-104,marginLeft:-34}}
                           className={classes.large}
                         ></Avatar>
@@ -345,7 +347,12 @@ return (
                         >
                           <DialogTitle id="scroll-dialog-title">Edit Profile</DialogTitle>
                           <DialogContent dividers={scroll === "paper"}>
-                            <Edit />
+                          <Edit 
+                             onSuccessFullySave={() => {
+                              handleClose();
+                              handlePlayprofile();
+                              handleprofilepic();
+                            }}/>
                           </DialogContent>
                         </Dialog>
                         <div>

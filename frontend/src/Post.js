@@ -8,9 +8,10 @@ import Cookie from 'js-cookie';
 import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import AddCart from '@material-ui/icons/AddShoppingCart'
-import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
+import Create from "./Profile/Createpost";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { IconButton,Box, Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
@@ -32,6 +33,9 @@ class boardgames extends React.Component{
             rate:0,
             anchorEl: null,
             openAdd:false,
+            value:'sell',
+            openEdit:false
+
         }
     }
     async count(){
@@ -96,11 +100,45 @@ class boardgames extends React.Component{
     )
       this.handleClose()
     }
+    handelEditPost=()=>{
+      this.setState({openEdit:true})
+    }
     componentDidMount(){
+      axios
+      .get(`http://localhost:8000/api/v1/posts/profile/${this.props.id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Token " + Cookies.get('tokn'),
+        },
+      })
+      .then((res) => {
+        if(res.data.sell_price==""){
+          this.setState({
+            price: res.data.rent_price,
+          });
+        }
+        else{
+          this.setState({
+            price: res.data.sell_price,
+          });
+        }
+        this.setState({
+          bg_name: res.data.bg_name,
+          description: res.data.description,
+          post_pic: res.data.post_pic,
+          number: res.data.number,
+        
+        });
+      })
+      .catch((error) => {});
+   
       console.log(this.props.cartsssss)
         this.count()
     }
-    
+    handleClosee = () => {
+      this.props.dispatch(postData(window.location.pathname.split('/')[2]))
+      this.setState({openEdit:false})
+    };
     render(){
       const { anchorEl } = this.state;
       const open = Boolean(anchorEl);
@@ -127,6 +165,7 @@ class boardgames extends React.Component{
                                            onClose={this.handleClose}
                                          >
                                            <MenuItem onClick={this.handelDelPost}>Delete</MenuItem>
+                                           <MenuItem onClick={this.handelEditPost}>Edit</MenuItem>
                                          </Menu>
                                          </div>
           }
@@ -206,6 +245,31 @@ class boardgames extends React.Component{
                     </div>
                     </CardContent> 
                 </Card>
+                <Dialog
+                                  style={{zIndex:100000000}}
+                          open={this.state.openEdit}
+                          onClose={this.handleClosee}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Sell / Rent your boardgame !
+                          </DialogTitle>
+                          <DialogContent>
+                          <Create
+                          onSuccessFullySave={() => {
+                            this.handleClosee();
+                          }}
+                            />
+                          </DialogContent>
+                          {/* <DialogActions>
+                            <Button onClick={handleClosee} color="primary">
+                              save
+                            </Button>
+                          </DialogActions> */}
+                        </Dialog>
              </div>
         )
     }
