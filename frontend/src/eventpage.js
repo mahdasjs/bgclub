@@ -65,7 +65,7 @@ class eventpage extends React.Component{
         formData.append("text",this.state.comment)
         axios({
           method: "post",
-          url: "http://localhost:8000/api/v1/posts/comment/create/",
+          url: "http://localhost:8000/api/v1/events/comment/create/",
           headers: { 
             "Content-type": "multipart/form-data",
             'Authorization':`Token ${Cookie.get('token')}`},
@@ -74,7 +74,7 @@ class eventpage extends React.Component{
           this.setState({comment:' '})
           axios({
             method: "get",
-            url: `http://localhost:8000/api/v1/posts/comment/list/${this.props.postId}`,
+            url: `http://localhost:8000/api/v1/events/comment/list/${this.props.postId}`,
             headers: {'Authorization':`Token ${Cookie.get('token')}`},
           }).then((response) => {
               console.log(response.data)
@@ -104,7 +104,7 @@ class eventpage extends React.Component{
           formData.append("post",this.state.postId);
           axios({
             method: "post",
-            url: `http://localhost:8000/api/v1/posts/like/create/`,
+            url: `http://localhost:8000/api/v1/events/like/create/`,
             headers: { 
               "Content-type": "multipart/form-data",
               'Authorization':`Token ${Cookie.get('token')}`},
@@ -113,7 +113,7 @@ class eventpage extends React.Component{
               this.setState({likeId:response.data.id})
               axios({
                 method: "get",
-                url: `http://localhost:8000/api/v1/posts/like/list/${this.props.postId}`,
+                url: `http://localhost:8000/api/v1/events/like/list/${this.props.postId}`,
                 headers: {'Authorization':`Token ${Cookie.get('token')}`},
               }).then((response) => {
                   console.log(response.data)
@@ -128,14 +128,14 @@ class eventpage extends React.Component{
           {const formData = new FormData();
           axios({
             method: "delete",
-            url: `http://localhost:8000/api/v1/posts/like/${this.state.likeId}`,
+            url: `http://localhost:8000/api/v1/events/like/${this.state.likeId}`,
             headers: { 
               "Content-type": "multipart/form-data",
               'Authorization':`Token ${Cookie.get('token')}`}
             }).then((response)=>{
               axios({
                 method: "get",
-                url: `http://localhost:8000/api/v1/posts/like/list/${this.props.postId}`,
+                url: `http://localhost:8000/api/v1/events/like/list/${this.props.postId}`,
                 headers: {'Authorization':`Token ${Cookie.get('token')}`},
               }).then((response) => {
                   console.log(response.data)
