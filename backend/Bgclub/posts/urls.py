@@ -8,9 +8,5 @@ urlpatterns = [
     path('comment/create/', views.CommentCreateAPIView.as_view()),
     path('comment/list/<int:pk>', views.CommentListAPIView.as_view()),
     path('comment/<int:pk>', views.CommentRetrieveUpdateDestroyAPIView.as_view()),
-    path('like/create/', views.LikeCreateAPIView.as_view()),
-    path('like/list/<int:pk>', views.LikeListAPIView.as_view()),
-    path('like/<int:pk>', views.LikeRetrieveDestroyAPIView.as_view()),
-
 
 ]

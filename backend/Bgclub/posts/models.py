@@ -19,11 +19,6 @@ class Post(models.Model):
     def comment_count(self):
         return Comment.objects.filter(post_id=self.id).count()
 
-
-    @property
-    def like_count(self):
-        return Like.objects.filter(post_id=self.id).count()
-
     def __str__(self):
         return self.bg_name
 
@@ -37,12 +32,6 @@ class Comment(models.Model):
     def str(self):
         return self.text
 
-class Like(models.Model):
-    user = models.ForeignKey(User,related_name='likes_user',on_delete=models.CASCADE,blank=True)
-    post = models.ForeignKey(Post,related_name='likes_post',on_delete=models.CASCADE,blank=True)
-
-    def str(self):
-        return self.post
 
 
 
