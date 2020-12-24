@@ -6,15 +6,7 @@
   height: 40vmin;
   pointer-events: none;
 }
-.logo{
-  position: absolute;
-  left: 50px;
-}
-.searchbar{
-  position: relative;
-  left: 60px;
-  top: 3px;
-}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

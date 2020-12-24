@@ -18,9 +18,19 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box,Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-import Cookies from 'js-cookie';
 import Button from '@material-ui/core/Button';
+import Cookies from 'js-cookie';
+import Avatar from "@material-ui/core/Avatar";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import CheckIcon from "@material-ui/icons/Check";
+import Slider from '@material-ui/core/Slider';
 
+function valuetext(value) {
+    return `${value}°C`;
+  }
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -29,20 +39,23 @@ class boardgames extends React.Component{
             counter:[],
             count:0,
             rate:0,
+            openReqPopUp:false,
+            openPricePopUp:false,
+            value:20
         }
     }
+    handleChangeValue = (event, newValue) => {
+        this.setState({value:newValue})
+    };
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid) ) mp.set(o.data.bgid, { ...o, count: 0 });
-            mp.get(o.data.bgid).count++;
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(Cookies.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -63,19 +76,22 @@ class boardgames extends React.Component{
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:this.props.data.id,postid:-1,
-        image:this.props.data.image,name:this.props.data.name,sell_price:this.props.data.price,
-        rent_price:this.props.data.price,number:0,username:Cookies.get('username')}}))
+        this.props.dispatch(addToCart({data:this.props.data}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
         this.count();
         this.props.dispatch(removeFromCart(this.props.id))
         this.setState({count:this.state.count-1})
-    }
 
+    }
+    handleCloseReqPopUp=()=>{
+        this.setState({openReqPopUp: !this.state.openReqPopUp})
+      }
+    handleClosePricePopUp=()=>{
+       this.setState({openPricePopUp: !this.state.openPricePopUp})
+    }
     componentDidMount(){
-        console.log(this.props.cartsssss)
         this.count()
     }
     
@@ -100,14 +116,133 @@ class boardgames extends React.Component{
 
                         {this.props.name.substring(0,15)}
                         </Typography>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          color="primary">
-                            starting price : {this.props.data.sell_price}$
-                        </Button>
+                        {window.location.pathname.split('/')[2]==Cookies.get('userid')?(
+                            <Button
+                            variant="contained"
+                            size="small"
+                            color="primary"
+                            onClick={this.handleCloseReqPopUp}
+                            >
+                              requests
+                          </Button>
+                        ):(
+                            <Button
+                            variant="contained"
+                            size="small"
+                            color="primary"
+                            onClick={this.handleClosePricePopUp}>
+                              starting price : {this.props.data.sell_price}$
+                          </Button>
+                        )
+
+                        }
+                       
                     </CardContent> 
                 </Card>
+                <Dialog
+                          style={{zIndex:100000000}}
+                          open={this.state.openReqPopUp}
+                          onClose={this.handleCloseReqPopUp}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" }}
+                            id="draggable-dialog-title"
+                          >
+                            Requests
+                          </DialogTitle>
+                          <DialogContent>
+                            {this.props.ratings.map((item) => (
+                              <Card
+                                key={item.id}
+                                style={{backgroundColor: "white",
+                                  maxWidth: 260,
+                                  minWidth: 260,
+                                  maxHeight: 60,
+                                  minHeight: 60,
+                                  marginLeft: -7,
+                                  marginTop: 10,
+                                }}
+                              >
+                                <CardContent>
+                                  <Typography
+                                    variant="body1"
+                                    align="justify"
+                                    style={{
+                                      fontFamily: "Roboto",
+                                      fontSize: 12,
+                                      marginLeft: 50,
+                                    }}
+                                  >
+                                    {item.data.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body1"
+                                    align="justify"
+                                    style={{
+                                      fontFamily: "Roboto",
+                                      fontSize: 11,
+                                      color: "grey",
+                                      marginLeft: 50,
+                                    }}
+                                  >
+                                    {item.name}
+                                    {item.name}
+                                  </Typography>
+          
+                                  <Avatar
+                                    style={{
+                                      width: 48,
+                                      height: 48,
+                                      left: -5,
+                                    }}
+                                  />
+                                  <IconButton
+                                  style={{marginTop: "-150px",
+                                    marginLeft: "190px"}}
+                                    type="submit"
+                                    // className={classes.iconButton}
+                                    aria-label="search"
+                                  >
+                                    <CheckIcon color="primary" />
+                                  </IconButton>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={this.handleClosePopUp} color="primary">
+                              ok
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={this.state.openPricePopUp}
+                          onClose={this.handleClosePricePopUp}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Hold an event
+                          </DialogTitle>
+                          <DialogContent>
+                          <div >
+              <Typography id="range-slider" gutterBottom>
+                 price offer:${this.state.value}
+              </Typography>
+                          <Slider
+                value={this.state.value}
+                onChange={this.handleChangeValue}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                getAriaValueText={valuetext}
+              />
+              </div>
+                          </DialogContent>
+                        </Dialog>
              </div>
         )
     }

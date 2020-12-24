@@ -183,7 +183,6 @@ export default class Create extends React.Component {
     {/* :<TextField 
     style={{marginTop:15,marginLeft:30}}
     onChange={this.handleChangeRentPrice} rowsMin={3} aria-label="caption" placeholder="price" />
-
     } */}
 
       </div>
