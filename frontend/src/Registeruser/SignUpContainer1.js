@@ -80,13 +80,13 @@ class SignUpContainer1 extends Component {
 
     axios
       .post(
-        "http://localhost:8000/api/v1/accounts/rest-auth/registration/",
+        "http://localhost:8000/api/v1/accounts/rest-auth/registration/ ",
         params
       )
       .then(function (response) {})
       .then((response) => {
         Cookie.set("token", response.data.token);
-        window.location = "/homepage";
+        window.location.reload();
       })
       .catch((error) => {
         if (error.response) {
@@ -95,7 +95,6 @@ class SignUpContainer1 extends Component {
           });
         } else {
           alert("Registration was successful");
-          window.location = "/homepage";
         }
       });
   }

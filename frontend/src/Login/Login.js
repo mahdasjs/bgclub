@@ -53,8 +53,8 @@ export default class Login extends React.Component {
               Cookie.set('userid',response.data.id)
               Cookie.set('username',response.data.username)
               window.location = "/homepage";
-              this.props.history.push("/homepage");
-              window.location.reload();
+              // this.props.history.push("/homepage");
+              // window.location.reload();
             })
             .catch((error) => {
               if (error.response) {
@@ -185,4 +185,3 @@ export default class Login extends React.Component {
   }
   
 }
-

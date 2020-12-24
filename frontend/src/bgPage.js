@@ -18,7 +18,7 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-import Cookies from 'js-cookie'
+
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -31,16 +31,13 @@ class boardgames extends React.Component{
     }
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid) ) mp.set(o.data.bgid, { ...o, count: 0 });
-            mp.get(o.data.bgid).count++;
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(Cookies.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -61,19 +58,17 @@ class boardgames extends React.Component{
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:{description:this.props.data.description,bgid:this.props.data.id,postid:-1,
-        image:this.props.data.image,name:this.props.data.name,sell_price:this.props.data.price,
-        rent_price:this.props.data.price,number:0,username:Cookies.get('username')}}))
+        this.props.dispatch(addToCart({data:this.props.data}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
         this.count();
         this.props.dispatch(removeFromCart(this.props.id))
         this.setState({count:this.state.count-1})
+
     }
 
     componentDidMount(){
-        console.log(this.props.cartsssss)
         this.count()
     }
     
@@ -101,12 +96,12 @@ class boardgames extends React.Component{
                         <div style={{marginTop:10}}>
                         <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
                         </div>
-                        <div className='addAndRemove' style={{borderRadius:100}} >
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                        <div className='addAndRemove' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
                     </IconButton>
                     {this.state.count}
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
                     </div>
