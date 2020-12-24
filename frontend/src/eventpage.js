@@ -23,7 +23,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import CheckIcon from "@material-ui/icons/Check";
-
+import Cookie from 'js-cookie'
 class eventpage extends React.Component{
       constructor(){
         super()
