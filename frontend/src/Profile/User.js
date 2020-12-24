@@ -31,7 +31,14 @@ import CardActions from "@material-ui/core/CardActions";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+import SwipeableViews from 'react-swipeable-views';
+import { If } from "rc-if-else";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,11 +82,30 @@ const useStyles = makeStyles((theme) => ({
       top:-25
     },
   },
-  button1: {
+  button3: {
     
     [theme.breakpoints.down('xs')]: {
       left: theme.spacing(23),
       
+    },
+  },
+  
+  button1: {
+    color: "grey",
+    left: "280px",
+    bottom: "31px",
+    fontSize: 11,
+    [theme.breakpoints.down('xs')]: {
+      left: theme.spacing(-0.5),
+    },
+  },
+  button2: {
+    color: "grey",
+    left: "280px",
+    bottom: "31px",
+    fontSize: 11,
+    [theme.breakpoints.down('xs')]: {
+      left: theme.spacing(9),
     },
   },
   large: {
@@ -112,14 +138,48 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
+
+
 export default function User() {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
-    
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
     const [opennn, setOpennn] = React.useState(false);
+    const [opennnn, setOpennnn] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
@@ -148,6 +208,15 @@ export default function User() {
     let [follow, setFollow] = useState({
       id: null,
     });
+    const [value, setValue] = React.useState(0);
+    
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+  
+    const handleChangeIndex = (index) => {
+      setValue(index);
+    };
     const handleChange2 = (event) => {
       let value = event.target.value;
       setUser({ user: value });
@@ -163,6 +232,12 @@ export default function User() {
    }
    const handleCloseee = () => {
     setOpennn(false);
+  };
+  const handleClickOpennnn = () => {
+    setOpennnn(true);
+   }
+   const handleCloseeee = () => {
+    setOpennnn(false);
   };
     useEffect(() => {
         handleClickOpen();
@@ -404,13 +479,551 @@ return (
                           
                           {state.firstname}
                         </Typography>
+                        <Button size="small" 
+                        onClick={handleClickOpennnn}
+                        style={{fontFamily:'Open Sans'}}
+                        className={classes.button1}>
+                          Following
+                          <br /> {followingLentgh}
+                        </Button>
+                        <Button size="small"
+                        onClick={handleClickOpennnn}
+                          style={{fontFamily:'Open Sans'}}
+                         className={classes.button1}>
+                          Followers <br />
+                          {followerLentgh}
+                        </Button>
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={opennnn}
+                          onClose={handleCloseee}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                         
+                          <DialogContent>
+                          <div >
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="following" {...a11yProps(0)} />
+          <Tab label="followers" {...a11yProps(1)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+        {followin.length === 0 && (
+                             <p style={{ textAlign: "center", fontFamily: "Roboto" }}>
+                               Nothing to Show Right Now!
+                             </p>
+                           )}
+                           {followin.map((item) => {
+                             const isFollowing = checkIsFollowingOrNot(item.id);
+                             return (
+                               <Card
+                                 key={item.id}
+                                 style={{
+                                   backgroundColor: "white",
+                                   width:'105%',
+                                   maxHeight: 60,
+                                   minHeight: 60,
+                                   marginLeft: -7,
+                                   marginTop: 3,
+                                 }}
+                               >
+                                 <CardContent className={classes.card}>
+                                   <Typography
+                                     variant="body1"
+                                     align="justify"
+                                     style={{
+                                       fontFamily: "Roboto",
+                                       marginTop: -5,
+                                       fontSize: 12,
+                                       marginLeft: 50,
+                                     }}
+                                     onClick={() =>
+                                       window.location.replace(`/user/${item.id}`)
+                                     }
+                                   >
+                                     {item.username}
+                                   </Typography>
+                                   <Typography
+                                     variant="body1"
+                                     align="justify"
+                                     style={{
+                                       fontFamily: "Roboto",
+                                       fontSize: 11,
+                                       color: "grey",
+                                       marginLeft: 50,
+                                     }}
+                                   >
+                                     {item.first_name}
+                                     {item.last_name}
+                                   </Typography>
+         
+                                   <Avatar
+                                     src={item.profile_picture}
+                                     style={{
+                                       width: 48,
+                                       height: 48,
+                                       bottom: 38,
+                                       left: -5,
+                                     }}
+                                   />
+                                 <If condition={Cookie.get('username')!==item.username}>
+                                   <Button
+                                      style={{
+                                        bottom: 80,
+                                        left: 150,
+                                        fontSize: 11,
+                                      }}
+                                      variant="contained"
+                                      color="primary"
+                                     size="small"
+                                     className={classes.margin}
+                                     onClick={
+                                       isFollowing
+                                         ? async () => {
+                                             await axios
+                                               .delete(
+                                                 `http://localhost:8000/api/v1/accounts/users/unfollow/${item.id}`,
+         
+                                                 {
+                                                   headers: {
+                                                    Authorization: `Token ${Cookie.get(
+                                                      "token"
+                                                    )}`,
+                                                   },
+                                                 }
+                                               )
+         
+                                               .then((res) => {
+                                                 axios
+                                                   .get(
+                                                     "http://localhost:8000/api/v1/accounts/users/",
+                                                     {
+                                                       headers: {
+                                                         "Content-Type":
+                                                           "multipart/form-data",
+                                                         Authorization: `Token ${Cookie.get(
+                                                           "token"
+                                                         )}`,
+                                                       },
+                                                     }
+                                                   )
+                                                   .then((res) => {
+                                                     setUsers(res.data);
+                                                   })
+                                                   .catch((error) => {});
+                                                 // const getFollowing = () => {
+                                                 axios
+                                                   .get(
+                                                     `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
+                                                     {
+                                                       headers: {
+                                                         "Content-Type":
+                                                           "multipart/form-data",
+                                                         Authorization: `Token ${Cookie.get(
+                                                           "token"
+                                                         )}`,
+                                                       },
+                                                     }
+                                                   )
+                                                   .then((res) => {
+                                                     setfollowingLentgh(res.data.length);
+                                                     setFollowin(res.data);
+                                                   });
+                                                 // getFollowing();
+                                                 // };
+                                                 axios
+                                                   .get(
+                                                     `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+                                                     {
+                                                       headers: {
+                                                         "Content-Type":
+                                                           "multipart/form-data",
+                                                         Authorization: `Token ${Cookie.get(
+                                                           "token"
+                                                         )}`,
+                                                       },
+                                                     }
+                                                   )
+                                                   .then((res) => {
+                                                     setState({
+                                                       followers: res.data.follower_num,
+                                                       following: res.data.following_num,
+                                                       imagee: res.data.profile_picture,
+                                                       username: res.data.username,
+                                                       firstname: res.data.first_name,
+                                                     });
+                                                   })
+         
+                                                   .catch((error) => {});
+                                               })
+         
+                                               .catch((error) => {});
+                                           }
+                                         : async () => {
+                                             await axios
+                                               .patch(
+                                                 `http://localhost:8000/api/v1/accounts/users/follow/${item.id}`,
+                                                 follow.id,
+                                                 {
+                                                   headers: {
+                                                    Authorization: `Token ${Cookie.get(
+                                                      "token"
+                                                    )}`,
+                                                   },
+                                                 }
+                                               )
+                                               .then((res) => {
+                                                 axios
+                                                   .get(
+                                                     "http://localhost:8000/api/v1/accounts/users/",
+                                                     {
+                                                       headers: {
+                                                         "Content-Type":
+                                                           "multipart/form-data",
+                                                         Authorization: `Token ${Cookie.get(
+                                                           "token"
+                                                         )}`,
+                                                       },
+                                                     }
+                                                   )
+                                                   .then((res) => {
+                                                     setUsers(res.data);
+                                                   })
+                                                   .catch((error) => {});
+                                                 // const getFollowing = () => {
+                                                 axios
+                                                   .get(
+                                                     `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
+                                                     {
+                                                       headers: {
+                                                         "Content-Type":
+                                                           "multipart/form-data",
+                                                         Authorization: `Token ${Cookie.get(
+                                                           "token"
+                                                         )}`,
+                                                       },
+                                                     }
+                                                   )
+                                                   .then((res) => {
+                                                     setfollowingLentgh(res.data.length);
+                                                     setFollowin(res.data);
+                                                   })
+                                                   .catch((error) => {});
+                                                 // };
+                                                 axios
+                                                   .get(
+                                                     `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+                                                     {
+                                                       headers: {
+                                                         "Content-Type":
+                                                           "multipart/form-data",
+                                                         Authorization: `Token ${Cookie.get(
+                                                           "token"
+                                                         )}`,
+                                                       },
+                                                     }
+                                                   )
+                                                   .then((res) => {
+                                                     setState({
+                                                       followers: res.data.follower_num,
+                                                       following: res.data.following_num,
+                                                       imagee: res.data.profile_picture,
+                                                       username: res.data.username,
+                                                       firstname: res.data.first_name,
+                                                     });
+                                                   })
+         
+                                                   .catch((error) => {});
+                                               })
+                                               .catch((error) => {});
+                                           }
+                                     }
+                                   >
+                                      {isFollowing ? "unFollow" :"Follow"}
+                                   </Button>
+                                   </If>
+                                 </CardContent>
+                               </Card>
+                             );
+                           })}
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+                            {followers.length === 0 && (
+                              <p style={{ textAlign: "center", fontFamily: "Roboto" }}>
+                                Nothing to Show Right Now!
+                              </p>
+                            )}
+                            {followers.map((item) => {
+                              const isFollowing = checkIsFollowingOrNot(item.id);
+                              return (
+                                <Card
+                                  key={item.id}
+                                  style={{
+                                    backgroundColor: "white",
+                                    width:'105%',
+                                    maxHeight: 60,
+                                    minHeight: 60,
+                                    marginLeft: -7,
+                                    marginTop: 3,
+                                  }}
+                                >
+                                  <CardContent className={classes.card}>
+                                    <Typography
+                                      variant="body1"
+                                      align="justify"
+                                      style={{
+                                        fontFamily: "Roboto",
+                                        marginTop: -5,
+                                        fontSize: 12,
+                                        marginLeft: 50,
+                                      }}
+                                      onClick={() =>
+                                        window.location.replace(`/user/${item.id}`)
+                                      }
+                                    >
+                                      {item.username}
+                                    </Typography>
+                                    <Typography
+                                      variant="body1"
+                                      align="justify"
+                                      style={{
+                                        fontFamily: "Roboto",
+                                        fontSize: 11,
+                                        color: "grey",
+                                        marginLeft: 50,
+                                      }}
+                                    >
+                                      {item.first_name}
+                                      {item.last_name}
+                                    </Typography>
+          
+                                    <Avatar
+                                      src={item.profile_picture}
+                                      style={{
+                                        width: 48,
+                                        height: 48,
+                                        bottom: 38,
+                                        left: -5,
+                                      }}
+                                    />
+                                  <If condition={Cookie.get('username')!==item.username}>
+                                    <Button
+                                      style={{
+                                        bottom: 80,
+                                        left: 150,
+                                        fontSize: 11,
+                                      }}
+                                      variant="contained"
+                                      color="primary"
+                                      size="small"
+                                      className={classes.margin}
+                                      onClick={
+                                        isFollowing
+                                          ? async () => {
+                                              await axios
+                                                .delete(
+                                                  `http://localhost:8000/api/v1/accounts/users/unfollow/${item.id}`,
+          
+                                                  {
+                                                    headers: {
+                                                      Authorization: `Token ${Cookie.get(
+                                                        "token"
+                                                      )}`,
+                                                    },
+                                                  }
+                                                )
+          
+                                                .then((res) => {
+                                                  axios
+                                                    .get(
+                                                      "http://localhost:8000/api/v1/accounts/users/",
+                                                      {
+                                                        headers: {
+                                                          "Content-Type":
+                                                            "multipart/form-data",
+                                                          Authorization: `Token ${Cookie.get(
+                                                            "token"
+                                                          )}`,
+                                                        },
+                                                      }
+                                                    )
+                                                    .then((res) => {
+                                                      setUsers(res.data);
+                                                    })
+                                                    .catch((error) => {});
+                                                  // const getFollowing = () => {
+                                                  axios
+                                                    .get(
+                                                      `http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`,
+                                                      {
+                                                        headers: {
+                                                          "Content-Type":
+                                                            "multipart/form-data",
+                                                          Authorization: `Token ${Cookie.get(
+                                                            "token"
+                                                          )}`,
+                                                        },
+                                                      }
+                                                    )
+                                                    .then((res) => {
+                                                      setfollowingLentgh(res.data.length);
+                                                      setFollowin(res.data);
+                                                    });
+                                                  // getFollowing();
+                                                  // };
+                                                  axios
+                                                    .get(
+                                                      `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+                                                      {
+                                                        headers: {
+                                                          "Content-Type":
+                                                            "multipart/form-data",
+                                                          Authorization: `Token ${Cookie.get(
+                                                            "token"
+                                                          )}`,
+                                                        },
+                                                      }
+                                                    )
+                                                    .then((res) => {
+                                                      setState({
+                                                        followers: res.data.follower_num,
+                                                        following: res.data.following_num,
+                                                        imagee: res.data.profile_picture,
+                                                        username: res.data.username,
+                                                        firstname: res.data.first_name,
+                                                      });
+                                                    })
+          
+                                                    .catch((error) => {});
+                                                })
+          
+                                                .catch((error) => {});
+                                            }
+                                          : async () => {
+                                              await axios
+                                                .patch(
+                                                  `http://localhost:8000/api/v1/accounts/users/follow/${item.id}`,
+                                                  follow.id,
+                                                  {
+                                                    headers: {
+                                                      Authorization: `Token ${Cookie.get(
+                                                        "token"
+                                                      )}`,
+                                                    },
+                                                  }
+                                                )
+                                                .then((res) => {
+                                                  axios
+                                                    .get(
+                                                      "http://localhost:8000/api/v1/accounts/users/",
+                                                      {
+                                                        headers: {
+                                                          "Content-Type":
+                                                            "multipart/form-data",
+                                                          Authorization: `Token ${Cookie.get(
+                                                            "token"
+                                                          )}`,
+                                                        },
+                                                      }
+                                                    )
+                                                    .then((res) => {
+                                                      setUsers(res.data);
+                                                    })
+                                                    .catch((error) => {});
+                                                  // const getFollowing = () => {
+                                                  axios
+                                                    .get(
+                                                      `http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`,
+                                                      {
+                                                        headers: {
+                                                          "Content-Type":
+                                                            "multipart/form-data",
+                                                          Authorization: `Token ${Cookie.get(
+                                                            "token"
+                                                          )}`,
+                                                        },
+                                                      }
+                                                    )
+                                                    .then((res) => {
+                                                      setfollowingLentgh(res.data.length);
+                                                      setFollowin(res.data);
+                                                    })
+                                                    .catch((error) => {});
+                                                  // };
+                                                  axios
+                                                    .get(
+                                                      `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+                                                      {
+                                                        headers: {
+                                                          "Content-Type":
+                                                            "multipart/form-data",
+                                                          Authorization: `Token ${Cookie.get(
+                                                            "token"
+                                                          )}`,
+                                                        },
+                                                      }
+                                                    )
+                                                    .then((res) => {
+                                                      setState({
+                                                        followers: res.data.follower_num,
+                                                        following: res.data.following_num,
+                                                        imagee: res.data.profile_picture,
+                                                        username: res.data.username,
+                                                        firstname: res.data.first_name,
+                                                      });
+                                                    })
+          
+                                                    .catch((error) => {});
+                                                })
+                                                .catch((error) => {});
+                                            }
+                                      }
+                                    >
+                                       {isFollowing ? "unFollow" :"Follow"}
+                                    </Button>
+                                    </If>
+                                  </CardContent>
+                                </Card>
+                              );
+                            })}
+        </TabPanel>
+      </SwipeableViews>
+    </div>
+                          </DialogContent>
+                           <DialogActions>
+                            <Button onClick={handleCloseeee} color="primary">
+                              ok
+                            </Button>
+                          </DialogActions> 
+                        </Dialog>
+          
+                        <Button size="small" 
+                         style={{fontFamily:'Open Sans'}}
+                        className={classes.button2}>
+                          Posts <br />
+                          {postLentgh}
+                        </Button>
                         <Button
-                        style={{marginTop:"-40px",marginLeft: "550px"}}
+                        style={{marginTop:"-40px",marginLeft: "550px",bottom: "45px"}}
         variant="contained"
         size="small"
         color="primary"
         onClick={handleClickOpenn}
-        className={classes.button1}
+        className={classes.button3}
       >
       create post
       </Button>
