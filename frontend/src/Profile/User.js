@@ -190,7 +190,7 @@ function User({events,posts,dispatch}) {
     const [openEvent, setOpenEvent] = React.useState(false);
     const [openPresell, setOpenPresell] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
-    const userid = Cookie.get("userid");
+    const userid = window.location.pathname.split('/')[2];
     const [news, setNews] = useState([]);
     const [uuuser, setUser] = useState({ user: "" });
     const [users, setUsers] = useState([]);
@@ -339,7 +339,7 @@ function User({events,posts,dispatch}) {
     getFollowing();
     const getFollowin = () => {
       axios
-        .get(`http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`, {
+        .get(`http://localhost:8000/api/v1/accounts/users/following/${userid}`, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Token ${Cookie.get("token")}`,
@@ -504,6 +504,8 @@ function User({events,posts,dispatch}) {
       setLoading(false);
     });
   };
+  const isFollowing = checkIsFollowingOrNot(userid);
+
    const boardgame=events.map(post => {
     return <Events
       id={post.id}
@@ -956,7 +958,7 @@ return (
                                                   // const getFollowing = () => {
                                                   axios
                                                     .get(
-                                                      `http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`,
+                                                      `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
                                                       {
                                                         headers: {
                                                           "Content-Type":
@@ -1035,7 +1037,7 @@ return (
                                                   // const getFollowing = () => {
                                                   axios
                                                     .get(
-                                                      `http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`,
+                                                      `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
                                                       {
                                                         headers: {
                                                           "Content-Type":
@@ -1105,6 +1107,7 @@ return (
                           Posts <br />
                           {postLentgh}
                         </Button>
+                        {Cookie.get('userid')===window.location.pathname.split('/')[2]?
                         <Button
                         style={{marginTop:"-40px",marginLeft: "550px",bottom: "45px"}}
         variant="contained"
@@ -1115,6 +1118,178 @@ return (
       >
       create post
       </Button>
+      :                                <Button
+      className="req"
+      variant="outlined"
+      size="small"
+      color="default"
+      className={classes.margin1}
+      style={{fontFamily:'Open Sans'}}
+      onClick={
+        followCheck 
+                      ? async () => {
+                          await axios
+                            .delete(
+                              `http://localhost:8000/api/v1/accounts/users/unfollow/${userid}`,
+
+                              {
+                                headers: {
+                                  Authorization: "Token " + Cookie.get('token'),
+                                },
+                              }
+                            )
+
+                            .then((res) => {
+                              setfollowCheck(false)
+                              axios
+                                .get(
+                                  "http://localhost:8000/api/v1/accounts/users/",
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setUsers(res.data);
+                                })
+                                .catch((error) => {});
+                              // const getFollowing = () => {
+                              axios
+                                .get(
+                                  `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setfollowingLentgh(res.data.length);
+                                  setFollowin(res.data);
+                                });
+                              // getFollowing();
+                              // };
+                              axios
+                                .get(
+                                  `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setState({
+                                    followers: res.data.follower_num,
+                                    following: res.data.following_num,
+                                    imagee: res.data.profile_picture,
+                                    username: res.data.username,
+                                    firstname: res.data.first_name,
+                                  });
+                                })
+
+                                .catch((error) => {});
+                            })
+
+                            .catch((error) => {});
+                        }
+                      : async () => {
+                          await axios
+                            .patch(
+                              `http://localhost:8000/api/v1/accounts/users/follow/${userid}`,
+                              follow.id,
+                              {
+                                headers: {
+                                  Authorization: "Token " + Cookie.get('token'),
+                                },
+                              }
+                            )
+                            .then((res) => {
+                              setfollowCheck(true)
+
+                              axios
+                                .get(
+                                  "http://localhost:8000/api/v1/accounts/users/",
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setUsers(res.data);
+                                })
+                                .catch((error) => {});
+                              // const getFollowing = () => {
+                              axios
+                                .get(
+                                  `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setfollowingLentgh(res.data.length);
+                                  setFollowin(res.data);
+                                })
+                                .catch((error) => {});
+                              // };
+                              checkIsFollowingOrNot(userid)
+                              axios
+                                .get(
+                                  `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setState({
+                                    followers: res.data.follower_num,
+                                    following: res.data.following_num,
+                                    imagee: res.data.profile_picture,
+                                    username: res.data.username,
+                                    firstname: res.data.first_name,
+                                  });
+                                })
+
+                                .catch((error) => {});
+                            })
+                            .catch((error) => {});
+                        }
+                  }
+                >
+                   {followCheck ? "unFollow" :"Follow" }
+                </Button>
+}
 <Dialog
                                   style={{zIndex:100000000}}
                           open={openn}
@@ -1370,7 +1545,7 @@ return (
                                                         // const getFollowing = () => {
                                                         axios
                                                           .get(
-                                                            `http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`,
+                                                            `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
                                                             {
                                                               headers: {
                                                                 "Content-Type":
@@ -1455,7 +1630,7 @@ return (
                                                         // const getFollowing = () => {
                                                         axios
                                                           .get(
-                                                            `http://localhost:8000/api/v1/accounts/users/following/${Cookie.get('userid')}`,
+                                                            `http://localhost:8000/api/v1/accounts/users/following/${userid}`,
                                                             {
                                                               headers: {
                                                                 "Content-Type":
