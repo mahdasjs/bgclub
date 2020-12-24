@@ -61,7 +61,7 @@ class eventpage extends React.Component{
         {
         this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
         const formData = new FormData();
-        formData.append("post",this.state.postId);
+        formData.append("event",this.state.id);
         formData.append("text",this.state.comment)
         axios({
           method: "post",
@@ -74,7 +74,7 @@ class eventpage extends React.Component{
           this.setState({comment:' '})
           axios({
             method: "get",
-            url: `http://localhost:8000/api/v1/events/comment/list/${this.props.postId}`,
+            url: `http://localhost:8000/api/v1/events/comment/list/${this.state.id}`,
             headers: {'Authorization':`Token ${Cookie.get('token')}`},
           }).then((response) => {
               console.log(response.data)
@@ -101,7 +101,7 @@ class eventpage extends React.Component{
         this.setState({ like: event.target.checked });
         if(this.state.like===false)
           {const formData = new FormData();
-          formData.append("post",this.state.postId);
+          formData.append("event",this.state.id);
           axios({
             method: "post",
             url: `http://localhost:8000/api/v1/events/like/create/`,
@@ -113,7 +113,7 @@ class eventpage extends React.Component{
               this.setState({likeId:response.data.id})
               axios({
                 method: "get",
-                url: `http://localhost:8000/api/v1/events/like/list/${this.props.postId}`,
+                url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
                 headers: {'Authorization':`Token ${Cookie.get('token')}`},
               }).then((response) => {
                   console.log(response.data)
@@ -135,7 +135,7 @@ class eventpage extends React.Component{
             }).then((response)=>{
               axios({
                 method: "get",
-                url: `http://localhost:8000/api/v1/events/like/list/${this.props.postId}`,
+                url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
                 headers: {'Authorization':`Token ${Cookie.get('token')}`},
               }).then((response) => {
                   console.log(response.data)
@@ -186,11 +186,48 @@ class eventpage extends React.Component{
     handleClosePopUp=()=>{
       this.setState({openMemberPopUp: !this.state.openMemberPopUp})
     }
-    componentDidMount(){
+   componentDidMount() {
+    this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
+    this.count()
+      axios({
+        method: "get",
+        url: `http://localhost:8000/api/v1/posts/comment/list/${this.state.id}`,
+        headers: {'Authorization':`Token ${Cookie.get('token')}`},
+      }).then((response) => {
+          console.log(response.data)
+            const length=response.data.length;
+            
+            const commentdata=response.data;
+            const updatedcommentdata=commentdata.map(comment=>{
+                return{
+                  ...comment,
+                }
+              })
+          this.setState({comments:updatedcommentdata,commentArrayLength:length});
+          console.log(response.data.length)
 
-        this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
-        this.count()
-    }
+        })
+        axios({
+          method: "get",
+          url: `http://localhost:8000/api/v1/posts/like/list/${this.state.id}`,
+          headers: {'Authorization':`Token ${Cookie.get('token')}`},
+        }).then((response) => {
+          for(var i = 0; i<response.data.length; i++)
+            if(this.props.logedinUser===response.data[i].user.username)
+            {
+              this.setState({likeId:response.data[i].id})
+              this.setState({like:true})
+              break
+            }
+
+            // formData.append(`hashtags[${i}]name`,this.state.playlistTag[i])
+            console.log(response.data)
+            const length=response.data.length;
+       
+              this.setState({likeLength:length});
+              console.log(response.data.length)
+
+          })}
     render(){
       console.log(this.props.ratings)
       var value=0
