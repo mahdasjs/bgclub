@@ -18,9 +18,8 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box,Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-import Cookies from 'js-cookie';
 import Button from '@material-ui/core/Button';
-
+import Cookies from 'js-cookie'
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -100,12 +99,24 @@ class boardgames extends React.Component{
 
                         {this.props.name.substring(0,15)}
                         </Typography>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          color="primary">
-                            starting price : {this.props.data.sell_price}$
-                        </Button>
+                        {window.location.pathname.split('/')[2]==Cookies.get('userid')?(
+                            <Button
+                            variant="contained"
+                            size="small"
+                            color="primary">
+                              requests
+                          </Button>
+                        ):(
+                            <Button
+                            variant="contained"
+                            size="small"
+                            color="primary">
+                              starting price : {this.props.data.sell_price}$
+                          </Button>
+                        )
+
+                        }
+                       
                     </CardContent> 
                 </Card>
              </div>
