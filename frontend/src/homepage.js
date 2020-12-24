@@ -51,7 +51,7 @@ class Homepage extends Component{
                 {boardGames}
               </HorizontalScroll>
             </div> */}
-            <div  style={{height:'430px',marginLeft:'20px',marginTop:70,marginBottom:140}}>
+            <div  style={{height:'430px',marginLeft:'20px',marginBottom:140}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Posts </h2>
               <HorizontalScroll style={{marginLeft:-40}}  >
                 {posts}
