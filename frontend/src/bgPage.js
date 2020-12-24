@@ -18,7 +18,9 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box,Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import Button from '@material-ui/core/Button';
+
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -89,7 +91,7 @@ class boardgames extends React.Component{
                                 e.preventDefault();
                                 window.location.href='/bgpage/' + this.props.id;
                                 }}
-                        image={this.props.data.image}
+                        image={this.props.data.post_pic}
                         style={{
                             justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                             display:'flex'
@@ -98,29 +100,12 @@ class boardgames extends React.Component{
 
                         {this.props.name.substring(0,15)}
                         </Typography>
-                        <Grid container>
-                        <Grid lg={6}>
-                        <div style={{marginTop:10}}>
-                        <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
-                        </div>
-                        </Grid>
-                        <Grid lg={6}>
-                        <div style={{borderRadius:100}} >
-                        {this.state.count!=0?
-                        <IconButton aria-label="settings" style={{width:30,height:30,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
-                                <Minus  style={{color:"#000"}}/>
-                    </IconButton>
-                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:30,height:30,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
-                    <Minus  style={{color:"#000"}}/>
-        </IconButton>
-    }
-                    {this.state.count}
-                    <IconButton aria-label="settings" style={{width:30,height:30,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
-                                <Plus  style={{color:"#000"}}/>
-                    </IconButton>
-                    </div>
-                    </Grid>
-                    </Grid>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="primary">
+                            starting price : {this.props.data.sell_price}$
+                        </Button>
                     </CardContent> 
                 </Card>
              </div>
