@@ -29,7 +29,6 @@ class eventpage extends React.Component{
         super()
         this.state={
           value:0,
-          hover:-1,
           count:0,
           id:window.location.pathname.split('/')[2],
           comment:null,

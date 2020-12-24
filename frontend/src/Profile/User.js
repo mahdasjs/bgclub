@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Create from "./Createpost";
+import CreatePresell from "./presell";
+import CreateEvent from "../createEvent";
 import "./Profile.css";
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -22,6 +24,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
+import Mozayede from '../bgPage'
+import { connect } from 'react-redux';
+import Events from "../events";
+import {postData,eventsData} from '../actions/index'
 import SearchIcon from "@material-ui/icons/Search";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -39,21 +45,17 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import SwipeableViews from 'react-swipeable-views';
 import { If } from "rc-if-else";
+import HorizontalScroll from 'react-scroll-horizontal'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: "rgba(228, 233, 237, 0.4)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     flexGrow: 1,
-     //display: "flex",
-    // flexDirection: "row-reverse",
   },
   paper: {
     width: theme.spacing(86.5),
     height: theme.spacing(22),
-  
-    // backgroundColor: "rgba( 255,255,255, 0.1)",
     backgroundColor: "rgba(191, 191, 191, 0.5)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -82,11 +84,10 @@ const useStyles = makeStyles((theme) => ({
       top:-25
     },
   },
-  button3: {
+  button3: { 
     
     [theme.breakpoints.down('xs')]: {
       left: theme.spacing(23),
-      
     },
   },
   
@@ -157,7 +158,6 @@ function TabPanel(props) {
     </div>
   );
 }
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
@@ -172,7 +172,7 @@ function a11yProps(index) {
 }
 
 
-export default function User() {
+function User({events,posts,dispatch}) {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
@@ -180,10 +180,14 @@ export default function User() {
     const [openn, setOpenn] = React.useState(false);
     const [opennn, setOpennn] = React.useState(false);
     const [opennnn, setOpennnn] = React.useState(false);
+    const [openEvent, setOpenEvent] = React.useState(false);
+    const [openPresell, setOpenPresell] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
-    const [post, setPost] = useState([]);
+    const [uuuser, setUser] = useState({ user: "" });
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState([]);
     let [state, setState] = useState({
       username: null,
       firstname: null,
@@ -194,10 +198,7 @@ export default function User() {
     let [profilepic, setProfilepic] = useState({
       imagee: null,
       header:null,
-    });
-    const [uuuser, setUser] = useState({ user: "" });
-    const [users, setUsers] = useState([]);
-    const [search, setSearch] = useState([]);
+    });  
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
     const [followin, setFollowin] = useState([]);
@@ -221,10 +222,25 @@ export default function User() {
       let value = event.target.value;
       setUser({ user: value });
     };
+
     const handleClickOpenn = () => {
     setOpenn(true);
+   }   
+
+   const handleClickOpenEvent = () => {
+    setOpenEvent(true);
    }
+   const handleClickOpenPresell = () => {
+    setOpenPresell(true);
+   }
+
+  const handleClosePresell = () => {
+    dispatch(eventsData(window.location.pathname.split('/')[2]))
+    setOpenPresell(false);
+  };
    const handleClosee = () => {
+    dispatch(postData(window.location.pathname.split('/')[2]))
+    dispatch(eventsData(window.location.pathname.split('/')[2]))
     setOpenn(false);
   };
   const handleClickOpennn = () => {
@@ -239,7 +255,13 @@ export default function User() {
    const handleCloseeee = () => {
     setOpennnn(false);
   };
+  const handleCloseEvent = () => {
+    dispatch(eventsData(window.location.pathname.split('/')[2]))
+    setOpenEvent(false);
+  };
     useEffect(() => {
+        dispatch(postData(window.location.pathname.split('/')[2]))
+        dispatch(eventsData(window.location.pathname.split('/')[2]))
         handleClickOpen();
     }, []);
     const handleClickOpen = (scrollType) => () => {
@@ -247,6 +269,8 @@ export default function User() {
         setScroll(scrollType);
       };
       const handleClose = () => {
+        dispatch(postData(window.location.pathname.split('/')[2]))
+        dispatch(eventsData(window.location.pathname.split('/')[2]))
         setOpen(false);
       };
       const descriptionElementRef = React.useRef(null);
@@ -258,9 +282,7 @@ export default function User() {
       }
     }
   }, [open]);
-
-
-
+  
   useEffect(() => {
     const getFollowers = () => {
       axios
@@ -371,11 +393,38 @@ export default function User() {
   }, [uuuser]);
 
   useEffect(() => {
+    const userList = () => {
+      axios
+        .get("http://localhost:8000/api/v1/accounts/users/", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${Cookie.get("token")}`,
+          },
+        })
+        .then((res) => {
+          if (users == [null]) {
+            setUsers([]);
+          } else {
+            setUsers(res.data);
+            console.log(res.data)
+          }
+        })
+        .catch((error) => {});
+    };
+    userList();
+  }, []);
+  useEffect(() => {
     handlePlayprofile();
+  }, []);
+  useEffect(() => {
+    handlePlayprofile();
+  }, []);
+  useEffect(() => {
+    handleprofilepic();
   }, []);
   const handlePlayprofile = () => {
     axios
-      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`, {
+      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${window.location.pathname.split('/')[2]}`, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Token ${Cookie.get("token")}`,
@@ -383,14 +432,18 @@ export default function User() {
       })
       .then((res) => {
         setState({
+          header:res.data.header_picture,
           imagee: res.data.profile_picture,
           username: res.data.username,
           firstname: res.data.first_name,
         });
+        setLoading(false);
+        console.log(state.imagee);
       })
       .catch((error) => {});
   };
   useEffect(() => {
+    handleNews();
     handleprofilepic();
   }, []);
   const handleprofilepic = () => {
@@ -422,7 +475,6 @@ export default function User() {
           },
         })
         .then((res) => {
-          setPost(res.data);
           console.log(res.data)
           setpostLentgh(res.data.length);
         })
@@ -432,10 +484,39 @@ export default function User() {
       return !!followin.filter((item) => item.id === userId).length;
     };
   
-  
+  const handleNews = () => {
+    axios({
+      method: "get",
+      url: `https://5faaa726b5c645001602af7e.mockapi.io/api/v1/News`,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // Authorization: `Token ${Cookie.get("token")}`,
+      },
+    }).then((res) => {
+      setNews(res.data);
+      setLoading(false);
+    });
+  };
+   const boardgame=events.map(post => {
+    return <Events
+      id={post.id}
+      data={post}
+      />;
+  })     
 return (
     <div className="pro">
- <Grid
+
+        {loading?
+                    <div style={{display: "flex",
+                    fontFamily:'Open Sans',
+
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height:'80%'}}>
+                        <CircularProgress disableShrink />
+                         Loading ...
+                    </div> 
+                :  <Grid
                 container
                 
               >
@@ -478,7 +559,7 @@ return (
                         >
                           
                           {state.firstname}
-                        </Typography>
+                        </Typography> 
                         <Button size="small" 
                         onClick={handleClickOpennnn}
                         style={{fontFamily:'Open Sans'}}
@@ -1027,7 +1108,7 @@ return (
       >
       create post
       </Button>
-      <Dialog
+<Dialog
                                   style={{zIndex:100000000}}
                           open={openn}
                           onClose={handleClosee}
@@ -1054,7 +1135,48 @@ return (
                             </Button>
                           </DialogActions> */}
                         </Dialog>
-          
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={openEvent}
+                          onClose={handleCloseEvent}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Hold an event
+                          </DialogTitle>
+                          <DialogContent>
+                          <CreateEvent
+                          onSuccessFullySave={() => {
+                            handleCloseEvent();
+                          }}
+                            />
+                          </DialogContent>
+                        </Dialog>
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={openPresell}
+                          onClose={handleClosePresell}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Hold an event
+                          </DialogTitle>
+                          <DialogContent>
+                          <CreatePresell
+                          onSuccessFullySave={() => {
+                            handleClosePresell();
+                          }}
+                            />
+                          </DialogContent>
+                        </Dialog>
                         </Paper>
                        
                   <Dialog
@@ -1067,21 +1189,36 @@ return (
                         >
                           <DialogTitle id="scroll-dialog-title">Edit Profile</DialogTitle>
                           <DialogContent dividers={scroll === "paper"}>
-                            <Edit 
+                          <Edit 
                              onSuccessFullySave={() => {
                               handleClose();
                               handlePlayprofile();
                               handleprofilepic();
-                            }}
-                             />
+                            }}/>
                           </DialogContent>
                         </Dialog>
                         <div>
                         
       </div>
-      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '23%', height: '100%'}} >
+      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '70%',marginTop:60,marginBottom:100}} >
+      <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1,marginLeft:5 }}>Events </h2>
+      <Button
+                        style={{marginTop:"-70px",marginLeft: "167px"}}
+        variant="contained"
+        size="small"
+        color="primary"
+        onClick={handleClickOpenEvent}
+        className={classes.eventButton}
+      >
+      create event
+      </Button>
+      <div style={{marginLeft:-40,marginTop:-20, height: '100%'}}>
+        <FreeScrollBar>
+        {boardgame}
 
-                              <InputBase
+        </FreeScrollBar>
+    </div>     
+    <InputBase
                                 className={classes.input}
                                 placeholder="Search for users"
                                 style={{ fontSize: 13, marginLeft: "-10px" }}
@@ -1379,14 +1516,172 @@ return (
                               <Divider
                                 className={classes.divider}
                                 orientation="vertical"
-                              />
-                          
+                              />             
                       </div>
-                      <div>
-                         
+                      
+                      <div  style={{height:'350px',marginLeft:'20px',width:'75%'}}>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>My presell </h2>
+            <Button
+                        style={{marginTop:"-80px",marginLeft: "550px"}}
+        variant="contained"
+        size="small"
+        color="primary"
+        onClick={handleClickOpenPresell}
+        className={classes.button1}
+      >
+      presell bg
+      </Button>
+              <HorizontalScroll style={{marginTop:-30}} >
+              {posts.map(post => {
+      return <Mozayede
+        id={post.id}
+        name={post.bg_name}
+        data={post}
+        />;
+    })}
+              </HorizontalScroll>
+            </div>
+            <h2 style={{fontFamily:'Open Sans',marginLeft:20 ,fontSize: 30, lineHeight: 0.1 }}>My Boardgames </h2>
+
+                      <div style={{display:'flex',flexWrap:'wrap'}}>
+                            {posts.map(post => {
+      return <Post
+        id={post.id}
+        name={post.bg_name}
+        data={post}
+        />;
+    })}
                         </div>
+                        <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 ,height:10}} >
+
+<InputBase
+  className={classes.input}
+  placeholder="Search for users"
+  style={{ fontSize: 13, marginLeft: "-10px" }}
+  //inputProps={{ "aria-label": "Search for users" }}
+  type="text"
+  value={uuuser.user}
+  onChange={(event) =>
+    setUser({ user: event.target.value })
+  }
+/>
+<IconButton
+  type="submit"
+  style={{marginLeft:50}}
+  className={classes.iconButton}
+  aria-label="search"
+  onClick={handleClickOpennn}
+>
+  <SearchIcon />
+</IconButton>
+<Dialog
+          style={{zIndex:100000000}}
+
+  open={opennn}
+  onClose={handleCloseee}
+  PaperComponent={PaperComponent}
+  aria-labelledby="draggable-dialog-title"
+>
+  <DialogTitle
+    style={{ cursor: "move" }}
+    id="draggable-dialog-title"
+  >
+    Search for {uuuser.user}
+  </DialogTitle>
+  <DialogContent>
+    {search.length === 0 && (
+      <p
+        style={{
+          textAlign: "center",
+          fontFamily: "Roboto",
+        }}
+      >
+        Nothing to Show !
+      </p>
+    )}
+    {search.map((item) => {
+      return (
+        <Card
+          key={item.id}
+          style={{
+            backgroundColor: "white",
+            maxWidth: 260,
+            minWidth: 260,
+            maxHeight: 60,
+            minHeight: 60,
+            marginLeft: -7,
+            marginTop: 3,
+          }}
+        >
+          <CardContent className={classes.card}>
+            <Typography
+              variant="body1"
+              align="justify"
+              style={{
+                fontFamily: "Roboto",
+                marginTop: -5,
+                fontSize: 12,
+
+                marginLeft: 50,
+              }}
+              
+            >
+              {item.username}
+            </Typography>
+            <Typography
+              variant="body1"
+              align="justify"
+              style={{
+                fontFamily: "Roboto",
+                fontSize: 11,
+                color: "grey",
+                marginLeft: 50,
+              }}
+            >
+              {item.first_name}
+              {item.last_name}
+            </Typography>
+            <Avatar
+              src={item.profile_picture}
+              style={{
+                width: 48,
+                height: 48,
+                bottom: 38,
+                left: -5,
+              }}
+            />
+          </CardContent>
+        </Card>
+      );
+    })}
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleCloseee} color="primary">
+      ok
+    </Button>
+  </DialogActions>
+</Dialog>
+<Divider
+  className={classes.divider}
+  orientation="vertical"
+/>
+
+</div>
                         </Grid>
                         
-    </div>
+ } 
+       </div>
     );
  }
+ function mapStateToProps  (state) {
+  return {
+    select: state.select,
+    cartsssss:state.cartsssss,
+    comments:state.comments,
+    ratings:state.ratings,
+    boardGames:state.boardGames,
+    posts:state.posts,
+    events:state.events,
+  }
+}
+export default connect(mapStateToProps)(User);

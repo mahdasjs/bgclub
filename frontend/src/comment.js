@@ -51,14 +51,14 @@ const theme = createMuiTheme({
           {this.props.username}<span style={{ fontSize:13}}> {this.props.text}</span>
           </Typography>
           </Grid>
-          <If condition={this.props.username===this.state.username}>
+          {/* <If condition={this.props.username===this.state.username}>
           <Grid xs={1} sm={1} ms={1} lg={2}>
             <IconButton onClick={this.del}>
             <MoreVertIcon />
             </IconButton>
           </Grid>
           </If>
-        
+         */}
           </Grid>
 
           <Divider style={{marginTop:5,marginBottom:5,width:'90%'}}/>

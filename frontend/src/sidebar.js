@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import  {
+  ListItemSecondaryAction,
+} from "material-ui/List";
 import HomeIcon from '@material-ui/icons/Home';
 import PlaylistIcon from '@material-ui/icons/List';
 import AddIcon from '@material-ui/icons/Add';
@@ -191,7 +194,6 @@ class PersistentDrawerLeft extends React.Component {
                             Logout
                             </Typography>      </ListItem>
           </List>
-          
         </Drawer>
                   <Switch >
                   <Route  path="/homepage" exact component={homepage} />

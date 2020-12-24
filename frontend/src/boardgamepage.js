@@ -60,6 +60,7 @@ class boardgames extends React.Component{
         this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
       }
       async count(){
+<<<<<<< HEAD
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
@@ -68,6 +69,22 @@ class boardgames extends React.Component{
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
             mp.get(o.data.id).count++;
+=======
+        const result = [...this.props.cartPost.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            if(cookie.get('username')==o.data.username)
+            {
+                mp.get(o.data.postid).count++;
+            }
+            return mp;
+            }, new Map).keys()];
+        const values = [...this.props.cartsssss.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            if(cookie.get('username')==o.data.username)
+            {
+                mp.get(o.data.postid).count++;
+            }
+>>>>>>> dev
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -125,7 +142,7 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={5}
                   style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >            
                     <img
-                    src={this.props.select.image}
+                    src={this.props.select.post_pic}
                     style={{
                       justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                       maxWidth:'100%',
@@ -137,10 +154,14 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={6}
                       style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
                    <Typography className='bgname'>
-                      {this.props.select.name}
+                      {this.props.select.bg_name}
                     </Typography>
                     <Typography className='bgprice'>
+<<<<<<< HEAD
                       {this.props.select.price}
+=======
+                    ${this.props.select.sell_price}
+>>>>>>> dev
                         <div>
                             <Rating
                               name="simple-controlled"
@@ -161,7 +182,31 @@ class boardgames extends React.Component{
                                 <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                   <Plus  style={{color:"#000"}}/>
                                 </IconButton>
+<<<<<<< HEAD
                             </div>
+=======
+                            </div> */}
+                                 <div className='addAndRemoveID' style={{borderRadius:100}} >
+                          {this.state.count!=0?
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                                <Minus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                    <Minus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    {this.state.count}
+                    {this.state.count<this.props.select.number?
+                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                                <Plus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :
+                    <IconButton aria-label="settings" disabled style={{backgroundColor:' rgba(0, 0, 0, 0.1)',width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                    <Plus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    </div>
+>>>>>>> dev
                       <Typography className='bgdescription'>
                         {this.props.select.description}
                       </Typography>
@@ -245,7 +290,8 @@ const mapStateToProps = (state) => {
       select: state.select,
       cartsssss:state.cartsssss,
       comments:state.comments,
-      ratings:state.ratings
+      ratings:state.ratings,
+      cartPost:state.cartPost
     }
   }
 export default connect(mapStateToProps, null)(boardgames);
