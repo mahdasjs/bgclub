@@ -14,7 +14,9 @@ import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Img from './image'
+import Img from './image';
+import Grid from '@material-ui/core/Grid';
+import Slider from '@material-ui/core/Slider';
 const QontoConnector = withStyles({
   alternativeLabel: {
     top: 10,
@@ -203,7 +205,9 @@ function getStepContent(step) {
       return 'Unknown step';
   }
 }
-  
+function valuetext(value) {
+    return `${value}°C`;
+  }
 export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -211,6 +215,11 @@ export default function CustomizedSteppers() {
   const [StartDate, setStartDate] = React.useState("2017-05-24T10:30");
   const [post_pic, setPost_pic] = React.useState('');
   const [postpic, setPostpic] = React.useState('');
+  const [value, setValue] = React.useState(20);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   const handleChangeName=(event)=>{
     setName(event.target.value)
   }
@@ -274,6 +283,7 @@ export default function CustomizedSteppers() {
              label="Starts at"
              type="datetime-local"
              defaultValue="2017-05-24T10:30"
+             value={StartDate}
              style={{width:300}}
              onChange={handleStartDate}
              InputLabelProps={{
@@ -282,6 +292,22 @@ export default function CustomizedSteppers() {
            />
      </form>
      </div>
+      )
+      :
+      null}
+          {activeStep ===3 ? (
+              <div className={classes.root}>
+              <Typography id="range-slider" gutterBottom>
+                Starting price:${value}
+              </Typography>
+              <Slider
+                value={value}
+                onChange={handleChange}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                getAriaValueText={valuetext}
+              />
+            </div>
       )
       :
       null}
