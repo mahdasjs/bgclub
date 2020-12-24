@@ -13,6 +13,7 @@ import DateIcon from '@material-ui/icons/DateRange';
 import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 
 const QontoConnector = withStyles({
   alternativeLabel: {
@@ -202,10 +203,14 @@ function getStepContent(step) {
       return 'Unknown step';
   }
 }
-
+  
 export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [name, setName] = React.useState('');
+  const handleChangeName=(event)=>{
+    setName(event.target.value)
+  }
   const steps = getSteps();
 
   const handleNext = () => {
@@ -230,18 +235,32 @@ export default function CustomizedSteppers() {
         ))}
       </Stepper>
       <div>
+      {activeStep ===0 ? (
+          <div style={{marginTop:-20}}>
+              <div> select name for boardgame</div>
+             
+             <TextField id="standard-secondary" label="name" 
+             type="text"
+             name="name"
+             value={name}
+             onChange={handleChangeName} style={{width:'190px'}} />
+          </div>
+      )
+      :
+      null}
+
+      </div>
+
+      <div style={{marginTop:20}}>
         {activeStep === steps.length ? (
           <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
+
             <Button onClick={handleReset} className={classes.button}>
               Reset
             </Button>
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
             <div>
               <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                 Back
