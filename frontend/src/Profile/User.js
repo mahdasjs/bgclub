@@ -569,7 +569,7 @@ return (
                                           <Button
                                             style={{
                                               bottom: 80,
-                                              left: 165,
+                                              left: 150,
                                               fontSize: 11,
                                             }}
                                             variant="contained"
