@@ -197,9 +197,12 @@ class boardgames extends React.Component{
           }
           action={
             <div> 
+              {Cookie.get('userid')===window.location.pathname.split('/')[2]?
+
             <IconButton aria-label="settings"  onClick={this.handleClick}>
               <MoreVertIcon />
             </IconButton>
+            :null}
              <Menu
                                            anchorEl={anchorEl}
                                            open={open}
@@ -264,6 +267,8 @@ class boardgames extends React.Component{
                         <div style={{marginTop:10,marginLeft:10}}>
                         <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
                         </div>
+                        {Cookie.get('userid')===window.location.pathname.split('/')[2]?
+
                         <div className='addAndRemove' style={{borderRadius:100}} >
                           {this.state.count!=0?
                         <IconButton aria-label="settings" style={{width:30,height:30,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
@@ -284,6 +289,7 @@ class boardgames extends React.Component{
         </IconButton>
     }
                     </div>
+                    :null}
                     </CardContent> 
                 </Card>
                 <Dialog

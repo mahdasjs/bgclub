@@ -538,7 +538,10 @@ return (
                         ></Avatar>
                         </Paper>
                         <Paper elevation={2} className={classes.paper6}>
+                        {Cookie.get('userid')===window.location.pathname.split('/')[2]?
                         <Button className={classes.button} size="small" startIcon={<SettingsIcon />} onClick={handleClickOpen('paper')}></Button>
+                        :                        <Button className={classes.button} size="small" ></Button>
+                      }
                         <Typography
                           variant="body1"
                           align="justify"
@@ -1119,12 +1122,12 @@ return (
       create post
       </Button>
       :                                <Button
+      style={{marginTop:"-40px",marginLeft: "550px",bottom: "45px",fontFamily:'Open Sans'}}
       className="req"
       variant="outlined"
       size="small"
       color="default"
-      className={classes.margin1}
-      style={{fontFamily:'Open Sans'}}
+      className={classes.button3}
       onClick={
         followCheck 
                       ? async () => {
@@ -1384,6 +1387,7 @@ return (
       </div>
       <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '70%',marginTop:60,marginBottom:100}} >
       <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1,marginLeft:5 }}>Events </h2>
+      {Cookie.get('userid')===window.location.pathname.split('/')[2]?
       <Button
                         style={{marginTop:"-70px",marginLeft: "167px"}}
         variant="contained"
@@ -1394,31 +1398,14 @@ return (
       >
       create event
       </Button>
+      :null}
       <div style={{marginLeft:-40,marginTop:-20, height: '100%'}}>
         <FreeScrollBar>
         {boardgame}
 
         </FreeScrollBar>
     </div>     
-    <InputBase
-                                className={classes.input}
-                                placeholder="Search for users"
-                                style={{ fontSize: 13, marginLeft: "-10px" }}
-                                //inputProps={{ "aria-label": "Search for users" }}
-                                type="text"
-                                value={uuuser.user}
-                                onChange={(event) =>
-                                  setUser({ user: event.target.value })
-                                }
-                              />
-                              <IconButton
-                                type="submit"
-                                className={classes.iconButton}
-                                aria-label="search"
-                                onClick={handleClickOpennn}
-                              >
-                                <SearchIcon />
-                              </IconButton>
+  
                               <Dialog
                                         style={{zIndex:100000000}}
 
@@ -1703,6 +1690,7 @@ return (
                       
                       <div  style={{height:'350px',marginLeft:'20px',width:'75%'}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>My presell </h2>
+            {Cookie.get('userid')===window.location.pathname.split('/')[2]?
             <Button
                         style={{marginTop:"-80px",marginLeft: "550px"}}
         variant="contained"
@@ -1713,6 +1701,7 @@ return (
       >
       presell bg
       </Button>
+      :null}
               <HorizontalScroll style={{marginTop:-30}} >
               {posts.map(post => {
       return <Mozayede
