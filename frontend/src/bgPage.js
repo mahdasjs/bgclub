@@ -15,7 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AddCart from '@material-ui/icons/AddShoppingCart'
 import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
-import { IconButton,Box } from '@material-ui/core';
+import { IconButton,Box,Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
 import Cookies from 'js-cookie'
@@ -96,20 +96,31 @@ class boardgames extends React.Component{
                         ,maxHeight: 250, maxWidth: 180, minWidth: 180, minHeight: 165}}/>  
                                           <Typography className='name'>
 
-                        {this.props.name.substring(0,25)}
+                        {this.props.name.substring(0,15)}
                         </Typography>
+                        <Grid container>
+                        <Grid lg={6}>
                         <div style={{marginTop:10}}>
                         <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
                         </div>
-                        <div className='addAndRemove' style={{borderRadius:100}} >
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                        </Grid>
+                        <Grid lg={6}>
+                        <div style={{borderRadius:100}} >
+                        {this.state.count!=0?
+                        <IconButton aria-label="settings" style={{width:30,height:30,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
                     </IconButton>
+                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:30,height:30,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                    <Minus  style={{color:"#000"}}/>
+        </IconButton>
+    }
                     {this.state.count}
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                    <IconButton aria-label="settings" style={{width:30,height:30,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
                     </div>
+                    </Grid>
+                    </Grid>
                     </CardContent> 
                 </Card>
              </div>
