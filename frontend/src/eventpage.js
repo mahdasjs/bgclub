@@ -44,23 +44,44 @@ class eventpage extends React.Component{
       };
       handlePostComment=(e)=>{
         if(this.state.comment!==null)
-          {
-            this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
-            this.setState({comment:' '})
-            const formData = new FormData();
-            formData.append("post",this.state.id);
-            formData.append("text",this.state.comment)
-            axios({
-              method: "post",
-              url: "https://5faaa726b5c645001602af7e.mockapi.io/api/v1/new",
-              headers: { 
-                "Content-type": "multipart/form-data"},
-                data:formData
+        {
+        this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
+        const formData = new FormData();
+        formData.append("post",this.state.postId);
+        formData.append("text",this.state.comment)
+        axios({
+          method: "post",
+          url: "http://localhost:8000/api/v1/posts/comment/create/",
+          headers: { 
+            "Content-type": "multipart/form-data",
+            'Authorization':`Token ${Cookie.get('token')}`},
+            data:formData
+          }).then((response) => {
+          this.setState({comment:' '})
+          axios({
+            method: "get",
+            url: `http://localhost:8000/api/v1/posts/comment/list/${this.props.postId}`,
+            headers: {'Authorization':`Token ${Cookie.get('token')}`},
+          }).then((response) => {
+              console.log(response.data)
+                const length=response.data.length;
+                const commentdata=response.data;
+                const updatedcommentdata=commentdata.map(comment=>{
+                    return{
+                      ...comment,
+                    }
+                  })
+              this.setState({comments:updatedcommentdata,commentArrayLength:length});
+              console.log(response.data.length)
+              if(response.data.length!==0){              
+                console.log(this.state.comments[0].text)
+              }
             })
-          }
-        else{
-          alert("your comment can't be empty")
-        }
+            })}
+            else{
+              alert("your comment can't be empty")
+            }
+        
       }
       handlechangeRate= (e) => {
         this.setState({ value: e.target.value });
