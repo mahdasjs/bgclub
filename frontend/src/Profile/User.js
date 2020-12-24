@@ -26,7 +26,15 @@ import Post from '../Post'
 import { connect } from 'react-redux';
 import Events from "../events";
 import {postData,eventsData} from '../actions/index'
-
+import SearchIcon from "@material-ui/icons/Search";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardActions from "@material-ui/core/CardActions";
+import InputBase from "@material-ui/core/InputBase";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,6 +120,7 @@ function User({events,posts,dispatch}) {
     const [uuuser, setUser] = useState({ user: "" });
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState([]);
+    const [opennn, setOpennn] = React.useState(false);
     let [state, setState] = useState({
       username: null,
       firstname: null,
@@ -131,7 +140,14 @@ function User({events,posts,dispatch}) {
    }
    const handleClosee = () => {
     dispatch(postData(window.location.pathname.split('/')[2]))
+    dispatch(eventsData(window.location.pathname.split('/')[2]))
     setOpenn(false);
+  };
+  const handleClickOpennn = () => {
+    setOpennn(true);
+   }
+   const handleCloseee = () => {
+    setOpennn(false);
   };
   const handleCloseEvent = () => {
     dispatch(eventsData(window.location.pathname.split('/')[2]))
@@ -148,6 +164,7 @@ function User({events,posts,dispatch}) {
       };
       const handleClose = () => {
         dispatch(postData(window.location.pathname.split('/')[2]))
+        dispatch(eventsData(window.location.pathname.split('/')[2]))
         setOpen(false);
       };
       const descriptionElementRef = React.useRef(null);
@@ -407,7 +424,7 @@ return (
                         <div>
                         
       </div>
-      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '100%'}} >
+      <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 , width: '25%', height: '70%',marginTop:60,marginBottom:100}} >
       <h2 style={{fontFamily:'Open Sans' ,fontSize: 27, lineHeight: 0.1,marginLeft:5 }}>Events </h2>
       <Button
                         style={{marginTop:"-70px",marginLeft: "167px"}}
@@ -435,6 +452,121 @@ return (
         />;
     })}
                         </div>
+                        <div className="Profilenews" style={{ borderLeft:'1px groove rgba(0, 0, 0, 0.1)', position:'fixed',marginTop:0,marginLeft:700,paddingLeft:10 ,height:10}} >
+
+<InputBase
+  className={classes.input}
+  placeholder="Search for users"
+  style={{ fontSize: 13, marginLeft: "-10px" }}
+  //inputProps={{ "aria-label": "Search for users" }}
+  type="text"
+  value={uuuser.user}
+  onChange={(event) =>
+    setUser({ user: event.target.value })
+  }
+/>
+<IconButton
+  type="submit"
+  style={{marginLeft:50}}
+  className={classes.iconButton}
+  aria-label="search"
+  onClick={handleClickOpennn}
+>
+  <SearchIcon />
+</IconButton>
+<Dialog
+          style={{zIndex:100000000}}
+
+  open={opennn}
+  onClose={handleCloseee}
+  PaperComponent={PaperComponent}
+  aria-labelledby="draggable-dialog-title"
+>
+  <DialogTitle
+    style={{ cursor: "move" }}
+    id="draggable-dialog-title"
+  >
+    Search for {uuuser.user}
+  </DialogTitle>
+  <DialogContent>
+    {search.length === 0 && (
+      <p
+        style={{
+          textAlign: "center",
+          fontFamily: "Roboto",
+        }}
+      >
+        Nothing to Show !
+      </p>
+    )}
+    {search.map((item) => {
+      return (
+        <Card
+          key={item.id}
+          style={{
+            backgroundColor: "white",
+            maxWidth: 260,
+            minWidth: 260,
+            maxHeight: 60,
+            minHeight: 60,
+            marginLeft: -7,
+            marginTop: 3,
+          }}
+        >
+          <CardContent className={classes.card}>
+            <Typography
+              variant="body1"
+              align="justify"
+              style={{
+                fontFamily: "Roboto",
+                marginTop: -5,
+                fontSize: 12,
+
+                marginLeft: 50,
+              }}
+              
+            >
+              {item.username}
+            </Typography>
+            <Typography
+              variant="body1"
+              align="justify"
+              style={{
+                fontFamily: "Roboto",
+                fontSize: 11,
+                color: "grey",
+                marginLeft: 50,
+              }}
+            >
+              {item.first_name}
+              {item.last_name}
+            </Typography>
+            <Avatar
+              src={item.profile_picture}
+              style={{
+                width: 48,
+                height: 48,
+                bottom: 38,
+                left: -5,
+              }}
+            />
+          </CardContent>
+        </Card>
+      );
+    })}
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleCloseee} color="primary">
+      ok
+    </Button>
+  </DialogActions>
+</Dialog>
+<Divider
+  className={classes.divider}
+  orientation="vertical"
+/>
+
+</div>
                         </Grid>
                         
  } 

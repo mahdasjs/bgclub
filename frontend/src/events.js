@@ -17,11 +17,6 @@ class boardgames extends React.Component{
     constructor(){
         super()
         this.state={
-            checkCart:false,
-            counter:[],
-            count:0,
-            rate:0,
-            limitation:10,
             anchorEl: null,
         }
     }
@@ -41,7 +36,9 @@ class boardgames extends React.Component{
       this.handleClose()
     }
     componentDidMount(){
+      this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
     }
+
     
     render(){
       const { anchorEl } = this.state;
@@ -53,7 +50,7 @@ class boardgames extends React.Component{
                     style={{marginTop:15, maxWidth:280,minWidth:280,height:'auto',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} >
                               <CardHeader
           avatar={
-            <Avatar  src="a" aria-label="recipe" style={{marginLeft:0,width:40,height:40}} >
+            <Avatar   src={this.props.data.user.profile_picture} aria-label="recipe" style={{marginLeft:0,width:40,height:40}} >
              
             </Avatar>
           }

@@ -61,19 +61,19 @@ class boardgames extends React.Component{
         this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
       }
       async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+        const result = [...this.props.cartPost.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
             if(cookie.get('username')==o.data.username)
             {
-                mp.get(o.data.bgid).count++;
+                mp.get(o.data.postid).count++;
             }
             return mp;
             }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
             if(cookie.get('username')==o.data.username)
             {
-                mp.get(o.data.bgid).count++;
+                mp.get(o.data.postid).count++;
             }
             return mp;
         }, new Map).values()];
@@ -147,7 +147,7 @@ class boardgames extends React.Component{
                       {this.props.select.bg_name}
                     </Typography>
                     <Typography className='bgprice'>
-                    ${this.props.select.price}
+                    ${this.props.select.sell_price}
                         <div>
                             <Rating
                               onClick={this.handlechangeRate}
@@ -178,7 +178,7 @@ class boardgames extends React.Component{
         </IconButton>
     }
                     {this.state.count}
-                    {this.state.count<this.state.limitation?
+                    {this.state.count<this.props.select.number?
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
@@ -276,7 +276,8 @@ const mapStateToProps = (state) => {
       select: state.select,
       cartsssss:state.cartsssss,
       comments:state.comments,
-      ratings:state.ratings
+      ratings:state.ratings,
+      cartPost:state.cartPost
     }
   }
 export default connect(mapStateToProps, null)(boardgames);

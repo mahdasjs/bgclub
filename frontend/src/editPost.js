@@ -170,7 +170,7 @@ export default class Create extends React.Component {
       </div>
       <div>
       <FormControl component="fieldset">
-      <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChangeSell} >
+      <RadioGroup aria-label="gender" name="gender1" onChange={this.handleChangeSell} value={this.state.value}  >
         <FormControlLabel value="sell" control={<Radio />} label="Sell" />
         <FormControlLabel value="rent" control={<Radio />} label="Rent" />
       </RadioGroup>

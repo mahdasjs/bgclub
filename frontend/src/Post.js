@@ -27,8 +27,6 @@ class boardgames extends React.Component{
     constructor(){
         super()
         this.state={
-            checkCart:false,
-            counter:[],
             count:0,
             rate:0,
             anchorEl: null,
@@ -193,7 +191,7 @@ class boardgames extends React.Component{
                     style={{marginTop:15, maxWidth:280,minWidth:280,maxHeight:400,minHeight:400}}>
                               <CardHeader
           avatar={
-            <Avatar  src="a" aria-label="recipe" style={{marginLeft:10}} >
+            <Avatar  src={this.props.data.user.profile_picture} aria-label="recipe" style={{marginLeft:10}} >
              
             </Avatar>
           }
