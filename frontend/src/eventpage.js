@@ -191,7 +191,7 @@ class eventpage extends React.Component{
     this.count()
       axios({
         method: "get",
-        url: `http://localhost:8000/api/v1/posts/comment/list/${this.state.id}`,
+        url: `http://localhost:8000/api/v1/events/comment/list/${this.state.id}`,
         headers: {'Authorization':`Token ${Cookie.get('token')}`},
       }).then((response) => {
           console.log(response.data)
@@ -209,11 +209,11 @@ class eventpage extends React.Component{
         })
         axios({
           method: "get",
-          url: `http://localhost:8000/api/v1/posts/like/list/${this.state.id}`,
+          url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
           headers: {'Authorization':`Token ${Cookie.get('token')}`},
         }).then((response) => {
           for(var i = 0; i<response.data.length; i++)
-            if(this.props.logedinUser===response.data[i].user.username)
+            if(Cookie.get('username')===response.data[i].user.username)
             {
               this.setState({likeId:response.data[i].id})
               this.setState({like:true})
@@ -240,15 +240,17 @@ class eventpage extends React.Component{
         }
       }
 
-      let comments = this.props.comments.map(post => {
-        if(post.data.id==this.state.id){
-          return <Postcomments
-          avatar={'post.user.profile_picture'}
-          id={post.data.id}
-          text={post.data.comment}
-          username={post.data.username}
+      let comments = this.state.comments.map(post => {
+        return <Postcomments
+          avatar={post.user.profile_picture}
+          key={post.id}
+          id={post.id}
+          text={post.text}
+          username={post.user.username}
+          userid={post.user.id}
+          postUser={this.props.postUser}
+          action={this.handle}
           />;
-        }
       });
         return(
             <div className='eventpage'>

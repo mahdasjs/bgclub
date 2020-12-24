@@ -41,6 +41,7 @@ const theme = createMuiTheme({
                   <Grid container>
                     <Grid style={{display:'flex',flexWrap:'nowrap',marginTop:5}} item xs={11} sm={11} md={11} lg={10}>
                 <Avatar
+                src={this.props.avatar}
                       style={{
                         width: 30,
                         height: 30
