@@ -89,7 +89,7 @@ class boardgames extends React.Component{
                                 e.preventDefault();
                                 window.location.href='/bgpage/' + this.props.id;
                                 }}
-                        image={this.props.data.image}
+                        image={this.props.data.post_pic}
                         style={{
                             justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                             display:'flex'

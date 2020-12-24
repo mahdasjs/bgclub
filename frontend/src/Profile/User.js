@@ -23,6 +23,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
+import Mozayede from '../bgPage'
 import { connect } from 'react-redux';
 import Events from "../events";
 import {postData,eventsData} from '../actions/index'
@@ -35,6 +36,7 @@ import CardActions from "@material-ui/core/CardActions";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import HorizontalScroll from 'react-scroll-horizontal'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -443,6 +445,20 @@ return (
         </FreeScrollBar>
     </div>                  
                       </div>
+                      <div  style={{height:'350px',marginLeft:'20px',width:'75%'}}>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>My presell </h2>
+              <HorizontalScroll  >
+              {posts.map(post => {
+      return <Mozayede
+        id={post.id}
+        name={post.bg_name}
+        data={post}
+        />;
+    })}
+              </HorizontalScroll>
+            </div>
+            <h2 style={{fontFamily:'Open Sans',marginLeft:20 ,fontSize: 30, lineHeight: 0.1 }}>My Boardgames </h2>
+
                       <div style={{display:'flex',flexWrap:'wrap'}}>
                             {posts.map(post => {
       return <Post
@@ -581,7 +597,7 @@ return (
     ratings:state.ratings,
     boardGames:state.boardGames,
     posts:state.posts,
-    events:state.events
+    events:state.events,
   }
 }
 export default connect(mapStateToProps)(User);
