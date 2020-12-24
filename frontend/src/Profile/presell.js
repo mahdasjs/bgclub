@@ -14,7 +14,7 @@ import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-
+import Img from './image'
 const QontoConnector = withStyles({
   alternativeLabel: {
     top: 10,
@@ -208,11 +208,17 @@ export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [name, setName] = React.useState('');
+  const [post_pic, setPost_pic] = React.useState('');
+  const [postpic, setPostpic] = React.useState('');
   const handleChangeName=(event)=>{
     setName(event.target.value)
   }
   const steps = getSteps();
-
+  const  fileSelectedHandler = (event) => {
+    event.preventDefault();
+    setPost_pic(event.target.files[0])
+    setPostpic(URL.createObjectURL(event.target.files[0]))
+  };
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -248,7 +254,14 @@ export default function CustomizedSteppers() {
       )
       :
       null}
-
+        {activeStep ===1 ? (
+          <div style={{marginTop:-20}}>
+              <div> select picture for boardgame</div>
+           <Img/>
+            </div>
+      )
+      :
+      null}
       </div>
 
       <div style={{marginTop:20}}>
