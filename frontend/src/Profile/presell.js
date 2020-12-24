@@ -208,12 +208,16 @@ export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [name, setName] = React.useState('');
+  const [StartDate, setStartDate] = React.useState("2017-05-24T10:30");
   const [post_pic, setPost_pic] = React.useState('');
   const [postpic, setPostpic] = React.useState('');
   const handleChangeName=(event)=>{
     setName(event.target.value)
   }
   const steps = getSteps();
+  const handleStartDate = (e) => {
+    setStartDate(e.target.value)
+    }
   const  fileSelectedHandler = (event) => {
     event.preventDefault();
     setPost_pic(event.target.files[0])
@@ -257,8 +261,27 @@ export default function CustomizedSteppers() {
         {activeStep ===1 ? (
           <div style={{marginTop:-20}}>
               <div> select picture for boardgame</div>
-           <Img/>
+           <Img />
             </div>
+      )
+      :
+      null}
+             {activeStep ===2 ? (
+           <div>
+           <form noValidate>
+           <TextField
+             id="datetime-local"
+             label="Starts at"
+             type="datetime-local"
+             defaultValue="2017-05-24T10:30"
+             style={{width:300}}
+             onChange={handleStartDate}
+             InputLabelProps={{
+               shrink: true,
+             }}
+           />
+     </form>
+     </div>
       )
       :
       null}
