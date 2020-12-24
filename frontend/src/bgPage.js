@@ -19,7 +19,13 @@ import { IconButton,Box,Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
 import Button from '@material-ui/core/Button';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import Avatar from "@material-ui/core/Avatar";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import CheckIcon from "@material-ui/icons/Check";
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -28,6 +34,7 @@ class boardgames extends React.Component{
             counter:[],
             count:0,
             rate:0,
+            openReqPopUp:false
         }
     }
     async count(){
@@ -72,7 +79,9 @@ class boardgames extends React.Component{
         this.props.dispatch(removeFromCart(this.props.id))
         this.setState({count:this.state.count-1})
     }
-
+    handleCloseReqPopUp=()=>{
+        this.setState({openReqPopUp: !this.state.openReqPopUp})
+      }
     componentDidMount(){
         console.log(this.props.cartsssss)
         this.count()
@@ -103,7 +112,9 @@ class boardgames extends React.Component{
                             <Button
                             variant="contained"
                             size="small"
-                            color="primary">
+                            color="primary"
+                            onClick={this.handleCloseReqPopUp}
+                            >
                               requests
                           </Button>
                         ):(
@@ -119,6 +130,83 @@ class boardgames extends React.Component{
                        
                     </CardContent> 
                 </Card>
+                <Dialog
+                          style={{zIndex:100000000}}
+                          open={this.state.openReqPopUp}
+                          onClose={this.handleCloseReqPopUp}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" }}
+                            id="draggable-dialog-title"
+                          >
+                            Requests
+                          </DialogTitle>
+                          <DialogContent>
+                            {this.props.ratings.map((item) => (
+                              <Card
+                                key={item.id}
+                                style={{backgroundColor: "white",
+                                  maxWidth: 260,
+                                  minWidth: 260,
+                                  maxHeight: 60,
+                                  minHeight: 60,
+                                  marginLeft: -7,
+                                  marginTop: 10,
+                                }}
+                              >
+                                <CardContent>
+                                  <Typography
+                                    variant="body1"
+                                    align="justify"
+                                    style={{
+                                      fontFamily: "Roboto",
+                                      fontSize: 12,
+                                      marginLeft: 50,
+                                    }}
+                                  >
+                                    {item.data.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body1"
+                                    align="justify"
+                                    style={{
+                                      fontFamily: "Roboto",
+                                      fontSize: 11,
+                                      color: "grey",
+                                      marginLeft: 50,
+                                    }}
+                                  >
+                                    {item.name}
+                                    {item.name}
+                                  </Typography>
+          
+                                  <Avatar
+                                    style={{
+                                      width: 48,
+                                      height: 48,
+                                      left: -5,
+                                    }}
+                                  />
+                                  <IconButton
+                                  style={{marginTop: "-150px",
+                                    marginLeft: "190px"}}
+                                    type="submit"
+                                    // className={classes.iconButton}
+                                    aria-label="search"
+                                  >
+                                    <CheckIcon color="primary" />
+                                  </IconButton>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={this.handleClosePopUp} color="primary">
+                              ok
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
              </div>
         )
     }
