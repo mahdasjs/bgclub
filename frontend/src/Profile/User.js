@@ -49,13 +49,18 @@ import HorizontalScroll from 'react-scroll-horizontal'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    // backgroundColor: "rgba(228, 233, 237, 0.4)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     flexGrow: 1,
+     //display: "flex",
+    // flexDirection: "row-reverse",
   },
   paper: {
     width: theme.spacing(86.5),
     height: theme.spacing(22),
+  
+    // backgroundColor: "rgba( 255,255,255, 0.1)",
     backgroundColor: "rgba(191, 191, 191, 0.5)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -84,10 +89,11 @@ const useStyles = makeStyles((theme) => ({
       top:-25
     },
   },
-  button3: { 
+  button3: {
     
     [theme.breakpoints.down('xs')]: {
       left: theme.spacing(23),
+      
     },
   },
   
@@ -158,6 +164,7 @@ function TabPanel(props) {
     </div>
   );
 }
+
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
@@ -226,7 +233,6 @@ function User({events,posts,dispatch}) {
     const handleClickOpenn = () => {
     setOpenn(true);
    }   
-
    const handleClickOpenEvent = () => {
     setOpenEvent(true);
    }
@@ -256,6 +262,7 @@ function User({events,posts,dispatch}) {
     setOpennnn(false);
   };
   const handleCloseEvent = () => {
+    handleClickOpen();
     dispatch(eventsData(window.location.pathname.split('/')[2]))
     setOpenEvent(false);
   };
@@ -502,7 +509,7 @@ function User({events,posts,dispatch}) {
       id={post.id}
       data={post}
       />;
-  })     
+  })  
 return (
     <div className="pro">
 
@@ -1574,93 +1581,7 @@ return (
 >
   <SearchIcon />
 </IconButton>
-<Dialog
-          style={{zIndex:100000000}}
 
-  open={opennn}
-  onClose={handleCloseee}
-  PaperComponent={PaperComponent}
-  aria-labelledby="draggable-dialog-title"
->
-  <DialogTitle
-    style={{ cursor: "move" }}
-    id="draggable-dialog-title"
-  >
-    Search for {uuuser.user}
-  </DialogTitle>
-  <DialogContent>
-    {search.length === 0 && (
-      <p
-        style={{
-          textAlign: "center",
-          fontFamily: "Roboto",
-        }}
-      >
-        Nothing to Show !
-      </p>
-    )}
-    {search.map((item) => {
-      return (
-        <Card
-          key={item.id}
-          style={{
-            backgroundColor: "white",
-            maxWidth: 260,
-            minWidth: 260,
-            maxHeight: 60,
-            minHeight: 60,
-            marginLeft: -7,
-            marginTop: 3,
-          }}
-        >
-          <CardContent className={classes.card}>
-            <Typography
-              variant="body1"
-              align="justify"
-              style={{
-                fontFamily: "Roboto",
-                marginTop: -5,
-                fontSize: 12,
-
-                marginLeft: 50,
-              }}
-              
-            >
-              {item.username}
-            </Typography>
-            <Typography
-              variant="body1"
-              align="justify"
-              style={{
-                fontFamily: "Roboto",
-                fontSize: 11,
-                color: "grey",
-                marginLeft: 50,
-              }}
-            >
-              {item.first_name}
-              {item.last_name}
-            </Typography>
-            <Avatar
-              src={item.profile_picture}
-              style={{
-                width: 48,
-                height: 48,
-                bottom: 38,
-                left: -5,
-              }}
-            />
-          </CardContent>
-        </Card>
-      );
-    })}
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseee} color="primary">
-      ok
-    </Button>
-  </DialogActions>
-</Dialog>
 <Divider
   className={classes.divider}
   orientation="vertical"
