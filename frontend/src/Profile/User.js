@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Edit from "./Edit";
 import Create from "./Createpost";
 import CreateEvent from "../createEvent";
+import CreatePresell from "./presell";
 import "./Profile.css";
 import Button from '@material-ui/core/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -23,6 +24,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
+import Mozayede from '../bgPage'
 import { connect } from 'react-redux';
 import Events from "../events";
 import {postData,eventsData} from '../actions/index'
@@ -35,6 +37,7 @@ import CardActions from "@material-ui/core/CardActions";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import HorizontalScroll from 'react-scroll-horizontal'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -114,6 +117,7 @@ function User({events,posts,dispatch}) {
     const [open, setOpen] = React.useState(false);
     const [openn, setOpenn] = React.useState(false);
     const [openEvent, setOpenEvent] = React.useState(false);
+    const [openPresell, setOpenPresell] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const userid = Cookie.get("userid");
     const [news, setNews] = useState([]);
@@ -138,6 +142,14 @@ function User({events,posts,dispatch}) {
    const handleClickOpenEvent = () => {
     setOpenEvent(true);
    }
+   const handleClickOpenPresell = () => {
+    setOpenPresell(true);
+   }
+
+  const handleClosePresell = () => {
+    dispatch(eventsData(window.location.pathname.split('/')[2]))
+    setOpenPresell(false);
+  };
    const handleClosee = () => {
     dispatch(postData(window.location.pathname.split('/')[2]))
     dispatch(eventsData(window.location.pathname.split('/')[2]))
@@ -401,6 +413,27 @@ return (
                             />
                           </DialogContent>
                         </Dialog>
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={openPresell}
+                          onClose={handleClosePresell}
+                          PaperComponent={PaperComponent}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Hold an event
+                          </DialogTitle>
+                          <DialogContent>
+                          <CreatePresell
+                          onSuccessFullySave={() => {
+                            handleClosePresell();
+                          }}
+                            />
+                          </DialogContent>
+                        </Dialog>
                         </Paper>
                        
                   <Dialog
@@ -443,6 +476,30 @@ return (
         </FreeScrollBar>
     </div>                  
                       </div>
+                      <div  style={{height:'350px',marginLeft:'20px',width:'75%'}}>
+            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>My presell </h2>
+            <Button
+                        style={{marginTop:"-80px",marginLeft: "550px"}}
+        variant="contained"
+        size="small"
+        color="primary"
+        onClick={handleClickOpenPresell}
+        className={classes.button1}
+      >
+      presell bg
+      </Button>
+              <HorizontalScroll style={{marginTop:-30}} >
+              {posts.map(post => {
+      return <Mozayede
+        id={post.id}
+        name={post.bg_name}
+        data={post}
+        />;
+    })}
+              </HorizontalScroll>
+            </div>
+            <h2 style={{fontFamily:'Open Sans',marginLeft:20 ,fontSize: 30, lineHeight: 0.1 }}>My Boardgames </h2>
+
                       <div style={{display:'flex',flexWrap:'wrap'}}>
                             {posts.map(post => {
       return <Post
@@ -581,7 +638,7 @@ return (
     ratings:state.ratings,
     boardGames:state.boardGames,
     posts:state.posts,
-    events:state.events
+    events:state.events,
   }
 }
 export default connect(mapStateToProps)(User);
