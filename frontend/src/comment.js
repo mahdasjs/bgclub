@@ -13,6 +13,9 @@ import MoreVertIcon from '@material-ui/icons/Delete';
 import Cookie from 'js-cookie';
 import axios from 'axios'
 import { If } from 'rc-if-else';
+import { connect } from 'react-redux';
+import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData} from './actions/index'
+
 const theme = createMuiTheme({
     typography: {
       body1: {
@@ -30,7 +33,18 @@ const theme = createMuiTheme({
 
       }
     }
+    del= () => {
+      axios({
+          method:'delete',
+          url: `http://localhost:8000/api/v1/events/comment/${this.props.id}`,
+          headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+      }).then((response)=>{
+        this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
+      })
+  }
     componentDidMount() {
+      // this.props.action();
+
       console.log(this.props.username,this.state.username)
     }
     render(){
@@ -52,14 +66,14 @@ const theme = createMuiTheme({
           {this.props.username}<span style={{ fontSize:13}}> {this.props.text}</span>
           </Typography>
           </Grid>
-          {/* <If condition={this.props.username===this.state.username}>
+          <If condition={this.props.username===this.state.username}>
           <Grid xs={1} sm={1} ms={1} lg={2}>
             <IconButton onClick={this.del}>
             <MoreVertIcon />
             </IconButton>
           </Grid>
           </If>
-         */}
+        
           </Grid>
 
           <Divider style={{marginTop:5,marginBottom:5,width:'90%'}}/>
@@ -68,4 +82,13 @@ const theme = createMuiTheme({
 );
       }
     }
-export default post;
+    const mapStateToProps = (state) => {
+      return {
+        select: state.select,
+        cartsssss:state.cartsssss,
+        ratings:state.ratings,
+        selectEvent:state.selectEvent,
+        comments:state.comments
+      }
+    }
+  export default connect(mapStateToProps, null)(post);

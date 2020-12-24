@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedEventData,addToCart,removeFromCart,addComment, addRating, checkRating} from './actions/index'
+import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -59,7 +59,6 @@ class eventpage extends React.Component{
       handlePostComment=(e)=>{
         if(this.state.comment!==null)
         {
-        this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
         const formData = new FormData();
         formData.append("event",this.state.id);
         formData.append("text",this.state.comment)
@@ -71,26 +70,9 @@ class eventpage extends React.Component{
             'Authorization':`Token ${Cookie.get('token')}`},
             data:formData
           }).then((response) => {
+            this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
+
           this.setState({comment:' '})
-          axios({
-            method: "get",
-            url: `http://localhost:8000/api/v1/events/comment/list/${this.state.id}`,
-            headers: {'Authorization':`Token ${Cookie.get('token')}`},
-          }).then((response) => {
-              console.log(response.data)
-                const length=response.data.length;
-                const commentdata=response.data;
-                const updatedcommentdata=commentdata.map(comment=>{
-                    return{
-                      ...comment,
-                    }
-                  })
-              this.setState({comments:updatedcommentdata,commentArrayLength:length});
-              console.log(response.data.length)
-              if(response.data.length!==0){              
-                console.log(this.state.comments[0].text)
-              }
-            })
             })}
             else{
               alert("your comment can't be empty")
@@ -147,28 +129,6 @@ class eventpage extends React.Component{
                 })
             })}
       };
-      async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-            }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-        }, new Map).values()];
-        for(var i=0; i<result.length; i++){
-            if(this.state.id==result[i]){
-                await this.setState({count:values[i].count})
-            }
-        }
-        for(var i=0;i<this.props.ratings.length;i++){
-          if(this.state.id==this.props.ratings[i].data.id&&cookie.get('username')==this.props.ratings[i].data.username){
-             await this.setState({value:this.props.ratings[i].data.rate})
-          }
-        }
-    }
     handleAdd=(e)=>{
         this.count();
         this.props.dispatch(addToCart({data:this.props.select}))
@@ -188,25 +148,7 @@ class eventpage extends React.Component{
     }
    componentDidMount() {
     this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
-    this.count()
-      axios({
-        method: "get",
-        url: `http://localhost:8000/api/v1/events/comment/list/${this.state.id}`,
-        headers: {'Authorization':`Token ${Cookie.get('token')}`},
-      }).then((response) => {
-          console.log(response.data)
-            const length=response.data.length;
-            
-            const commentdata=response.data;
-            const updatedcommentdata=commentdata.map(comment=>{
-                return{
-                  ...comment,
-                }
-              })
-          this.setState({comments:updatedcommentdata,commentArrayLength:length});
-          console.log(response.data.length)
-
-        })
+    this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
         axios({
           method: "get",
           url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
@@ -239,8 +181,7 @@ class eventpage extends React.Component{
           value=value+parseFloat (ratingValues[i].data.rate)
         }
       }
-
-      let comments = this.state.comments.map(post => {
+      let comments = this.props.comments.map(post => {
         return <Postcomments
           avatar={post.user.profile_picture}
           key={post.id}
@@ -249,9 +190,8 @@ class eventpage extends React.Component{
           username={post.user.username}
           userid={post.user.id}
           postUser={this.props.postUser}
-          action={this.handle}
           />;
-      });
+      }).reverse();
         return(
             <div className='eventpage'>
               <Grid container>
@@ -341,16 +281,8 @@ class eventpage extends React.Component{
                   </Grid>
                 </Grid>
                 <Grid  item xs={12} sm={12} lg={12}  style={{marginLeft:'30px',marginTop:10}} >
-                  <PerfectScrollbar>
                     {comments}
-                  </PerfectScrollbar>
                 </Grid>
-                <If condition ={this.state.showAll===false}>
-                  <Grid  item xs={12} sm={12} lg={12}  style={{marginTop:10, visibility:this.state.visibility}}>
-                    {comments[0]}
-                    {/* {comments[this.state.commentArrayLength-2]} */}
-                  </Grid>
-                </If>
                 <Dialog
                           style={{zIndex:100000000}}
                           open={this.state.openMemberPopUp}
@@ -429,47 +361,6 @@ class eventpage extends React.Component{
                             </Button>
                           </DialogActions>
                         </Dialog>
-                <If  condition ={comments.length>1 &&this.state.showAll===false}>
-                  <Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
-                    <Button 
-                    onClick={this.showAll}
-                    variant="body1"
-                    align="justify"
-                    style={{
-                      display:'table',
-                      marginRight:'auto',
-                      marginLeft:'auto',
-                    fontSize: 12,
-                    fontSize:13,
-                    marginBottom:-20,
-                    color:'rgba(0, 0, 0, 0.4)'
-                    }}
-                    >
-                      show more                    
-                    </Button>
-                  </Grid>
-                </If>  
-                <If  condition ={comments.length>1 && this.state.showAll===true}>
-                  <Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
-                    <Button
-                    // onClick={this.linkPost}
-                    onClick={this.showAll}
-                    variant="body1"
-                    align="justify"
-                    style={{
-                      display:'table',
-                      marginRight:'auto',
-                      marginLeft:'auto',
-                    fontSize: 12,
-                    fontSize:13,
-                    marginBottom:-20,
-                    color:'rgba(0, 0, 0, 0.4)'
-                    }}
-                    >
-                      show less                    
-                    </Button>
-                  </Grid>
-                </If>
             </div>
         )
     }
@@ -478,10 +369,9 @@ const mapStateToProps = (state) => {
     return {
       select: state.select,
       cartsssss:state.cartsssss,
-      comments:state.comments,
       ratings:state.ratings,
-      selectEvent:state.selectEvent
-
+      selectEvent:state.selectEvent,
+      comments:state.comments
     }
   }
 export default connect(mapStateToProps, null)(eventpage);

@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { bgData, fetchData, postData, resultData,selectedData } from './actions';
+import { bgData, commentData, fetchData, postData, resultData,selectedData } from './actions';
 
 
 const saveState = (state) => {
@@ -36,7 +36,7 @@ store.dispatch(bgData());
 store.dispatch(resultData());
 store.dispatch(selectedData());
 store.dispatch(postData());
-
+store.dispatch(commentData())
 store.subscribe(() => {
   saveState({
     boardGames: store.getState().boardGames,

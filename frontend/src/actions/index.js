@@ -91,6 +91,23 @@ export const eventsData = (id) => {
             });
     };
 };
+export const commentData = (id) => {
+    return (dispatch) => {
+        return axios.get(`http://localhost:8000/api/v1/events/comment/list/${id}`)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_COMMENT,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
 export const resultData = (entry) => {
     return (dispatch) => {
         return axios.get(searchApi+entry)
