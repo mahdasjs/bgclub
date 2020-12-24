@@ -70,16 +70,18 @@ export default class Edit extends React.Component {
     const formData = new FormData();
     formData.append("profile_picture", this.state.profile_picture);
     formData.append("header_picture", this.state.header_picture);
-    console.log(this.state.profile_status);
+    formData.append("postal", this.state.postal);
+    formData.append("phone", this.state.phone);
+    formData.append("address", this.state.address);
     try {
       const response = await axios.patch(
-        `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`,
+        `http://localhost:8000/api/v1/accounts/users/profile/${userid}`,
         formData,
         {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            // Authorization: "Token " + token,
+            Authorization: "Token " + token,
           },
         }
       );
@@ -88,19 +90,17 @@ export default class Edit extends React.Component {
     formData.append("last_name", this.state.last_name);
     formData.append("username", this.state.username);
     formData.append("email", this.state.email);
-    formData.append("postal", this.state.postal);
-    formData.append("phone", this.state.phone);
-    formData.append("address", this.state.address);
-    axios
-      .patch(
-        `https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`,
-        formData,
 
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-           // Authorization: "Token " + token,
-          },
+    axios
+    .patch(
+      `http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`,
+      formData,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Token " + token,
+        },
         }
       )
       .then(() => {
@@ -112,10 +112,10 @@ export default class Edit extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
+      .get(`http://localhost:8000/api/v1/accounts/users/userprofile/${userid}`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          //Authorization: "Token " + token,
+          Authorization: "Token " + token,
         },
       })
       .then((res) => {
@@ -124,25 +124,26 @@ export default class Edit extends React.Component {
           email: res.data.email,
           last_name: res.data.last_name,
           username: res.data.username,
-          postal: res.data.postal,
-          phone: res.data.phone,
-          address: res.data.address,
+        
         });
       })
       .catch((error) => {});
     axios
-      .get(`https://5fac415503a60500167e7b7f.mockapi.io/api/v1/profile/1`, {
+      .get(`http://localhost:8000/api/v1/accounts/users/profile/${userid}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           //"Content-Type": "multipart/form-data",
-         // Authorization: "Token " + token,
+          Authorization: "Token " + token,
         },
       })
       .then((res) => {
         this.setState({
           userpro: res.data.profile_picture,
           headerpro: res.data.header_picture,
+          postal: res.data.postal,
+          phone: res.data.phone,
+          address: res.data.address,
         });
         console.log();
       })

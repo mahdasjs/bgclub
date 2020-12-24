@@ -13,6 +13,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Cookie from 'js-cookie';
+import {eventsData} from './actions/index'
 
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import {
@@ -30,17 +31,16 @@ export default class Create extends React.Component {
       super(props);
       this.state = {
         id: "",
-        bg_name: "",
+        name: "",
         price: '',
         description:"",
+        address:"",
         post_pic: null,
         postpic: "",
         number:'',
         value:'sell',
         startDate: '2017-05-24T10:30',
-        endDate: new Date(),
       };
-      this.handleChange2 = this.handleChange2.bind(this);
       this.handlePost = this.handlePost.bind(this);
       this.handleStartDate=this.handleStartDate.bind(this)
       };
@@ -50,47 +50,22 @@ export default class Create extends React.Component {
         });
         console.log(this.state.startDate)
       };
-
-      handleChange() {
-        this.setState({
-          checked: !this.state.checked
-        })
-      }
-      handleChangeSell=(e)=> {
-        this.setState({
-          value: e.target.value
-        })
-      }
-      handleChange1() {
-        this.setState({
-          checked1: !this.state.checked1
-        })
-      }
-       handleChange2 = (event) => {
-        const name = event.target.name;
-        this.setState({
-          ...this.state,
-          [name]: event.target.value,
-        });
-      };
-      handleChange3(event) {
-        let name = event.target.name;
-        let value = event.target.value;
-        this.setState({ [name]: value });
-        console.log(name,value)
+      handleChangeName=(event)=>{
+        this.setState({name:event.target.value})
+        console.log(this.state.name)
       }
       handleChangeDescreption=(event)=>{
         this.setState({description:event.target.value})
         console.log(this.state.description)
       }
-      handleChangePrice=(event)=>{
-        this.setState({price:event.target.value})
+      handleChangeAddress=(event)=>{
+        this.setState({address:event.target.value})
+        console.log(this.state.address)
+
       }
       handleChangeNum=(event)=>{
         this.setState({number:event.target.value})
-      }
-      handleChangeRentPrice=(event)=>{
-        this.setState({rent_price:event.target.value})
+        console.log(this.state.number)
       }
       fileSelectedHandler = (event) => {
         event.preventDefault();
@@ -101,19 +76,16 @@ export default class Create extends React.Component {
       };
       handlePost = async () => {
         const formData = new FormData();
-        formData.append("bg_name", this.state.bg_name);
+        formData.append("title", this.state.name);
           formData.append("description", this.state.description);
-          if(this.state.value=='sell'){
-            formData.append("sell_price", this.state.price);
-          }
-          else{
-            formData.append("rent_price", this.state.price);
-          }
+          formData.append("address", this.state.address);
+          formData.append("event_date", this.state.startDate.split('T')[0]);
+          formData.append("event_time", this.state.startDate.split('T')[1]);
           formData.append("number",this.state.number);
-          formData.append("post_pic", this.state.post_pic);
+          formData.append("event_pic", this.state.post_pic);
           axios({
           method: "post",
-          url: "http://localhost:8000/api/v1/posts/profile/create/",
+          url: "http://localhost:8000/api/v1/events/create/",
           headers: { 
             "Content-type": "multipart/form-data",
             'Authorization':`Token ${Cookie.get('token')}`},
@@ -122,6 +94,8 @@ export default class Create extends React.Component {
           console.log(response)
           this.props.onSuccessFullySave();
           this.props.onCreate();
+          this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
+
             })
             .catch((error) => {
               
@@ -163,9 +137,9 @@ export default class Create extends React.Component {
       <div >
       <TextField id="standard-secondary" placeholder="name" 
                 type="text"
-                name="bg_name"
-                value={this.state.bg_name}
-                onChange={this.handleChange3} style={{width:'190px'}} />
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChangeName} style={{width:'190px'}} />
              <TextField 
     style={{marginTop:0,width:'70px',marginLeft:'30px'}}
     value={this.state.number}
@@ -181,8 +155,8 @@ export default class Create extends React.Component {
       <div >
       <TextareaAutosize       
       type="text"
-      value={this.state.description}
-      onChange={this.handleChangeDescreption}
+      value={this.state.address}
+      onChange={this.handleChangeAddress}
       rowsMin={2} placeholder="address" style={{marginLeft:0,marginTop:15,width:'95%'}} />
       </div>
       <div>

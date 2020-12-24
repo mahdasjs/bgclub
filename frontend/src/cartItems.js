@@ -8,7 +8,6 @@ import Plus from '@material-ui/icons/Add';
 import Minus from '@material-ui/icons/Remove';
 import { IconButton,Box } from '@material-ui/core';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie'
 import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 class news extends Component{
     constructor(){
@@ -16,24 +15,17 @@ class news extends Component{
         this.state={
             counter:[],
             count:0,
-            limitation:10,
         }
     }
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(Cookies.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
-            if(Cookies.get('username')==o.data.username)
-            {
-                mp.get(o.data.bgid).count++;
-            }
+            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
+            mp.get(o.data.id).count++;
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -51,6 +43,7 @@ class news extends Component{
         this.count();
         this.props.dispatch(removeFromCart(this.props.id))
         this.setState({count:this.state.count-1})
+
     }
 
     render(){
@@ -68,9 +61,9 @@ class news extends Component{
                     {this.props.name}
                     </Typography>
                     <Typography className='priceCart'>
-                    ${this.props.data.sell_price}
+                    {this.props.data.price}
                     </Typography>
-                    {/* <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
+                    <div className="addAndRemoveFromCart" style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
                         <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
                                 <Minus  style={{color:"#000"}}/>
                     </IconButton>
@@ -78,26 +71,6 @@ class news extends Component{
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
-                    </div> */}
-                    <div className='addAndRemoveFromCart' style={{borderRadius:100}} >
-                          {this.props.count!=0?
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
-                                <Minus  style={{color:"#000"}}/>
-                    </IconButton>
-                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:40,height:40,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
-                    <Minus  style={{color:"#000"}}/>
-        </IconButton>
-    }
-                    {this.props.count}
-                    {this.props.count<this.state.limitation?
-                        <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
-                                <Plus  style={{color:"#000"}}/>
-                    </IconButton>
-                    :
-                    <IconButton aria-label="settings" disabled style={{backgroundColor:' rgba(0, 0, 0, 0.1)',width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
-                    <Plus  style={{color:"#000"}}/>
-        </IconButton>
-    }
                     </div>
                 </CardContent> 
                
