@@ -36,7 +36,16 @@ class eventpage extends React.Component{
           toggle:false,
           showAll:false,
           limitation:10,
-          openMemberPopUp:false
+          openMemberPopUp:false,
+          name:'null',
+          postId:null,
+          commentArrayLength:null,
+          comments:[],
+          like:false,
+          likeLength:null,
+          likeId:null,
+          anchorEl: null,
+          openAdd:false,
         }
       }
       handlechangeComment = (e) => {
@@ -83,13 +92,56 @@ class eventpage extends React.Component{
             }
         
       }
-      handlechangeRate= (e) => {
-        this.setState({ value: e.target.value });
+      handleLike= (event) => {
+        this.setState({ like: event.target.checked });
+        if(this.state.like===false)
+          {const formData = new FormData();
+          formData.append("post",this.state.postId);
+          axios({
+            method: "post",
+            url: `http://localhost:8000/api/v1/posts/like/create/`,
+            headers: { 
+              "Content-type": "multipart/form-data",
+              'Authorization':`Token ${Cookie.get('token')}`},
+              data:formData
+            }).then((response)=>{
+              this.setState({likeId:response.data.id})
+              axios({
+                method: "get",
+                url: `http://localhost:8000/api/v1/posts/like/list/${this.props.postId}`,
+                headers: {'Authorization':`Token ${Cookie.get('token')}`},
+              }).then((response) => {
+                  console.log(response.data)
+                  const length=response.data.length;
+             
+                    this.setState({likeLength:length});
+                    console.log(response.data.length)
+      
+                })
+            })}
+            else
+          {const formData = new FormData();
+          axios({
+            method: "delete",
+            url: `http://localhost:8000/api/v1/posts/like/${this.state.likeId}`,
+            headers: { 
+              "Content-type": "multipart/form-data",
+              'Authorization':`Token ${Cookie.get('token')}`}
+            }).then((response)=>{
+              axios({
+                method: "get",
+                url: `http://localhost:8000/api/v1/posts/like/list/${this.props.postId}`,
+                headers: {'Authorization':`Token ${Cookie.get('token')}`},
+              }).then((response) => {
+                  console.log(response.data)
+                  const length=response.data.length;
+             
+                    this.setState({likeLength:length});
+                    console.log(response.data.length)
+      
+                })
+            })}
       };
-      handleRate=(e)=>{
-        this.props.dispatch(checkRating(cookie.get('username'),this.state.id))
-        this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
-      }
       async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
