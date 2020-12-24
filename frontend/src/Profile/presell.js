@@ -6,9 +6,10 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Check from '@material-ui/icons/Check';
-import SettingsIcon from '@material-ui/icons/Settings';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import VideoLabelIcon from '@material-ui/icons/VideoLabel';
+import SettingsIcon from '@material-ui/icons/TextFields';
+import GroupAddIcon from '@material-ui/icons/AddAPhoto';
+import VideoLabelIcon from '@material-ui/icons/CheckCircleSharp';
+import DateIcon from '@material-ui/icons/DateRange';
 import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -139,7 +140,8 @@ function ColorlibStepIcon(props) {
   const icons = {
     1: <SettingsIcon />,
     2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
+    3: <DateIcon />,
+    4: <VideoLabelIcon />,
   };
 
   return (
@@ -183,17 +185,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Select name', 'Select picture', 'Select enddate','Select startingprice'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return 'Select campaign settings...';
+      return 'select name for boardgame';
     case 1:
-      return 'What is an ad group anyways?';
+      return 'select picture for boardgame';
     case 2:
-      return 'This is the bit I really care about!';
+      return 'select endingdate for boardgame';
+    case 3:
+      return 'select startingprice for boardgame';
     default:
       return 'Unknown step';
   }
@@ -201,7 +205,7 @@ function getStepContent(step) {
 
 export default function CustomizedSteppers() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(1);
+  const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
@@ -218,20 +222,6 @@ export default function CustomizedSteppers() {
 
   return (
     <div className={classes.root}>
-      <Stepper alternativeLabel activeStep={activeStep}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
       <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
         {steps.map((label) => (
           <Step key={label}>
