@@ -26,6 +26,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CheckIcon from "@material-ui/icons/Check";
+import Slider from '@material-ui/core/Slider';
+
+function valuetext(value) {
+    return `${value}°C`;
+  }
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -34,9 +39,14 @@ class boardgames extends React.Component{
             counter:[],
             count:0,
             rate:0,
-            openReqPopUp:false
+            openReqPopUp:false,
+            openPricePopUp:false,
+            value:20
         }
     }
+    handleChangeValue = (event, newValue) => {
+        this.setState({value:newValue})
+    };
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.bgid) ) mp.set(o.data.bgid, { ...o, count: 0 });
@@ -82,6 +92,9 @@ class boardgames extends React.Component{
     handleCloseReqPopUp=()=>{
         this.setState({openReqPopUp: !this.state.openReqPopUp})
       }
+    handleClosePricePopUp=()=>{
+       this.setState({openPricePopUp: !this.state.openPricePopUp})
+    }
     componentDidMount(){
         console.log(this.props.cartsssss)
         this.count()
@@ -121,7 +134,8 @@ class boardgames extends React.Component{
                             <Button
                             variant="contained"
                             size="small"
-                            color="primary">
+                            color="primary"
+                            onClick={this.handleClosePricePopUp}>
                               starting price : {this.props.data.sell_price}$
                           </Button>
                         )
@@ -206,6 +220,33 @@ class boardgames extends React.Component{
                               ok
                             </Button>
                           </DialogActions>
+                        </Dialog>
+                        <Dialog
+                                  style={{zIndex:100000000}}
+                          open={this.state.openPricePopUp}
+                          onClose={this.handleClosePricePopUp}
+                          aria-labelledby="draggable-dialog-title"
+                        >
+                          <DialogTitle
+                            style={{ cursor: "move" ,textAlign:"center"}}
+                            id="draggable-dialog-title"
+                          >
+                            Hold an event
+                          </DialogTitle>
+                          <DialogContent>
+                          <div >
+              <Typography id="range-slider" gutterBottom>
+                 price offer:${this.state.value}
+              </Typography>
+                          <Slider
+                value={this.state.value}
+                onChange={this.handleChangeValue}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                getAriaValueText={valuetext}
+              />
+              </div>
+                          </DialogContent>
                         </Dialog>
              </div>
         )
