@@ -23,7 +23,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import CheckIcon from "@material-ui/icons/Check";
-import Cookie from 'js-cookie'
+import Cookie from 'js-cookie';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Favorite from '@material-ui/icons/Favorite';
+
 class eventpage extends React.Component{
       constructor(){
         super()
@@ -42,7 +47,7 @@ class eventpage extends React.Component{
           commentArrayLength:null,
           comments:[],
           like:false,
-          likeLength:null,
+          likeLength:0,
           likeId:null,
           anchorEl: null,
           openAdd:false,
@@ -236,6 +241,20 @@ class eventpage extends React.Component{
                         {this.props.selectEvent.description}
                       </Typography>
                   </Grid>
+                  <Grid xs={12} sm={12} lg={1}
+                  style={{backgroundColor:'#fff' ,marginTop:'30px',marginLeft:30}} >    
+                  <FormControlLabel
+                    // style={{marginRight:'70%'}}
+                    label={this.state.likeLength}
+                      control={
+                        <Checkbox  
+                        checked={this.state.like} 
+                        onChange={this.handleLike}    
+                       icon={<FavoriteBorder style={{fontSize:30}} />} 
+                       checkedIcon={<Favorite style={{fontSize:30}}/>}
+                      name="checkedH" />}
+                   />
+                   </Grid>
                   <Grid xs={12} sm={12} lg={12} style={{display:'flex',flexWrap:'nowrap',marginLeft:30,marginTop:20}}>
                           <Grid  lg={6} style={{display:'flex',flexWrap:'nowrap'}} >
                       <Typography className='bgdescription' style={{marginTop:15}}>
