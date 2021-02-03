@@ -62,7 +62,7 @@ const theme = createMuiTheme({
                       }}
                                     //   src={this.props.avatar}
               ></Avatar>
-          <Typography variant='body1' align='left' style={{marginLeft:5,marginTop:0,fontSize:18,fontFamily:'Open Sans'}} >
+          <Typography variant='body1' align='left' style={{marginLeft:5,marginTop:0,fontSize:18,fontFamily:'Open Sans'}}      onClick={()=>window.location.replace(`/user/${this.props.userid}`)}>
           {this.props.username}<span style={{ fontSize:13}}> {this.props.text}</span>
           </Typography>
           </Grid>

@@ -28,7 +28,7 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
-
+import {likeApi,createCommentApi,createLikeApi,delLikeApi} from './api/apis'
 class eventpage extends React.Component{
       constructor(){
         super()
@@ -64,7 +64,7 @@ class eventpage extends React.Component{
         formData.append("text",this.state.comment)
         axios({
           method: "post",
-          url: "http://localhost:8000/api/v1/events/comment/create/",
+          url:createCommentApi,
           headers: { 
             "Content-type": "multipart/form-data",
             'Authorization':`Token ${Cookie.get('token')}`},
@@ -86,7 +86,7 @@ class eventpage extends React.Component{
           formData.append("event",this.state.id);
           axios({
             method: "post",
-            url: `http://localhost:8000/api/v1/events/like/create/`,
+            url: createLikeApi,
             headers: { 
               "Content-type": "multipart/form-data",
               'Authorization':`Token ${Cookie.get('token')}`},
@@ -95,7 +95,7 @@ class eventpage extends React.Component{
               this.setState({likeId:response.data.id})
               axios({
                 method: "get",
-                url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
+                url: likeApi+this.state.id,
                 headers: {'Authorization':`Token ${Cookie.get('token')}`},
               }).then((response) => {
                   console.log(response.data)
@@ -110,14 +110,14 @@ class eventpage extends React.Component{
           {const formData = new FormData();
           axios({
             method: "delete",
-            url: `http://localhost:8000/api/v1/events/like/${this.state.likeId}`,
+            url: delLikeApi+this.state.likeId,
             headers: { 
               "Content-type": "multipart/form-data",
               'Authorization':`Token ${Cookie.get('token')}`}
             }).then((response)=>{
               axios({
                 method: "get",
-                url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
+                url: likeApi+this.state.id,
                 headers: {'Authorization':`Token ${Cookie.get('token')}`},
               }).then((response) => {
                   console.log(response.data)
@@ -151,7 +151,7 @@ class eventpage extends React.Component{
     this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
         axios({
           method: "get",
-          url: `http://localhost:8000/api/v1/events/like/list/${this.state.id}`,
+          url: likeApi+this.state.id,
           headers: {'Authorization':`Token ${Cookie.get('token')}`},
         }).then((response) => {
           for(var i = 0; i<response.data.length; i++)

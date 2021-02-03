@@ -24,7 +24,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
-import Mozayede from '../bgPage'
+import Mozayede from '../presellItem'
 import { connect } from 'react-redux';
 import Events from "../events";
 import {postData,eventsData} from '../actions/index'
@@ -1179,6 +1179,23 @@ return (
                                   setfollowingLentgh(res.data.length);
                                   setFollowin(res.data);
                                 });
+                                axios
+                                .get(
+                                  `http://localhost:8000/api/v1/accounts/users/followers/${userid}`,
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setfollowerLentgh(res.data.length);
+                                  setFollowers(res.data);
+                                });
                               // getFollowing();
                               // };
                               axios
@@ -1259,6 +1276,23 @@ return (
                                   setFollowin(res.data);
                                 })
                                 .catch((error) => {});
+                                axios
+                                .get(
+                                  `http://localhost:8000/api/v1/accounts/users/followers/${userid}`,
+                                  {
+                                    headers: {
+                                      "Content-Type":
+                                        "multipart/form-data",
+                                      Authorization: `Token ${Cookie.get(
+                                        "token"
+                                      )}`,
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setfollowerLentgh(res.data.length);
+                                  setFollowers(res.data);
+                                });
                               // };
                               checkIsFollowingOrNot(userid)
                               axios

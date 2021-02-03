@@ -4,7 +4,8 @@ import { ADD_FETCHED_DATA,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
     ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT} from './types.js';
 import axios from 'axios';
-import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi} from '../api/apis'
+import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
+    commentsApi,postListApi,eventListApi} from '../api/apis'
 
 export const removeFromCart = (id) => {
     return {
@@ -59,7 +60,7 @@ export const bgData = () => {
 };
 export const postData = (id) => {
     return (dispatch) => {
-        return axios.get(`http://localhost:8000/api/v1/posts/profile/list/${id}`)
+        return axios.get(postListApi+id)
             .then(response => {
                 return response.data
             })
@@ -76,7 +77,7 @@ export const postData = (id) => {
 };
 export const eventsData = (id) => {
     return (dispatch) => {
-        return axios.get(`http://localhost:8000/api/v1/events/list/${id}`)
+        return axios.get(eventListApi+id)
             .then(response => {
                 return response.data
             })
@@ -93,7 +94,7 @@ export const eventsData = (id) => {
 };
 export const commentData = (id) => {
     return (dispatch) => {
-        return axios.get(`http://localhost:8000/api/v1/events/comment/list/${id}`)
+        return axios.get(commentsApi+id)
             .then(response => {
                 return response.data
             })

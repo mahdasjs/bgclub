@@ -45,12 +45,12 @@ class Homepage extends Component{
         <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
           </Grid>
           <Grid xs={12} sm={12} lg={10}>
-            {/* <div  style={{height:'300px',marginLeft:'20px'}}>
+            <div  style={{height:'300px',marginLeft:'20px'}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Boardgames </h2>
               <HorizontalScroll  >
                 {boardGames}
               </HorizontalScroll>
-            </div> */}
+            </div>
             <div  style={{height:'430px',marginLeft:'20px',marginBottom:140}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Top Posts </h2>
               <HorizontalScroll style={{marginLeft:-40}}  >
