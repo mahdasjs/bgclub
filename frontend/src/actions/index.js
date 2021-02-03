@@ -2,10 +2,10 @@ import { ADD_FETCHED_DATA,
     ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
-    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT} from './types.js';
+    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,SAVE_SELECT_POST} from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
-    commentsApi,postListApi,eventListApi} from '../api/apis'
+    commentsApi,postListApi,eventListApi,selectedPostApi} from '../api/apis'
 
 export const removeFromCart = (id) => {
     return {
@@ -152,6 +152,23 @@ export const selectedEventData = (id) => {
             .then(data => {
                 dispatch({
                     type: SAVE_SELECT_EVENT,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const selectedPostData = (id) => {
+    return (dispatch) => {
+        return axios.get(selectedPostApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: SAVE_SELECT_POST,
                     payload: data
                 })
             })
