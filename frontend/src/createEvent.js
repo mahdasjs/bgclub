@@ -98,6 +98,9 @@ export default class Create extends React.Component {
           formData.append("event_time", this.state.startDate.split('T')[1]);
           formData.append("number",this.state.number);
           formData.append("event_pic", this.state.post_pic);
+          formData.append("event_len", this.state.lat);
+          formData.append("event_lon", this.state.lon);
+          console.log( this.state.lon)
           axios({
           method: "post",
           url: "http://localhost:8000/api/v1/events/create/",

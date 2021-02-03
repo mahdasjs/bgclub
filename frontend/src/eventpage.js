@@ -167,7 +167,7 @@ class eventpage extends React.Component{
     }
     reverseFunction(map, e) {
 
-      var url = `https://map.ir/reverse/no?lat=${this.state.lat}&lon=${this.state.lon}`
+      var url = `https://map.ir/reverse/no?lat=${this.props.selectEvent.event_lon}&lon=${this.props.selectEvent.event_len}`
       fetch(url,
         {
           headers: {
@@ -181,7 +181,7 @@ class eventpage extends React.Component{
   
       const array = [];
       array.push(<Mapir.Marker
-        coordinates={[51.420470, 35.729054]}
+        coordinates={[this.props.selectEvent.event_lon, this.props.selectEvent.event_len]}
         anchor="bottom">
       </Mapir.Marker>);
       this.setState({ markerArray: array });
@@ -208,7 +208,7 @@ class eventpage extends React.Component{
        
               this.setState({likeLength:length});
               console.log(response.data.length)
-
+              
           })}
     render(){
       console.log(this.props.ratings)
@@ -260,7 +260,7 @@ class eventpage extends React.Component{
                         {this.props.selectEvent.description}
                       </Typography>
                       <Mapir
-                center={[51.420470, 35.729054]}
+                center={[51.4, 35.7]}
                 Map={Map}
                 onClick={this.reverseFunction}
                 containerStyle={        {  height: '40vh',
