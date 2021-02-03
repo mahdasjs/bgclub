@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Cookie from 'js-cookie';
 import {eventsData} from './actions/index'
-
+import Mapir from "mapir-react-component";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import {
   DatePicker,
@@ -26,6 +26,17 @@ import {
     KeyboardTimePicker,
     KeyboardDatePicker,
   } from '@material-ui/pickers';
+  const Map = Mapir.setToken({
+    transformRequest: url => {
+      return {
+        url: url,
+        headers: {
+          "x-api-key": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjVkMjhhOGY5YzRlMzBlZmM3NTFhYjRkYWQ1Y2QyMDczNzllMTViM2ZjOTg3MzljYzIxNTYyYjYwNWRkMzc2YmFlZmIxNWZhY2ZlYjUyNmYwIn0.eyJhdWQiOiI2OTgwIiwianRpIjoiNWQyOGE4ZjljNGUzMGVmYzc1MWFiNGRhZDVjZDIwNzM3OWUxNWIzZmM5ODczOWNjMjE1NjJiNjA1ZGQzNzZiYWVmYjE1ZmFjZmViNTI2ZjAiLCJpYXQiOjE1NzU5NTYyNzUsIm5iZiI6MTU3NTk1NjI3NSwiZXhwIjoxNTc4NDYxODc1LCJzdWIiOiIiLCJzY29wZXMiOlsiYmFzaWMiXX0.Fx_r1Rguxm3Gtp_RDGxSbjhm67w-f_tldO0AHAyr1-L9JkGKgnaVBNWv4_x1qdjk6I6biCXAKpB5jafrUsp8bRS11pz2Tg0G80vaGb891_XF97pT-WGVV3J_H447tiC5JHj7ZSRodOsiVc8EblsX2BmxgewKyHYqs-6YGHYrVro_-xzNRl8EoXzDZtV34HqUWA0IQ5nqhVW39eIWzu6dmySKfSFoLRcOL9-8qC8p2jk9_siki9k3RBt5NVJyl8rOPHASy6yuqABWyeZZV5N8qELqiipP-Ka_zjc0DgrxwSE1AdvxdNDhZO7x7v72X0eM3oWvFMpwGqI5pRzIOpASiw", //Mapir api key
+          "Mapir-SDK": "reactjs"
+        }
+      };
+    }
+  });
 export default class Create extends React.Component {
     constructor(props) {
       super(props);
@@ -40,9 +51,13 @@ export default class Create extends React.Component {
         number:'',
         value:'sell',
         startDate: '2017-05-24T10:30',
+        markerArray: [],
+        lat: 35.72,
+        lon: 51.42
       };
       this.handlePost = this.handlePost.bind(this);
-      this.handleStartDate=this.handleStartDate.bind(this)
+      this.handleStartDate=this.handleStartDate.bind(this);
+      this.reverseFunction = this.reverseFunction.bind(this);
       };
       handleStartDate = (e) => {
         this.setState({
@@ -83,6 +98,9 @@ export default class Create extends React.Component {
           formData.append("event_time", this.state.startDate.split('T')[1]);
           formData.append("number",this.state.number);
           formData.append("event_pic", this.state.post_pic);
+          formData.append("event_len", this.state.lat);
+          formData.append("event_lon", this.state.lon);
+          console.log( this.state.lon)
           axios({
           method: "post",
           url: "http://localhost:8000/api/v1/events/create/",
@@ -101,6 +119,27 @@ export default class Create extends React.Component {
               
                });
             }
+        reverseFunction(map, e) {
+
+          var url = `https://map.ir/reverse/no?lat=${e.lngLat.lat}&lon=${e.lngLat.lng}`
+          fetch(url,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjVkMjhhOGY5YzRlMzBlZmM3NTFhYjRkYWQ1Y2QyMDczNzllMTViM2ZjOTg3MzljYzIxNTYyYjYwNWRkMzc2YmFlZmIxNWZhY2ZlYjUyNmYwIn0.eyJhdWQiOiI2OTgwIiwianRpIjoiNWQyOGE4ZjljNGUzMGVmYzc1MWFiNGRhZDVjZDIwNzM3OWUxNWIzZmM5ODczOWNjMjE1NjJiNjA1ZGQzNzZiYWVmYjE1ZmFjZmViNTI2ZjAiLCJpYXQiOjE1NzU5NTYyNzUsIm5iZiI6MTU3NTk1NjI3NSwiZXhwIjoxNTc4NDYxODc1LCJzdWIiOiIiLCJzY29wZXMiOlsiYmFzaWMiXX0.Fx_r1Rguxm3Gtp_RDGxSbjhm67w-f_tldO0AHAyr1-L9JkGKgnaVBNWv4_x1qdjk6I6biCXAKpB5jafrUsp8bRS11pz2Tg0G80vaGb891_XF97pT-WGVV3J_H447tiC5JHj7ZSRodOsiVc8EblsX2BmxgewKyHYqs-6YGHYrVro_-xzNRl8EoXzDZtV34HqUWA0IQ5nqhVW39eIWzu6dmySKfSFoLRcOL9-8qC8p2jk9_siki9k3RBt5NVJyl8rOPHASy6yuqABWyeZZV5N8qELqiipP-Ka_zjc0DgrxwSE1AdvxdNDhZO7x7v72X0eM3oWvFMpwGqI5pRzIOpASiw'
+      
+              }
+            })
+            .then(response => response.json())
+            .then(data => { console.log(data) })
+      
+          const array = [];
+          array.push(<Mapir.Marker
+            coordinates={[e.lngLat.lng, e.lngLat.lat]}
+            anchor="bottom">
+          </Mapir.Marker>);
+          this.setState({ markerArray: array, lat: e.lngLat.lat,lon: e.lngLat.lng });
+        }
       render() {
     
         return  <div>
@@ -172,6 +211,13 @@ export default class Create extends React.Component {
           shrink: true,
         }}
       />
+              <Mapir
+                center={[this.state.lon, this.state.lat]}
+                Map={Map}
+                onClick={this.reverseFunction}
+                >
+                {this.state.markerArray}
+              </Mapir>
 </form>
 </div>
         <Button style={{ color: "#303f9f",marginLeft:"240px" }} onClick={this.handlePost}>

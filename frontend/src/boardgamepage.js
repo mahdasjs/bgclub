@@ -60,19 +60,19 @@ class boardgames extends React.Component{
         this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
       }
       async count(){
-        const result = [...this.props.cartPost.reduce( (mp, o) => {
-            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+        const result = [...this.props.cartsssss.reduce( (mp, o) => {
+            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
             if(cookie.get('username')==o.data.username)
             {
-                mp.get(o.data.postid).count++;
+                mp.get(o.data.bgid).count++;
             }
             return mp;
             }, new Map).keys()];
         const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            if (!mp.has(o.data.bgid)) mp.set(o.data.bgid, { ...o, count: 0 });
             if(cookie.get('username')==o.data.username)
             {
-                mp.get(o.data.postid).count++;
+                mp.get(o.data.bgid).count++;
             }
             return mp;
         }, new Map).values()];
@@ -100,6 +100,7 @@ class boardgames extends React.Component{
     componentDidMount(){
         this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
         this.count()
+        console.log(this.props.select)
     }
     render(){
       console.log(this.props.ratings)
@@ -114,14 +115,14 @@ class boardgames extends React.Component{
       }
 
       let comments = this.props.comments.map(post => {
-        if(post.data.id==this.state.id){
-          return <Postcomments
-          avatar={'post.user.profile_picture'}
-          id={post.data.id}
-          text={post.data.comment}
-          username={post.data.username}
-          />;
-        }
+        // if(post.data.id==this.state.id){
+        //   return <Postcomments
+        //   avatar={'post.user.profile_picture'}
+        //   id={post.data.id}
+        //   text={post.data.comment}
+        //   username={post.data.username}
+        //   />;
+        // }
       });
         return(
             <div className='homepage'>
@@ -129,9 +130,9 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
                 </Grid>
                 <Grid xs={12} sm={12} lg={5}
-                  style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} >            
+                  style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center',backgroundColor:'#fff' ,marginTop:'30px',marginLeft:'30px'}} > 
                     <img
-                    src={this.props.select.post_pic}
+                    src={this.props.select.image}
                     style={{
                       justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                       maxWidth:'100%',
@@ -143,10 +144,10 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={6}
                       style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
                    <Typography className='bgname'>
-                      {this.props.select.bg_name}
+                      {this.props.select.name}
                     </Typography>
                     <Typography className='bgprice'>
-                    ${this.props.select.sell_price}
+                    ${this.props.select.price}
                         <div>
                             <Rating
                               name="simple-controlled"
@@ -178,7 +179,7 @@ class boardgames extends React.Component{
         </IconButton>
     }
                     {this.state.count}
-                    {this.state.count<this.props.select.number?
+                    {this.state.count<this.state.limitation?
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
@@ -271,8 +272,7 @@ const mapStateToProps = (state) => {
       select: state.select,
       cartsssss:state.cartsssss,
       comments:state.comments,
-      ratings:state.ratings,
-      cartPost:state.cartPost
+      ratings:state.ratings
     }
   }
 export default connect(mapStateToProps, null)(boardgames);
