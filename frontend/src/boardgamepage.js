@@ -60,16 +60,6 @@ class boardgames extends React.Component{
         this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
       }
       async count(){
-<<<<<<< HEAD
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-            }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-=======
         const result = [...this.props.cartPost.reduce( (mp, o) => {
             if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
             if(cookie.get('username')==o.data.username)
@@ -84,7 +74,6 @@ class boardgames extends React.Component{
             {
                 mp.get(o.data.postid).count++;
             }
->>>>>>> dev
             return mp;
         }, new Map).values()];
         for(var i=0; i<result.length; i++){
@@ -157,11 +146,7 @@ class boardgames extends React.Component{
                       {this.props.select.bg_name}
                     </Typography>
                     <Typography className='bgprice'>
-<<<<<<< HEAD
-                      {this.props.select.price}
-=======
                     ${this.props.select.sell_price}
->>>>>>> dev
                         <div>
                             <Rating
                               name="simple-controlled"
@@ -182,9 +167,6 @@ class boardgames extends React.Component{
                                 <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
                                   <Plus  style={{color:"#000"}}/>
                                 </IconButton>
-<<<<<<< HEAD
-                            </div>
-=======
                             </div> */}
                                  <div className='addAndRemoveID' style={{borderRadius:100}} >
                           {this.state.count!=0?
@@ -206,7 +188,6 @@ class boardgames extends React.Component{
         </IconButton>
     }
                     </div>
->>>>>>> dev
                       <Typography className='bgdescription'>
                         {this.props.select.description}
                       </Typography>

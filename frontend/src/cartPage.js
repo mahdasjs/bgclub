@@ -48,19 +48,9 @@ class Homepage extends Component{
         <Grid xs={12} sm={12} lg={12}  style={{height:'70px'}}>
           </Grid>
           <Grid xs={12} sm={12} lg={10}>
-<<<<<<< HEAD
             <div  style={{marginLeft:'20px'}}>
             <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
                 {boardGames}
-=======
-          {/* <div  style={{marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>BoardGames items</h2>
-                {boardGames}
-            </div> */}
-            <div  style={{marginLeft:'20px'}}>
-            <h2 style={{fontFamily:'Open Sans' ,fontSize: 30, lineHeight: 0.1 }}>Cart items</h2>
-                {post}
->>>>>>> dev
             </div>
             <div  style={{display:'flex',marginLeft:'20px' ,flexWrap:'nowrap',boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `,border:'1px solid rgba(0, 0, 0, 0.1) ',marginTop:5}}>
             <Typography className='totalCost'>

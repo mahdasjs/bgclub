@@ -5,27 +5,31 @@ import Navbar from './navbar';
 import Sidebar from './sidebar'
 import Producers from './producers';
 import Boardgames from './boardgames';
+import Boardgamespage from './boardgamepage';
+import Eventspage from './eventpage';
 import Search from './search'
+import Cafes from './cafes'
 import './App.css';
 import Login from './Login/Login.js';
 import Welcome from "./Welcome.js";
 import Bottombar from './bottombar'
+import Cart from './cartPage'
 import User from "./Profile/User";
-import ToDO from "./pages/todo";
-import { Provider as ReduxProvider } from "react-redux";
-import configureStore from "./modules/store";
-const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
+import Cookie from 'js-cookie';
+
 function App() {
   return (
     <div >
-      <ReduxProvider store={reduxStore}>
               <Router forceRefresh={true}> 
         <Switch>
         <Route path="/" exact component={Welcome}>
                 </Route>
                 <Route path="/login" exact component={Login}>
                 </Route>
-                <Route path="/user" exact component={User}>
+                {Cookie.get('token')!==undefined?
+                                <div>
+
+                <Route path="/user/:id" exact component={User}>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>
@@ -61,6 +65,26 @@ function App() {
               <Bottombar/>
             </div>
           </Route>
+          <Route path="/bgpage/:id" exact component={Boardgamespage}>
+            <Boardgamespage/>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path="/eventpage/:id" exact component={Eventspage}>
+            <Eventspage/>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
           <Route path ="/search" exact component={Search}>
             <Navbar/>
             <div className='sidebar'>
@@ -70,10 +94,32 @@ function App() {
               <Bottombar/>
             </div>
           </Route>
+          <Route path ="/cafes" exact component={Cafes}>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path ="/cart" exact component={Cart}>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          </div>
+                :
+                  <Redirect to="/">
+                  </Redirect>
+                }
         </Switch>
       </Router>
-      <ToDO />
-      </ReduxProvider>
+
     </div>
   );
 }
