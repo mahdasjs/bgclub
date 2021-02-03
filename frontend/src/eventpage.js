@@ -260,7 +260,7 @@ class eventpage extends React.Component{
                         {this.props.selectEvent.description}
                       </Typography>
                       <Mapir
-                center={[this.state.lon, this.state.lat]}
+                center={[51.420470, 35.729054]}
                 Map={Map}
                 onClick={this.reverseFunction}
                 containerStyle={        {  height: '40vh',
