@@ -13,6 +13,9 @@ import MoreVertIcon from '@material-ui/icons/Delete';
 import Cookie from 'js-cookie';
 import axios from 'axios'
 import { If } from 'rc-if-else';
+import { connect } from 'react-redux';
+import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData} from './actions/index'
+
 const theme = createMuiTheme({
     typography: {
       body1: {
@@ -30,7 +33,18 @@ const theme = createMuiTheme({
 
       }
     }
+    del= () => {
+      axios({
+          method:'delete',
+          url: `http://localhost:8000/api/v1/events/comment/${this.props.id}`,
+          headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+      }).then((response)=>{
+        this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
+      })
+  }
     componentDidMount() {
+      // this.props.action();
+
       console.log(this.props.username,this.state.username)
     }
     render(){
@@ -41,24 +55,25 @@ const theme = createMuiTheme({
                   <Grid container>
                     <Grid style={{display:'flex',flexWrap:'nowrap',marginTop:5}} item xs={11} sm={11} md={11} lg={10}>
                 <Avatar
+                src={this.props.avatar}
                       style={{
                         width: 30,
                         height: 30
                       }}
                                     //   src={this.props.avatar}
               ></Avatar>
-          <Typography variant='body1' align='left' style={{marginLeft:5,marginTop:0,fontSize:18,fontFamily:'Open Sans'}} >
+          <Typography variant='body1' align='left' style={{marginLeft:5,marginTop:0,fontSize:18,fontFamily:'Open Sans'}}      onClick={()=>window.location.replace(`/user/${this.props.userid}`)}>
           {this.props.username}<span style={{ fontSize:13}}> {this.props.text}</span>
           </Typography>
           </Grid>
-          {/* <If condition={this.props.username===this.state.username}>
+          <If condition={this.props.username===this.state.username}>
           <Grid xs={1} sm={1} ms={1} lg={2}>
             <IconButton onClick={this.del}>
             <MoreVertIcon />
             </IconButton>
           </Grid>
           </If>
-         */}
+        
           </Grid>
 
           <Divider style={{marginTop:5,marginBottom:5,width:'90%'}}/>
@@ -67,4 +82,13 @@ const theme = createMuiTheme({
 );
       }
     }
-export default post;
+    const mapStateToProps = (state) => {
+      return {
+        select: state.select,
+        cartsssss:state.cartsssss,
+        ratings:state.ratings,
+        selectEvent:state.selectEvent,
+        comments:state.comments
+      }
+    }
+  export default connect(mapStateToProps, null)(post);

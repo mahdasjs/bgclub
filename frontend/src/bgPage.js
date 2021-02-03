@@ -18,19 +18,7 @@ import RemoveCart from '@material-ui/icons/RemoveShoppingCart'
 import { IconButton,Box,Grid } from '@material-ui/core';
 import Axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
-import Button from '@material-ui/core/Button';
-import Cookies from 'js-cookie';
-import Avatar from "@material-ui/core/Avatar";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import CheckIcon from "@material-ui/icons/Check";
-import Slider from '@material-ui/core/Slider';
-
-function valuetext(value) {
-    return `${value}°C`;
-  }
+import Cookies from 'js-cookie'
 class boardgames extends React.Component{
     constructor(){
         super()
@@ -39,14 +27,8 @@ class boardgames extends React.Component{
             counter:[],
             count:0,
             rate:0,
-            openReqPopUp:false,
-            openPricePopUp:false,
-            value:20
         }
     }
-    handleChangeValue = (event, newValue) => {
-        this.setState({value:newValue})
-    };
     async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
             if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
@@ -85,12 +67,7 @@ class boardgames extends React.Component{
         this.setState({count:this.state.count-1})
 
     }
-    handleCloseReqPopUp=()=>{
-        this.setState({openReqPopUp: !this.state.openReqPopUp})
-      }
-    handleClosePricePopUp=()=>{
-       this.setState({openPricePopUp: !this.state.openPricePopUp})
-    }
+
     componentDidMount(){
         this.count()
     }
@@ -107,7 +84,7 @@ class boardgames extends React.Component{
                                 e.preventDefault();
                                 window.location.href='/bgpage/' + this.props.id;
                                 }}
-                        image={this.props.data.post_pic}
+                        image={this.props.data.image}
                         style={{
                             justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                             display:'flex'
@@ -116,133 +93,31 @@ class boardgames extends React.Component{
 
                         {this.props.name.substring(0,15)}
                         </Typography>
-                        {window.location.pathname.split('/')[2]==Cookies.get('userid')?(
-                            <Button
-                            variant="contained"
-                            size="small"
-                            color="primary"
-                            onClick={this.handleCloseReqPopUp}
-                            >
-                              requests
-                          </Button>
-                        ):(
-                            <Button
-                            variant="contained"
-                            size="small"
-                            color="primary"
-                            onClick={this.handleClosePricePopUp}>
-                              starting price : {this.props.data.sell_price}$
-                          </Button>
-                        )
-
-                        }
-                       
+                        <Grid container>
+                        <Grid lg={6}>
+                        <div style={{marginTop:10}}>
+                        <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
+                        </div>
+                        </Grid>
+                        <Grid lg={6}>
+                        <div style={{borderRadius:100}} >
+                        {this.state.count!=0?
+                        <IconButton aria-label="settings" style={{width:30,height:30,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                                <Minus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:30,height:30,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                    <Minus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    {this.state.count}
+                    <IconButton aria-label="settings" style={{width:30,height:30,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                                <Plus  style={{color:"#000"}}/>
+                    </IconButton>
+                    </div>
+                    </Grid>
+                    </Grid>
                     </CardContent> 
                 </Card>
-                <Dialog
-                          style={{zIndex:100000000}}
-                          open={this.state.openReqPopUp}
-                          onClose={this.handleCloseReqPopUp}
-                          aria-labelledby="draggable-dialog-title"
-                        >
-                          <DialogTitle
-                            style={{ cursor: "move" }}
-                            id="draggable-dialog-title"
-                          >
-                            Requests
-                          </DialogTitle>
-                          <DialogContent>
-                            {this.props.ratings.map((item) => (
-                              <Card
-                                key={item.id}
-                                style={{backgroundColor: "white",
-                                  maxWidth: 260,
-                                  minWidth: 260,
-                                  maxHeight: 60,
-                                  minHeight: 60,
-                                  marginLeft: -7,
-                                  marginTop: 10,
-                                }}
-                              >
-                                <CardContent>
-                                  <Typography
-                                    variant="body1"
-                                    align="justify"
-                                    style={{
-                                      fontFamily: "Roboto",
-                                      fontSize: 12,
-                                      marginLeft: 50,
-                                    }}
-                                  >
-                                    {item.data.name}
-                                  </Typography>
-                                  <Typography
-                                    variant="body1"
-                                    align="justify"
-                                    style={{
-                                      fontFamily: "Roboto",
-                                      fontSize: 11,
-                                      color: "grey",
-                                      marginLeft: 50,
-                                    }}
-                                  >
-                                    {item.name}
-                                    {item.name}
-                                  </Typography>
-          
-                                  <Avatar
-                                    style={{
-                                      width: 48,
-                                      height: 48,
-                                      left: -5,
-                                    }}
-                                  />
-                                  <IconButton
-                                  style={{marginTop: "-150px",
-                                    marginLeft: "190px"}}
-                                    type="submit"
-                                    // className={classes.iconButton}
-                                    aria-label="search"
-                                  >
-                                    <CheckIcon color="primary" />
-                                  </IconButton>
-                                </CardContent>
-                              </Card>
-                            ))}
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={this.handleClosePopUp} color="primary">
-                              ok
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                        <Dialog
-                                  style={{zIndex:100000000}}
-                          open={this.state.openPricePopUp}
-                          onClose={this.handleClosePricePopUp}
-                          aria-labelledby="draggable-dialog-title"
-                        >
-                          <DialogTitle
-                            style={{ cursor: "move" ,textAlign:"center"}}
-                            id="draggable-dialog-title"
-                          >
-                            Hold an event
-                          </DialogTitle>
-                          <DialogContent>
-                          <div >
-              <Typography id="range-slider" gutterBottom>
-                 price offer:${this.state.value}
-              </Typography>
-                          <Slider
-                value={this.state.value}
-                onChange={this.handleChangeValue}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-                getAriaValueText={valuetext}
-              />
-              </div>
-                          </DialogContent>
-                        </Dialog>
              </div>
         )
     }

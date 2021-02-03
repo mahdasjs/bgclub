@@ -24,7 +24,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import FreeScrollBar from 'react-free-scrollbar';
 import News from '../news'
 import Post from '../Post'
-import Mozayede from '../bgPage'
+import Mozayede from '../presellItem'
 import { connect } from 'react-redux';
 import Events from "../events";
 import {postData,eventsData} from '../actions/index'
