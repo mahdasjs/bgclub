@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedEventData,addToCart,removeFromCart,addComment, addRating, checkRating} from './actions/index'
+import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -23,7 +23,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import CheckIcon from "@material-ui/icons/Check";
-
+import Cookie from 'js-cookie';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Favorite from '@material-ui/icons/Favorite';
+import {likeApi,createCommentApi,createLikeApi,delLikeApi} from './api/apis'
 class eventpage extends React.Component{
       constructor(){
         super()
@@ -36,7 +41,16 @@ class eventpage extends React.Component{
           toggle:false,
           showAll:false,
           limitation:10,
-          openMemberPopUp:false
+          openMemberPopUp:false,
+          name:'null',
+          postId:null,
+          commentArrayLength:null,
+          comments:[],
+          like:false,
+          likeLength:0,
+          likeId:null,
+          anchorEl: null,
+          openAdd:false,
         }
       }
       handlechangeComment = (e) => {
@@ -44,53 +58,77 @@ class eventpage extends React.Component{
       };
       handlePostComment=(e)=>{
         if(this.state.comment!==null)
-          {
-            this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
-            this.setState({comment:' '})
-            const formData = new FormData();
-            formData.append("post",this.state.id);
-            formData.append("text",this.state.comment)
-            axios({
-              method: "post",
-              url: "https://5faaa726b5c645001602af7e.mockapi.io/api/v1/new",
-              headers: { 
-                "Content-type": "multipart/form-data"},
-                data:formData
-            })
-          }
-        else{
-          alert("your comment can't be empty")
-        }
-      }
-      handlechangeRate= (e) => {
-        this.setState({ value: e.target.value });
-      };
-      handleRate=(e)=>{
-        this.props.dispatch(checkRating(cookie.get('username'),this.state.id))
-        this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
-      }
-      async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-            }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
-            return mp;
-        }, new Map).values()];
-        for(var i=0; i<result.length; i++){
-            if(this.state.id==result[i]){
-                await this.setState({count:values[i].count})
+        {
+        const formData = new FormData();
+        formData.append("event",this.state.id);
+        formData.append("text",this.state.comment)
+        axios({
+          method: "post",
+          url:createCommentApi,
+          headers: { 
+            "Content-type": "multipart/form-data",
+            'Authorization':`Token ${Cookie.get('token')}`},
+            data:formData
+          }).then((response) => {
+            this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
+
+          this.setState({comment:' '})
+            })}
+            else{
+              alert("your comment can't be empty")
             }
-        }
-        for(var i=0;i<this.props.ratings.length;i++){
-          if(this.state.id==this.props.ratings[i].data.id&&cookie.get('username')==this.props.ratings[i].data.username){
-             await this.setState({value:this.props.ratings[i].data.rate})
-          }
-        }
-    }
+        
+      }
+      handleLike= (event) => {
+        this.setState({ like: event.target.checked });
+        if(this.state.like===false)
+          {const formData = new FormData();
+          formData.append("event",this.state.id);
+          axios({
+            method: "post",
+            url: createLikeApi,
+            headers: { 
+              "Content-type": "multipart/form-data",
+              'Authorization':`Token ${Cookie.get('token')}`},
+              data:formData
+            }).then((response)=>{
+              this.setState({likeId:response.data.id})
+              axios({
+                method: "get",
+                url: likeApi+this.state.id,
+                headers: {'Authorization':`Token ${Cookie.get('token')}`},
+              }).then((response) => {
+                  console.log(response.data)
+                  const length=response.data.length;
+             
+                    this.setState({likeLength:length});
+                    console.log(response.data.length)
+      
+                })
+            })}
+            else
+          {const formData = new FormData();
+          axios({
+            method: "delete",
+            url: delLikeApi+this.state.likeId,
+            headers: { 
+              "Content-type": "multipart/form-data",
+              'Authorization':`Token ${Cookie.get('token')}`}
+            }).then((response)=>{
+              axios({
+                method: "get",
+                url: likeApi+this.state.id,
+                headers: {'Authorization':`Token ${Cookie.get('token')}`},
+              }).then((response) => {
+                  console.log(response.data)
+                  const length=response.data.length;
+             
+                    this.setState({likeLength:length});
+                    console.log(response.data.length)
+      
+                })
+            })}
+      };
     handleAdd=(e)=>{
         this.count();
         this.props.dispatch(addToCart({data:this.props.select}))
@@ -108,11 +146,30 @@ class eventpage extends React.Component{
     handleClosePopUp=()=>{
       this.setState({openMemberPopUp: !this.state.openMemberPopUp})
     }
-    componentDidMount(){
+   componentDidMount() {
+    this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
+    this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
+        axios({
+          method: "get",
+          url: likeApi+this.state.id,
+          headers: {'Authorization':`Token ${Cookie.get('token')}`},
+        }).then((response) => {
+          for(var i = 0; i<response.data.length; i++)
+            if(Cookie.get('username')===response.data[i].user.username)
+            {
+              this.setState({likeId:response.data[i].id})
+              this.setState({like:true})
+              break
+            }
 
-        this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
-        this.count()
-    }
+            // formData.append(`hashtags[${i}]name`,this.state.playlistTag[i])
+            console.log(response.data)
+            const length=response.data.length;
+       
+              this.setState({likeLength:length});
+              console.log(response.data.length)
+
+          })}
     render(){
       console.log(this.props.ratings)
       var value=0
@@ -124,17 +181,17 @@ class eventpage extends React.Component{
           value=value+parseFloat (ratingValues[i].data.rate)
         }
       }
-
       let comments = this.props.comments.map(post => {
-        if(post.data.id==this.state.id){
-          return <Postcomments
-          avatar={'post.user.profile_picture'}
-          id={post.data.id}
-          text={post.data.comment}
-          username={post.data.username}
+        return <Postcomments
+          avatar={post.user.profile_picture}
+          key={post.id}
+          id={post.id}
+          text={post.text}
+          username={post.user.username}
+          userid={post.user.id}
+          postUser={this.props.postUser}
           />;
-        }
-      });
+      }).reverse();
         return(
             <div className='eventpage'>
               <Grid container>
@@ -163,6 +220,20 @@ class eventpage extends React.Component{
                         {this.props.selectEvent.description}
                       </Typography>
                   </Grid>
+                  <Grid xs={12} sm={12} lg={1}
+                  style={{backgroundColor:'#fff' ,marginTop:'30px',marginLeft:30}} >    
+                  <FormControlLabel
+                    // style={{marginRight:'70%'}}
+                    label={this.state.likeLength}
+                      control={
+                        <Checkbox  
+                        checked={this.state.like} 
+                        onChange={this.handleLike}    
+                       icon={<FavoriteBorder style={{fontSize:30}} />} 
+                       checkedIcon={<Favorite style={{fontSize:30}}/>}
+                      name="checkedH" />}
+                   />
+                   </Grid>
                   <Grid xs={12} sm={12} lg={12} style={{display:'flex',flexWrap:'nowrap',marginLeft:30,marginTop:20}}>
                           <Grid  lg={6} style={{display:'flex',flexWrap:'nowrap'}} >
                       <Typography className='bgdescription' style={{marginTop:15}}>
@@ -210,16 +281,8 @@ class eventpage extends React.Component{
                   </Grid>
                 </Grid>
                 <Grid  item xs={12} sm={12} lg={12}  style={{marginLeft:'30px',marginTop:10}} >
-                  <PerfectScrollbar>
                     {comments}
-                  </PerfectScrollbar>
                 </Grid>
-                <If condition ={this.state.showAll===false}>
-                  <Grid  item xs={12} sm={12} lg={12}  style={{marginTop:10, visibility:this.state.visibility}}>
-                    {comments[0]}
-                    {/* {comments[this.state.commentArrayLength-2]} */}
-                  </Grid>
-                </If>
                 <Dialog
                           style={{zIndex:100000000}}
                           open={this.state.openMemberPopUp}
@@ -298,47 +361,6 @@ class eventpage extends React.Component{
                             </Button>
                           </DialogActions>
                         </Dialog>
-                <If  condition ={comments.length>1 &&this.state.showAll===false}>
-                  <Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
-                    <Button 
-                    onClick={this.showAll}
-                    variant="body1"
-                    align="justify"
-                    style={{
-                      display:'table',
-                      marginRight:'auto',
-                      marginLeft:'auto',
-                    fontSize: 12,
-                    fontSize:13,
-                    marginBottom:-20,
-                    color:'rgba(0, 0, 0, 0.4)'
-                    }}
-                    >
-                      show more                    
-                    </Button>
-                  </Grid>
-                </If>  
-                <If  condition ={comments.length>1 && this.state.showAll===true}>
-                  <Grid  item xs={12} sm={12} lg={12} style={{ visibility:this.state.visibility}}>
-                    <Button
-                    // onClick={this.linkPost}
-                    onClick={this.showAll}
-                    variant="body1"
-                    align="justify"
-                    style={{
-                      display:'table',
-                      marginRight:'auto',
-                      marginLeft:'auto',
-                    fontSize: 12,
-                    fontSize:13,
-                    marginBottom:-20,
-                    color:'rgba(0, 0, 0, 0.4)'
-                    }}
-                    >
-                      show less                    
-                    </Button>
-                  </Grid>
-                </If>
             </div>
         )
     }
@@ -347,10 +369,9 @@ const mapStateToProps = (state) => {
     return {
       select: state.select,
       cartsssss:state.cartsssss,
-      comments:state.comments,
       ratings:state.ratings,
-      selectEvent:state.selectEvent
-
+      selectEvent:state.selectEvent,
+      comments:state.comments
     }
   }
 export default connect(mapStateToProps, null)(eventpage);

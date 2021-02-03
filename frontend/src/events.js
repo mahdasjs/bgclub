@@ -56,9 +56,11 @@ class boardgames extends React.Component{
           }
           action={
             <div>
+              {Cookie.get('userid')===window.location.pathname.split('/')[2]?
             <IconButton aria-label="settings"  onClick={this.handleClick}>
               <MoreVertIcon />
             </IconButton>
+            :null}
              <Menu
                                            anchorEl={anchorEl}
                                            open={open}
@@ -98,6 +100,8 @@ starts at {this.props.data.event_date}
 <Typography style={{marginLeft:12,marginTop:15,fontSize:11,fontWeight:400}}>
 {this.props.data.event_time}
 </Typography>
+{Cookie.get('userid')===window.location.pathname.split('/')[2]?
+
 <Button
                         style={{marginTop:10,marginLeft:25}}
         variant="contained"
@@ -106,6 +110,7 @@ starts at {this.props.data.event_date}
       >
           join
       </Button>
+      :null}
       </div>
 </div>
                         </div>
