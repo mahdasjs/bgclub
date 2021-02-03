@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { bgData, fetchData, postData, resultData,selectedData } from './actions';
+import { bgData, commentData, fetchData, postData, resultData,selectedData } from './actions';
 
 
 const saveState = (state) => {
@@ -36,7 +36,7 @@ store.dispatch(bgData());
 store.dispatch(resultData());
 store.dispatch(selectedData());
 store.dispatch(postData());
-
+store.dispatch(commentData())
 store.subscribe(() => {
   saveState({
     boardGames: store.getState().boardGames,
@@ -52,14 +52,9 @@ store.subscribe(() => {
 })
 
 ReactDOM.render(
-  <MuiThemeProvider>
+  <Provider store={store}>
+    <MuiThemeProvider>
     <App />
-  </MuiThemeProvider>,
-
-  document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+    </MuiThemeProvider>
+  </Provider>,
+  document.getElementById('root'));
