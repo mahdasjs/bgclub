@@ -95,6 +95,11 @@ class boardgames extends React.Component{
           }
         }
         await this.setState({rate:value/counter})
+        for(var i=0;i<this.props.ratings.length;i++){
+          if(this.state.id==this.props.ratings[i].data.id&&cookie.get('username')==this.props.ratings[i].data.username){
+             await this.setState({value:this.props.ratings[i].data.rate})
+          }
+        }
     }
     handleAdd=(e)=>{
         this.count();
