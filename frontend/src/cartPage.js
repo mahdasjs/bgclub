@@ -32,9 +32,9 @@ class Homepage extends Component{
     mp.get(o.data.postid).count++;
     return mp;
 }, new Map).values()];
-  // for(var i=0; i<values.length; i++){
-  //   value=value+values[i].data.rent_price*values[i].count
-  // }
+  for(var i=0; i<values.length; i++){
+    value=value+values[i].data.price*values[i].count
+  }
   for(var i=0; i<posts.length; i++){
     if(posts[i].data.sell_price==""){
       value=value+posts[i].data.rent_price*posts[i].count
