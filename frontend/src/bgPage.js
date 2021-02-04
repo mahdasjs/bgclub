@@ -47,7 +47,7 @@ class boardgames extends React.Component{
         }
         var value=0
         var counter=0
-        const ratingValues = [...this.props.ratings.values()];
+        const ratingValues = [...this.props.ratingsBG.values()];
         for(var i=0; i<ratingValues.length; i++){
           if(ratingValues[i].data.id===this.props.id){
             counter++
@@ -126,7 +126,7 @@ const mapStateToProps = (state) => {
     return {
         select: state.select,
         cartsssss:state.cartsssss,
-        ratings:state.ratings
+        ratingsBG:state.ratingsBG
     }
   }
   export default connect(mapStateToProps, null)(boardgames);

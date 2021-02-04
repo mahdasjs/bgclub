@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {removeFromCart,commentPostData,addCommentPost,addComment, addRating, checkRating, selectedBGData, addToCart} from './actions/index'
+import {removeFromCart,commentPostData,addCommentPost,addComment, addRatingBG, checkRatingBG, selectedBGData, addToCart} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Button from "@material-ui/core/Button";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -37,8 +37,8 @@ class boardgames extends React.Component{
         this.setState({ value: e.target.value });
       };
       handleRate=(e)=>{
-        this.props.dispatch(checkRating(cookie.get('username'),this.state.id))
-        this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
+        this.props.dispatch(checkRatingBG(cookie.get('username'),this.state.id))
+        this.props.dispatch(addRatingBG({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
       }
       async count(){
         const result = [...this.props.cartsssss.reduce( (mp, o) => {
@@ -58,7 +58,7 @@ class boardgames extends React.Component{
       }
         var value=0
         var counter=0
-        const ratingValues = [...this.props.ratings.values()];
+        const ratingValues = [...this.props.ratingsBG.values()];
         for(var i=0; i<ratingValues.length; i++){
           if(ratingValues[i].data.id===JSON.stringify (this.state.id)){
             counter++
@@ -66,9 +66,9 @@ class boardgames extends React.Component{
           }
         }
         await this.setState({rate:value/counter})
-        for(var i=0;i<this.props.ratings.length;i++){
-          if(this.state.id==this.props.ratings[i].data.id&&cookie.get('username')==this.props.ratings[i].data.username){
-             await this.setState({value:this.props.ratings[i].data.rate})
+        for(var i=0;i<this.props.ratingsBG.length;i++){
+          if(this.state.id==this.props.ratingsBG[i].data.id&&cookie.get('username')==this.props.ratingsBG[i].data.username){
+             await this.setState({value:this.props.ratingsBG[i].data.rate})
           }
         }
     }
@@ -92,7 +92,7 @@ class boardgames extends React.Component{
       console.log(this.props.ratings)
       var value=0
       var counter=0
-      const ratingValues = [...this.props.ratings.values()];
+      const ratingValues = [...this.props.ratingsBG.values()];
       for(var i=0; i<ratingValues.length; i++){
         if(ratingValues[i].data.id===this.props.selectBG.id){
           counter++
@@ -177,7 +177,7 @@ const mapStateToProps = (state) => {
       selectBG: state.selectBG,
       cartsssss:state.cartsssss,
       commentsPost:state.commentsPost,
-      ratings:state.ratings,
+      ratingsBG:state.ratingsBG,
       cartPost:state.cartPost
     }
   }

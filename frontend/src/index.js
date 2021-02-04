@@ -46,6 +46,7 @@ store.subscribe(() => {
     comments:store.getState().comments,
     commentsPost:store.getState().commentsPost,
     ratings:store.getState().ratings,
+    ratingsBG:store.getState().ratingsBG,
     posts:store.getState().posts,
     cartPost:store.getState().cartPost,
     cartsssss:store.getState().cartsssss,
