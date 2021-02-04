@@ -3,7 +3,8 @@ import { ADD_FETCHED_DATA,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
     ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,
-    SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART} from './types.js';
+    SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART
+    ,SAVE_SELECT_BG,ADD_RATINNG_BG,CHECK_RATING_BG} from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
     commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi} from '../api/apis'
@@ -161,6 +162,23 @@ export const resultData = (entry) => {
             });
     };
 };
+export const selectedBGData = (id) => {
+    return (dispatch) => {
+        return axios.get(boardgamesApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: SAVE_SELECT_BG,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
 export const selectedData = (id) => {
     return (dispatch) => {
         return axios.get(selectedApi+id)
@@ -246,6 +264,22 @@ export const addRating =  (data) => {
 export const checkRating =  (username,id) => {
     return {
       type: CHECK_RATING,
+      payload: {
+          username,
+          id
+      }
+    }
+};
+
+export const addRatingBG =  (data) => {
+    return {
+      type: ADD_RATINNG_BG,
+      payload: data
+    }
+};
+export const checkRatingBG =  (username,id) => {
+    return {
+      type: CHECK_RATING_BG,
       payload: {
           username,
           id
