@@ -42,7 +42,6 @@ store.subscribe(() => {
   saveState({
     boardGames: store.getState().boardGames,
     selections: store.getState().selections,
-    selectBG: store.getState().selectBG,
     counter:store.getState().counter,
     comments:store.getState().comments,
     commentsPost:store.getState().commentsPost,
