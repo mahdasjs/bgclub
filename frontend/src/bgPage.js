@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import headerImage from './back.jpg';
 import { connect } from 'react-redux';
-import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus, selectedBGData} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import CartBorder from '@material-ui/icons/AddShoppingCart';
 import Cart from '@material-ui/icons/RemoveShoppingCart';
@@ -76,7 +76,7 @@ class boardgames extends React.Component{
         return(
             <div>
                 <Card       
-                    onClick={()=>this.props.dispatch(selectedData(this.props.id))}  
+                    onClick={()=>this.props.dispatch(selectedBGData(this.props.id))}  
                     style={{marginTop:15, maxWidth:223,minWidth:223,maxHeight:270,minHeight:270,marginleft:10,marginRight:10 }}>
                     <CardContent>
                     <CardMedia
