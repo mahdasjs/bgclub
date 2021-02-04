@@ -1,5 +1,5 @@
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import {ADD_TO_CART, REMOVE_FROM_CART,REMOVE_POST_FROM_CART,MINUS_LENGTH} from '../actions/types';
+import {ADD_TO_CART, REMOVE_FROM_CART,REMOVE_ALL,MINUS_LENGTH} from '../actions/types';
 export default function addToCart(state = [], action) {
     switch (action.type) {
         case ADD_TO_CART:
@@ -14,6 +14,12 @@ export default function addToCart(state = [], action) {
                     return true;
                 }
                 return false;
+            });
+        case REMOVE_ALL:
+            return state.filter((e) => {
+                if (e.data.id === action.payload.id) {
+                    return true;
+                }
             });
         default:
             return state;

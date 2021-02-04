@@ -43,6 +43,7 @@ store.subscribe(() => {
     selections: store.getState().selections,
     counter:store.getState().counter,
     comments:store.getState().comments,
+    commentsPost:store.getState().commentsPost,
     ratings:store.getState().ratings,
     posts:store.getState().posts,
     cartPost:store.getState().cartPost,

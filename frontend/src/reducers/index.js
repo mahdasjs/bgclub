@@ -11,12 +11,14 @@ import postReducer from './postReducer'
 import eventsReducer from './eventReducer'
 import selectEventReducer from './selectEventreducer copy'
 import selectPostReducer from './selectPostreducer'
+import commentsPostReducer from './commenPostReducer '
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
     results:resultsReducer,
     select:selectionreducer,
     comments:commentReducer,
+    commentsPost:commentsPostReducer,
     ratings:ratingReducer,
     cartsssss:cartReducer,
     posts:postReducer,

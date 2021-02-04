@@ -229,7 +229,7 @@ class boardgames extends React.Component{
                     <img
                             onClick={(e) => {
                                 e.preventDefault();
-                                window.location.href='/bgpage/' + this.props.id;
+                                window.location.href='/postpage/' + this.props.id;
                                 }}
                         src={this.props.data.post_pic}
                         style={{

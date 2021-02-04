@@ -2,11 +2,28 @@ import { ADD_FETCHED_DATA,
     ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
-    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,SAVE_SELECT_POST} from './types.js';
+    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,
+    SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART} from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
-    commentsApi,postListApi,eventListApi,selectedPostApi} from '../api/apis'
+    commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi} from '../api/apis'
 
+export const removeAllFromCart = (id) => {
+    return {
+      type: REMOVE_ALL,
+      payload: {
+          id
+      }
+    }
+}
+export const removeAllPostsFromCart = (id) => {
+    return {
+      type: REMOVE_ALL_POST_CART,
+      payload: {
+          id
+      }
+    }
+}
 export const removeFromCart = (id) => {
     return {
       type: REMOVE_FROM_CART,
@@ -109,6 +126,24 @@ export const commentData = (id) => {
             });
     };
 };
+
+export const commentPostData = (id) => {
+    return (dispatch) => {
+        return axios.get(commentsPostsApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_COMMENT_POST,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
 export const resultData = (entry) => {
     return (dispatch) => {
         return axios.get(searchApi+entry)
@@ -192,6 +227,13 @@ export const addPostToCart =  (data) => {
 export const addComment =  (data) => {
     return {
       type: ADD_COMMENT,
+      payload: data
+    }
+};
+
+export const addCommentPost =  (data) => {
+    return {
+      type: ADD_COMMENT_POST,
       payload: data
     }
 };
