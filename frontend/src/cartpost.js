@@ -91,7 +91,7 @@ class news extends Component{
         </IconButton>
     }
                     {this.props.count}
-                    {this.props.count<this.state.limitation?
+                    {this.props.count<this.props.number?
                         <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
                                 <Plus  style={{color:"#000"}}/>
                     </IconButton>
