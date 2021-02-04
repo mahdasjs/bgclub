@@ -14,7 +14,9 @@ import axios from 'axios';
 import Postcomments from './comment';
 import {If} from 'rc-if-else';
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import {addPostToCart,removePostFromCart} from './actions/index'
 import cookie from 'js-cookie'
+import Cookies from 'js-cookie'
 class boardgames extends React.Component{
       constructor(){
         super()
@@ -60,38 +62,52 @@ class boardgames extends React.Component{
         this.props.dispatch(addRating({data:{rate:this.state.value,id:this.state.id,username:cookie.get('username')}}))
       }
       async count(){
-        const result = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+        const result = [...this.props.cartPost.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            mp.get(o.data.postid).count++;
+             if(Cookies.get('username')==o.data.username)
+            {
+                mp.get(o.data.postid).count++;
+            }
             return mp;
-            }, new Map).keys()];
-        const values = [...this.props.cartsssss.reduce( (mp, o) => {
-            if (!mp.has(o.data.id)) mp.set(o.data.id, { ...o, count: 0 });
-            mp.get(o.data.id).count++;
+        }, new Map).keys()];
+        const values = [...this.props.cartPost.reduce( (mp, o) => {
+            if (!mp.has(o.data.postid)) mp.set(o.data.postid, { ...o, count: 0 });
+            if(Cookies.get('username')==o.data.username)
+            {
+                mp.get(o.data.postid).count++;
+            }
             return mp;
         }, new Map).values()];
+        console.log(values)
         for(var i=0; i<result.length; i++){
             if(this.state.id==result[i]){
                 await this.setState({count:values[i].count})
             }
         }
-        for(var i=0;i<this.props.ratings.length;i++){
-          if(this.state.id==this.props.ratings[i].data.id&&cookie.get('username')==this.props.ratings[i].data.username){
-             await this.setState({value:this.props.ratings[i].data.rate})
+        var value=0
+        var counter=0
+        const ratingValues = [...this.props.ratings.values()];
+        for(var i=0; i<ratingValues.length; i++){
+          if(ratingValues[i].data.id===JSON.stringify (this.props.id)){
+            counter++
+            value=value+parseFloat (ratingValues[i].data.rate)
           }
         }
+        await this.setState({rate:value/counter})
     }
     handleAdd=(e)=>{
         this.count();
-        this.props.dispatch(addToCart({data:this.props.select}))
+        this.props.dispatch(addPostToCart({data:{description:this.props.select.description,bgid:-1,postid:this.props.select.id,
+          image:this.props.select.post_pic,name:this.props.select.bg_name,sell_price:this.props.select.sell_price,
+          rent_price:this.props.select.rent_price,number:this.props.select.number,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
     }
     handleRemove=(e)=>{
-      console.log(this.props.select)
-
         this.count();
-        this.props.dispatch(removeFromCart(this.state.id))
+        this.props.dispatch(removePostFromCart(this.props.select.id))
         this.setState({count:this.state.count-1})
+
     }
     componentDidMount(){
         this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
@@ -140,7 +156,7 @@ class boardgames extends React.Component{
                 <Grid xs={12} sm={12} lg={6}
                       style={{ justifyContent: 'left', alignItems: 'left', textAlign: 'left' ,marginTop:'30px',marginLeft:'30px'}} >
                    <Typography className='bgname'>
-                      {this.props.select.name}jjj
+                      {this.props.select.bg_name}
                     </Typography>
                     {this.props.select.sell_price!=""?
                     <Typography className='bgprice'>
@@ -162,15 +178,27 @@ class boardgames extends React.Component{
                         Rate
                       </Button>
                   </div>
-                      <div className='addAndRemoveID' style={{backgroundColor:'rgb(240, 248, 255)',borderRadius:100}} >
-                              <IconButton aria-label="settings" style={{width:40,height:40,marginRight:5,borderRight:'2px solid'}} onClick={this.handleRemove} >
-                                    <Minus  style={{color:"#000"}}/>
-                                </IconButton>
-                                {this.state.count}
-                                <IconButton aria-label="settings" style={{width:40,height:40,marginLeft:5,borderLeft:'2px solid'}}      onClick={this.handleAdd}    >
-                                  <Plus  style={{color:"#000"}}/>
-                                </IconButton>
-                            </div>
+                      
+                  <div className='addAndRemove' style={{borderRadius:100}} >
+                          {this.state.count!=0?
+                        <IconButton aria-label="settings" style={{width:30,height:30,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                                <Minus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :   <IconButton aria-label="settings" disabled  style={{backgroundColor:' rgba(0, 0, 0, 0.1)', width:30,height:30,marginLeft:5,marginRight:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}} onClick={this.handleRemove} >
+                    <Minus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    {this.state.count}
+                    {this.state.count<this.props.select.number?
+                        <IconButton aria-label="settings" style={{width:30,height:30,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                                <Plus  style={{color:"#000"}}/>
+                    </IconButton>
+                    :
+                    <IconButton aria-label="settings" disabled style={{backgroundColor:' rgba(0, 0, 0, 0.1)',width:30,height:30,marginLeft:5,border:'2px solid  #999',WebkitBoxShadow:' 3px 3px 10px rgba(0,0,0,0.4)',MozBoxShadow:'5px 5px 15px rgba(0,0,0,0.4)'}}      onClick={this.handleAdd}    >
+                    <Plus  style={{color:"#000"}}/>
+        </IconButton>
+    }
+                    </div>
                       <Typography className='bgdescription'>
                         {this.props.select.description}
                       </Typography>
@@ -259,7 +287,8 @@ const mapStateToProps = (state) => {
       select: state.select,
       cartsssss:state.cartsssss,
       comments:state.comments,
-      ratings:state.ratings
+      ratings:state.ratings,
+      cartPost:state.cartPost
     }
   }
 export default connect(mapStateToProps, null)(boardgames);
