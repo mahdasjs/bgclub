@@ -112,6 +112,7 @@ class boardgames extends React.Component{
           rent_price:this.props.select.rent_price,number:this.props.select.number,username:Cookies.get('username')}}))
         this.setState({count:this.state.count+1})
     }
+    
     handleRemove=(e)=>{
         this.count();
         this.props.dispatch(removePostFromCart(this.props.select.id))

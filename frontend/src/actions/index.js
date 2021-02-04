@@ -3,11 +3,27 @@ import { ADD_FETCHED_DATA,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
     ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,
-    SAVE_SELECT_POST,ADD_COMMENT_POST} from './types.js';
+    SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART} from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
     commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi} from '../api/apis'
 
+export const removeAllFromCart = (id) => {
+    return {
+      type: REMOVE_ALL,
+      payload: {
+          id
+      }
+    }
+}
+export const removeAllPostsFromCart = (id) => {
+    return {
+      type: REMOVE_ALL_POST_CART,
+      payload: {
+          id
+      }
+    }
+}
 export const removeFromCart = (id) => {
     return {
       type: REMOVE_FROM_CART,
