@@ -44,9 +44,10 @@ class Homepage extends Component{
       value=value+posts[i].data.sell_price*posts[i].count
     }
   }
+  console.log(values)
     let boardGames = values.map(post => {
       return <CartItem
-        id={post.data.bgid}
+        id={post.data.id}
         name={post.data.name}
         data={post.data}
         count={post.count}
