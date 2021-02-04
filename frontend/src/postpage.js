@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedData,addToCart,removeFromCart,addComment, addRating, checkRating} from './actions/index'
+import {selectedData,commentPostData,addCommentPost,addComment, addRating, checkRating} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Button from "@material-ui/core/Button";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -16,7 +16,9 @@ import {If} from 'rc-if-else';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import {addPostToCart,removePostFromCart} from './actions/index'
 import cookie from 'js-cookie'
+import Cookie from 'js-cookie'
 import Cookies from 'js-cookie'
+import {createCommentPostApi} from './api/apis'
 class boardgames extends React.Component{
       constructor(){
         super()
@@ -36,23 +38,25 @@ class boardgames extends React.Component{
       };
       handlePostComment=(e)=>{
         if(this.state.comment!==null)
-          {
-            this.props.dispatch(addComment({data:{comment:this.state.comment,id:this.state.id,username:cookie.get('username')}}))
-            this.setState({comment:' '})
-            const formData = new FormData();
-            formData.append("post",this.state.id);
-            formData.append("text",this.state.comment)
-            axios({
-              method: "post",
-              url: "https://5faaa726b5c645001602af7e.mockapi.io/api/v1/new",
-              headers: { 
-                "Content-type": "multipart/form-data"},
-                data:formData
-            })
-          }
-        else{
-          alert("your comment can't be empty")
-        }
+        {
+        const formData = new FormData();
+        formData.append("post",this.state.id);
+        formData.append("text",this.state.comment)
+        axios({
+          method: "post",
+          url:createCommentPostApi,
+          headers: { 
+            "Content-type": "multipart/form-data",
+            'Authorization':`Token ${Cookie.get('token')}`},
+            data:formData
+          }).then((response) => {
+            this.props.dispatch( commentPostData(window.location.pathname.split('/')[2]))
+
+          this.setState({comment:' '})
+            })}
+            else{
+              alert("your comment can't be empty")
+            }
       }
       handlechangeRate= (e) => {
         this.setState({ value: e.target.value });
@@ -116,6 +120,7 @@ class boardgames extends React.Component{
     }
     componentDidMount(){
         this.props.dispatch( selectedData(window.location.pathname.split('/')[2]))
+        this.props.dispatch( commentPostData(window.location.pathname.split('/')[2]))
         this.count()
 
     }
@@ -131,16 +136,17 @@ class boardgames extends React.Component{
         }
       }
 
-      let comments = this.props.comments.map(post => {
-        // if(post.data.id==this.state.id){
-        //   return <Postcomments
-        //   avatar={'post.user.profile_picture'}
-        //   id={post.data.id}
-        //   text={post.data.comment}
-        //   username={post.data.username}
-        //   />;
-        // }
-      });
+      let comments = this.props.commentsPost.map(post => {
+        return <Postcomments
+          avatar={post.user.profile_picture}
+          key={post.id}
+          id={post.id}
+          text={post.text}
+          username={post.user.username}
+          userid={post.user.id}
+          postUser={this.props.postUser}
+          />;
+      }).reverse();
         return(
             <div className='homepage'>
               <Grid container>
@@ -291,7 +297,7 @@ const mapStateToProps = (state) => {
     return {
       select: state.select,
       cartsssss:state.cartsssss,
-      comments:state.comments,
+      commentsPost:state.commentsPost,
       ratings:state.ratings,
       cartPost:state.cartPost
     }

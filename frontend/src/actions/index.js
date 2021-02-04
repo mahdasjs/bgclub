@@ -214,6 +214,13 @@ export const addComment =  (data) => {
       payload: data
     }
 };
+
+export const addCommentPost =  (data) => {
+    return {
+      type: ADD_COMMENT_POST,
+      payload: data
+    }
+};
 export const addRating =  (data) => {
     return {
       type: ADD_RATINNG,

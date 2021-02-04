@@ -12,3 +12,4 @@ export const createCommentApi='http://localhost:8000/api/v1/events/comment/creat
 export const createLikeApi='http://localhost:8000/api/v1/events/like/create/'
 export const delLikeApi='http://localhost:8000/api/v1/events/like/'
 export const commentsPostsApi='http://localhost:8000/api/v1/posts/comment/list/'
+export const createCommentPostApi='http://localhost:8000/api/v1/posts/comment/create/'

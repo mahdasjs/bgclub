@@ -14,7 +14,7 @@ import Cookie from 'js-cookie';
 import axios from 'axios'
 import { If } from 'rc-if-else';
 import { connect } from 'react-redux';
-import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData} from './actions/index'
+import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData, commentPostData} from './actions/index'
 
 const theme = createMuiTheme({
     typography: {
@@ -41,6 +41,13 @@ const theme = createMuiTheme({
       }).then((response)=>{
         this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
       })
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/posts/comment/${this.props.id}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then((response)=>{
+      this.props.dispatch( commentPostData(window.location.pathname.split('/')[2]))
+    })
   }
     componentDidMount() {
       // this.props.action();
