@@ -52,6 +52,7 @@ store.subscribe(() => {
     participate:store.getState().participate,
     commentsPost:store.getState().commentsPost,
     ratingsBG:store.getState().ratingsBG,
+    presells:store.getState().presells
   })
 })
 

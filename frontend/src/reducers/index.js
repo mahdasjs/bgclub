@@ -16,6 +16,7 @@ import commentsPostReducer from './commenPostReducer '
 import participateReducer from './participateReducer'
 import ratingBGReducer from './ratingBGReducer'
 import imageReducer from './addImgReducer'
+import presellsReducer from './presellreducer'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
@@ -29,6 +30,7 @@ export default combineReducers({
     cartsssss:cartReducer,
     posts:postReducer,
     events:eventsReducer,
+    presells:presellsReducer,
     cartPost:cartPstReducer,
     selectEvent:selectEventReducer,
     selectPost:selectPostReducer,

@@ -4,9 +4,9 @@ import { ADD_FETCHED_DATA,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
     ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,
     SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART
-    ,SAVE_SELECT_BG,ADD_RATINNG_BG,CHECK_RATING_BG,PARTICIPATE,ADD_IMG} from './types.js';
+    ,SAVE_SELECT_BG,ADD_RATINNG_BG,CHECK_RATING_BG,PARTICIPATE,ADD_IMG,ADD_PRESELL_DATA} from './types.js';
 import axios from 'axios';
-import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
+import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,presellListApi,
     commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi,participateApi} from '../api/apis'
 
     export const removeAllFromCart = (id) => {
@@ -102,6 +102,23 @@ export const eventsData = (id) => {
             .then(data => {
                 dispatch({
                     type: ADD_EVENT_DATA,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const presellsData = (id) => {
+    return (dispatch) => {
+        return axios.get(presellListApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_PRESELL_DATA,
                     payload: data
                 })
             })
