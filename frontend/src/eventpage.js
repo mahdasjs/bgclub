@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import './responsive.css';
-import {selectedEventData,addToCart,removeFromCart,addComment, addRating, commentData} from './actions/index'
+import {selectedEventData,addToCart,removeFromCart,addComment, participateData, commentData} from './actions/index'
 import Rating from '@material-ui/lab/Rating';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -67,11 +67,34 @@ class eventpage extends React.Component{
           openAdd:false,
           markerArray: [],
           lat: 35.72,
-          lon: 51.42
+          lon: 51.42,
+            join:true,
+            userid:Cookie.get('userid'),
+            parId:null,
+            parLength:0
         }
         this.reverseFunction = this.reverseFunction.bind(this);
-
-      }
+    }
+    handleJoin = event => {
+      this.setState({ join: !this.state.join });
+      axios({
+        method:'post',
+        url: `http://localhost:8000/api/v1/events/${this.state.id}/participate/create/${this.state.userid}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then(
+      this.setState({parLength:this.state.parLength+1})
+    )
+    };
+    handleLeave = event => {
+      this.setState({ join: !this.state.join });
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/events/${this.state.id}/participate/${this.state.parId}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then(
+      this.setState({parLength:this.state.parLength-1})
+    )
+    };
       handlechangeComment = (e) => {
         this.setState({ comment: e.target.value });
       };
@@ -188,6 +211,7 @@ class eventpage extends React.Component{
     }
    componentDidMount() {
     this.props.dispatch( selectedEventData(window.location.pathname.split('/')[2]))
+    this.props.dispatch( participateData(window.location.pathname.split('/')[2]))
     this.props.dispatch( commentData(window.location.pathname.split('/')[2]))
         axios({
           method: "get",
@@ -209,9 +233,25 @@ class eventpage extends React.Component{
               this.setState({likeLength:length});
               console.log(response.data.length)
               
-          })}
+          })
+          axios({
+            method:'get',
+            url: `http://localhost:8000/api/v1/events/${this.state.id}/participate`,
+            headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+        }).then((response) => {
+          for(var i = 0; i<response.data.length; i++)
+            if(Cookie.get('username')===response.data[i].user.username)
+            {
+              this.setState({parId:response.data[i].id})
+              this.setState({join:false})
+              break
+            }
+            const length=response.data.length;
+            this.setState({parLength:length});
+              
+          })
+        }
     render(){
-      console.log(this.props.ratings)
       var value=0
       var counter=0
       const ratingValues = [...this.props.ratings.values()];
@@ -288,30 +328,61 @@ class eventpage extends React.Component{
                       <Typography className='bgdescription' style={{marginTop:15}}>
                         memebers         
                       </Typography>
-                      <Avatar style={{marginLeft:10,width:55,height:55}}></Avatar>
-                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
-                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
-                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                      <Avatar  style={{marginLeft:10,width:55,height:55}} src={'http://localhost:8000'+this.props.participate[0].user.profile_picture}></Avatar>
+                      {this.state.parLength>1?
+                      <Avatar  style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}  src={'http://localhost:8000'+this.props.participate[1].user.profile_picture}></Avatar>
+                      :null
+                      }
+                      {this.state.parLength>2?
+                      <Avatar  src={'http://localhost:8000'+this.props.participate[2].user.profile_picture} style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                    :null}
+                    {this.state.parLength>3?
+                    <Avatar  src={'http://localhost:8000'+this.props.participate[3].user.profile_picture} style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                    :null
+                    }
                       <Typography className='bgdescription' style={{marginTop:15}} onClick={this.handleClickMembers}>
-                        + 6 more         
+                         show all         
                       </Typography>
                       </Grid>
                       <Grid  lg={6}  style={{display:'flex',flexWrap:'nowrap'}} >
 
                       <div className='raisedTag' style={{borderRadius:5,marginLeft:232,width:90,height:40,marginTop:13}}>
                       <Typography style={{marginTop:10,fontSize:15,marginLeft:10}}>
-                        only 4 left      
+                        only {this.props.selectEvent.number-this.state.parLength} left      
                       </Typography>
                       </div>
                       <div>
-                      <Button
-                        style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
-        variant="contained"
-        size="small"
-        color="#fff"
-      >
-          join
-      </Button>
+                        {this.props.selectEvent.number-this.state.parLength!=0?
+                        <div>
+                             {this.state.join?
+  <Button
+  onClick={this.handleJoin}
+  style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:'rgba(0, 255, 128, 0.459)'}}
+  variant="contained"
+  size="small"
+>
+    join
+</Button>
+    :  <Button
+    onClick={this.handleLeave}
+    style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:' rgba(255, 0, 0, 0.459)'}}
+    variant="contained"
+    size="small"
+  >
+      leave
+  </Button>
+  }
+                          </div>
+                          :<Button
+                          disabled
+                          style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
+                          variant="contained"
+                          size="small"
+                        >
+                            full
+                        </Button>
+                        }
+                   
       </div>
                       </Grid>
                   </Grid>
@@ -345,61 +416,58 @@ class eventpage extends React.Component{
                             Members
                           </DialogTitle>
                           <DialogContent>
-                            {this.props.cartsssss.map((item) => (
-                              <Card
-                                key={item.id}
-                                style={{backgroundColor: "white",
-                                  maxWidth: 260,
-                                  minWidth: 260,
-                                  maxHeight: 60,
-                                  minHeight: 60,
-                                  marginLeft: -7,
-                                  marginTop: 10,
-                                }}
-                              >
-                                <CardContent>
-                                  <Typography
-                                    variant="body1"
-                                    align="justify"
-                                    style={{
-                                      fontFamily: "Roboto",
-                                      fontSize: 12,
-                                      marginLeft: 50,
-                                    }}
-                                  >
-                                    {item.data.name}
-                                  </Typography>
-                                  <Typography
-                                    variant="body1"
-                                    align="justify"
-                                    style={{
-                                      fontFamily: "Roboto",
-                                      fontSize: 11,
-                                      color: "grey",
-                                      marginLeft: 50,
-                                    }}
-                                  >
-                                    {item.name}
-                                    {item.name}
-                                  </Typography>
-          
-                                  <Avatar
-                                    style={{
-                                      marginTop:-30,
-                                      width: 48,
-                                      height: 48,
-                                      left: -5,
-                                    }}
-                                  />
-                                  <IconButton
-                                  style={{marginTop: "-150px",
-                                    marginLeft: "190px"}}
-                                    type="submit"
-                                    // className={classes.iconButton}
-                                    aria-label="search"
-                                  >
-                                    <CheckIcon color="primary" />
-                                  </IconButton>
+                            {this.props.participate.map((item) => (
+                             <Card
+                             key={item.id}
+                             style={{
+                               backgroundColor: "white",
+                               maxWidth: 260,
+                               minWidth: 260,
+                               maxHeight: 60,
+                               minHeight: 60,
+                               marginLeft: -7,
+                               marginTop: 3,
+                             }}
+                           >
+                             <CardContent >
+                               <Typography
+                                 variant="body1"
+                                 align="justify"
+                                 style={{
+                                   fontFamily: "Roboto",
+                                   marginTop: -5,
+                                   fontSize: 12,
+
+                                   marginLeft: 50,
+                                 }}
+                                 onClick={() =>
+                                   window.location.replace(`/user/${item.id}`)
+                                 }
+                               >
+                                 {item.user.username}
+                               </Typography>
+                               <Typography
+                                 variant="body1"
+                                 align="justify"
+                                 style={{
+                                   fontFamily: "Roboto",
+                                   fontSize: 11,
+                                   color: "grey",
+                                   marginLeft: 50,
+                                 }}
+                               >
+                                 {item.user.first_name}
+                                 {item.user.last_name}
+                               </Typography>
+                               <Avatar
+                                 src={'http://localhost:8000'+item.user.profile_picture}
+                                 style={{
+                                   width: 48,
+                                   height: 48,
+                                   bottom: 38,
+                                   left: -5,
+                                 }}
+                               />
                                 </CardContent>
                               </Card>
                             ))}
@@ -420,7 +488,8 @@ const mapStateToProps = (state) => {
       cartsssss:state.cartsssss,
       ratings:state.ratings,
       selectEvent:state.selectEvent,
-      comments:state.comments
+      comments:state.comments,
+      participate:state.participate
     }
   }
 export default connect(mapStateToProps, null)(eventpage);

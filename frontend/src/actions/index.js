@@ -2,10 +2,12 @@ import { ADD_FETCHED_DATA,
     ADD_bg_DATA,ADD_RESULT_DATA,SAVE_SELECT, ADD_TO_CART,
     REMOVE_FROM_CART,PLUS_LENGTH,MINUS_LENGTH, ADD_COMMENT,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
-    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,SAVE_SELECT_POST} from './types.js';
+    ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,
+    SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART
+    ,SAVE_SELECT_BG,ADD_RATINNG_BG,CHECK_RATING_BG,PARTICIPATE} from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
-    commentsApi,postListApi,eventListApi,selectedPostApi} from '../api/apis'
+    commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi,participateApi} from '../api/apis'
 
 export const removeFromCart = (id) => {
     return {
@@ -101,6 +103,42 @@ export const commentData = (id) => {
             .then(data => {
                 dispatch({
                     type: ADD_COMMENT,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+export const participateData = (id) => {
+    return (dispatch) => {
+        return axios.get(participateApi+id+'/participate')
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: PARTICIPATE,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+
+
+export const commentPostData = (id) => {
+    return (dispatch) => {
+        return axios.get(commentsPostsApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: ADD_COMMENT_POST,
                     payload: data
                 })
             })

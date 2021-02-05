@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { connect } from 'react-redux';
-import {selectedEventData, eventsData, saveSelectValue, selectedData,counterPlus} from './actions/index'
+import {selectedEventData, eventsData, participateData, selectedData,counterPlus} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import { IconButton,Box } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -18,8 +18,32 @@ class boardgames extends React.Component{
         super()
         this.state={
             anchorEl: null,
+            join:true,
+            userid:Cookie.get('userid'),
+            parId:null,
+            parLength:0
         }
     }
+    handleJoin = event => {
+      this.setState({ join: !this.state.join });
+      axios({
+        method:'post',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/create/${this.state.userid}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then(
+      this.setState({parLength:this.state.parLength+1})
+    )
+    };
+    handleLeave = event => {
+      this.setState({ join: !this.state.join });
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/${this.state.parId}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then(
+      this.setState({parLength:this.state.parLength-1})
+    )
+    };
     handleClick = event => {
       this.setState({ anchorEl: event.currentTarget });
     };
@@ -36,8 +60,27 @@ class boardgames extends React.Component{
       this.handleClose()
     }
     componentDidMount(){
-      this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
-    }
+      this.props.dispatch( participateData(this.props.id))
+
+      axios({
+        method:'get',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}/participate`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then((response) => {
+      for(var i = 0; i<response.data.length; i++)
+        if(Cookie.get('username')===response.data[i].user.username)
+        {
+          this.setState({parId:response.data[i].id})
+          this.setState({join:false})
+          break
+        }
+        this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
+        const length=response.data.length;
+        this.setState({parLength:length});
+  
+          
+      })}
+    
 
     
     render(){
@@ -100,16 +143,40 @@ starts at {this.props.data.event_date}
 <Typography style={{marginLeft:12,marginTop:15,fontSize:11,fontWeight:400}}>
 {this.props.data.event_time}
 </Typography>
-{Cookie.get('userid')===window.location.pathname.split('/')[2]?
+{Cookie.get('userid')!==window.location.pathname.split('/')[2]?
+<div>
+{this.props.data.number-this.state.parLength!=0?
+                        <div>
+                             {this.state.join?
+  <Button
+  onClick={this.handleJoin}
+  style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:'rgba(0, 255, 128, 0.459)'}}
+  variant="contained"
+  size="small"
+>
+    join
+</Button>
+    :  <Button
+    onClick={this.handleLeave}
+    style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:' rgba(255, 0, 0, 0.459)'}}
+    variant="contained"
+    size="small"
+  >
+      leave
+  </Button>
+  }
+                          </div>
+                          :<Button
+                          disabled
+                          style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
+                          variant="contained"
+                          size="small"
+                        >
+                            full
+                        </Button>
+                        }
+  </div>
 
-<Button
-                        style={{marginTop:10,marginLeft:25}}
-        variant="contained"
-        size="small"
-        color="#fff"
-      >
-          join
-      </Button>
       :null}
       </div>
 </div>

@@ -21,6 +21,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Logout from '@material-ui/icons/ExitToApp';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Boardgames from './boardgames';
+import Events from './wholeEvents';
 import Cafes from './cafes';
 import Boardgamespage from './boardgamepage';
 import Eventpage from './eventpage';
@@ -159,6 +160,20 @@ class PersistentDrawerLeft extends React.Component {
                           >
                             Boardgames
                             </Typography>
+      </ListItem>   
+      <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/events'}>
+        <ListItemIcon>
+            <PlaylistIcon />
+        </ListItemIcon>
+        <Typography
+                            variant="body1"
+                            align="justify"
+                            style={{
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Events
+                            </Typography>
       </ListItem>       
       <ListItem button key={ 'Create playlist'}  style={{boxShadow: `1px 1px 1px rgba(0, 0, 0, 0.1) `}} component={Link} to={'/cafes'}>
         <ListItemIcon>
@@ -204,14 +219,15 @@ class PersistentDrawerLeft extends React.Component {
           </List>
         </Drawer>
                   <Switch >
-                  <Route path="/bgpage/:id" exact component={Boardgamespage} />
-                  <Route path="/eventpage/:id" exact component={Eventpage} />
+                  {/* <Route path="/bgpage/:id" exact component={Boardgamespage} /> */}
+                  {/* <Route path="/eventpage/:id" exact component={Eventpage} /> */}
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                    <Route path="/producers" component={Producers} />
                    <Route path="/cafes" component={Cafes} />
                     <Route path="/user/:id" exact component={User} />
                     <Route path="/boardgames"  component={Boardgames} />
+                    <Route path="/events"  component={Events} />
                     <Route path="/search" exact component={Search}/>
                     <Route path="/cart" exact component={CartPage}/>
                   </Switch>
