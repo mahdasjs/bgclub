@@ -18,6 +18,7 @@ class boardgames extends React.Component{
         super()
         this.state={
             anchorEl: null,
+            join:true
         }
     }
     handleClick = event => {
@@ -100,16 +101,21 @@ starts at {this.props.data.event_date}
 <Typography style={{marginLeft:12,marginTop:15,fontSize:11,fontWeight:400}}>
 {this.props.data.event_time}
 </Typography>
-{Cookie.get('userid')===window.location.pathname.split('/')[2]?
+{Cookie.get('userid')!==window.location.pathname.split('/')[2]?
+<div>
+  {this.state.join?
+  <Button
+  onClick
+  style={{marginTop:10,marginLeft:25,background:'rgba(0, 255, 128, 0.459)'}}
+  variant="contained"
+  size="small"
+>
+    join
+</Button>
+    :null
+  }
+  </div>
 
-<Button
-                        style={{marginTop:10,marginLeft:25}}
-        variant="contained"
-        size="small"
-        color="#fff"
-      >
-          join
-      </Button>
       :null}
       </div>
 </div>
