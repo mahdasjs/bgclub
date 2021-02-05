@@ -14,6 +14,7 @@ import selectEventReducer from './selectEventreducer copy'
 import selectPostReducer from './selectPostreducer'
 import selectBG from './selectBGreducer copy'
 import commentsPostReducer from './commenPostReducer '
+import participateReducer from './participateReducer'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
@@ -29,5 +30,6 @@ export default combineReducers({
     cartPost:cartPstReducer,
     selectEvent:selectEventReducer,
     selectPost:selectPostReducer,
-    selectBG:selectBG
+    selectBG:selectBG,
+    participate:participateReducer
 });

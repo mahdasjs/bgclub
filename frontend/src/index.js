@@ -50,6 +50,7 @@ store.subscribe(() => {
     posts:store.getState().posts,
     cartPost:store.getState().cartPost,
     cartsssss:store.getState().cartsssss,
+    participate:store.getState().participate
   })
 })
 
