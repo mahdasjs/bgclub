@@ -14,12 +14,16 @@ import selectPostReducer from './selectPostreducer'
 import selectBG from './selectBGreducer copy'
 import commentsPostReducer from './commenPostReducer '
 import participateReducer from './participateReducer'
+import ratingBGReducer from './ratingBGReducer'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
     results:resultsReducer,
     select:selectionreducer,
     comments:commentReducer,
+    commentsPost:commentsPostReducer,
+    ratings:ratingReducer,
+    ratingsBG:ratingBGReducer,
     ratings:ratingReducer,
     cartsssss:cartReducer,
     posts:postReducer,

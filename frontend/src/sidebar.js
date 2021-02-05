@@ -31,6 +31,8 @@ import Search from './search';
 import User from "./Profile/User";
 import ShoppingCart from '@material-ui/icons/ShoppingCart'
 import CartPage from "./cartPage";
+import { removeAllPostsFromCart,removePostFromCart,removeAllFromCart } from "./actions";
+
 const theme = createMuiTheme({
   typography: {
     body1: {
@@ -82,6 +84,8 @@ class PersistentDrawerLeft extends React.Component {
       }
     }
     handleClick=()=> {
+      this.props.dispatch(removeAllFromCart(0))
+      this.props.dispatch(removeAllPostsFromCart(0))
       Cookie.remove('token');
       Cookie.remove('userid')
       Cookie.remove('url')

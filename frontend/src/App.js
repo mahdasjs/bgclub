@@ -5,6 +5,7 @@ import Navbar from './navbar';
 import Sidebar from './sidebar'
 import Producers from './producers';
 import Boardgames from './boardgames';
+import Postpage from './postpage';
 import Boardgamespage from './boardgamepage';
 import Events from './wholeEvents';
 import Eventspage from './eventpage';
@@ -77,6 +78,16 @@ function App() {
           </Route>
           <Route path="/bgpage/:id" exact component={Boardgamespage}>
             <Boardgamespage/>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path="/postpage/:id" exact component={Postpage}>
+            <Postpage/>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>

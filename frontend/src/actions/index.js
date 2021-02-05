@@ -9,6 +9,22 @@ import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
     commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi,participateApi} from '../api/apis'
 
+    export const removeAllFromCart = (id) => {
+        return {
+          type: REMOVE_ALL,
+          payload: {
+              id
+          }
+        }
+    }
+    export const removeAllPostsFromCart = (id) => {
+        return {
+          type: REMOVE_ALL_POST_CART,
+          payload: {
+              id
+          }
+        }
+    }
 export const removeFromCart = (id) => {
     return {
       type: REMOVE_FROM_CART,
@@ -164,6 +180,23 @@ export const resultData = (entry) => {
             });
     };
 };
+export const selectedBGData = (id) => {
+    return (dispatch) => {
+        return axios.get(boardgamesApi+id)
+            .then(response => {
+                return response.data
+            })
+            .then(data => {
+                dispatch({
+                    type: SAVE_SELECT_BG,
+                    payload: data
+                })
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
 export const selectedData = (id) => {
     return (dispatch) => {
         return axios.get(selectedApi+id)
@@ -233,6 +266,12 @@ export const addComment =  (data) => {
       payload: data
     }
 };
+export const addCommentPost =  (data) => {
+    return {
+      type: ADD_COMMENT_POST,
+      payload: data
+    }
+};
 export const addRating =  (data) => {
     return {
       type: ADD_RATINNG,
@@ -242,6 +281,21 @@ export const addRating =  (data) => {
 export const checkRating =  (username,id) => {
     return {
       type: CHECK_RATING,
+      payload: {
+          username,
+          id
+      }
+    }
+};
+export const addRatingBG =  (data) => {
+    return {
+      type: ADD_RATINNG_BG,
+      payload: data
+    }
+};
+export const checkRatingBG =  (username,id) => {
+    return {
+      type: CHECK_RATING_BG,
       payload: {
           username,
           id
