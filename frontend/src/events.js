@@ -24,6 +24,12 @@ class boardgames extends React.Component{
     handleClick = event => {
       this.setState({ anchorEl: event.currentTarget });
     };
+    handleJoin = event => {
+      this.setState({ join: !this.state.join });
+    };
+    handleLeave = event => {
+      this.setState({ join: !this.state.join });
+    };
     handleClose = () => {
       this.setState({ anchorEl: null });
     };
@@ -105,7 +111,7 @@ starts at {this.props.data.event_date}
 <div>
   {this.state.join?
   <Button
-  onClick
+  onClick={this.handleJoin}
   style={{marginTop:10,marginLeft:25,background:'rgba(0, 255, 128, 0.459)'}}
   variant="contained"
   size="small"
@@ -113,7 +119,7 @@ starts at {this.props.data.event_date}
     join
 </Button>
     :  <Button
-    onClick
+    onClick={this.handleLeave}
     style={{marginTop:10,marginLeft:25,background:' rgba(255, 0, 0, 0.459)'}}
     variant="contained"
     size="small"
