@@ -224,7 +224,7 @@ class PersistentDrawerLeft extends React.Component {
         </Drawer>
                   <Switch >
                   {/* <Route path="/bgpage/:id" exact component={Boardgamespage} /> */}
-                  <Route path="/eventpage/:id" exact component={Eventpage} />
+                  {/* <Route path="/eventpage/:id" exact component={Eventpage} /> */}
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
                    <Route path="/producers" component={Producers} />

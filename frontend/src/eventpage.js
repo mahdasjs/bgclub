@@ -67,11 +67,29 @@ class eventpage extends React.Component{
           openAdd:false,
           markerArray: [],
           lat: 35.72,
-          lon: 51.42
+          lon: 51.42,
+            join:true,
+            userid:Cookie.get('userid'),
+            parId:null
         }
         this.reverseFunction = this.reverseFunction.bind(this);
-
-      }
+    }
+    handleJoin = event => {
+      this.setState({ join: !this.state.join });
+      axios({
+        method:'post',
+        url: `http://localhost:8000/api/v1/events/${this.state.id}/participate/create/${this.state.userid}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    })
+    };
+    handleLeave = event => {
+      this.setState({ join: !this.state.join });
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/events/${this.state.id}/participate/${this.state.parId}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    })
+    };
       handlechangeComment = (e) => {
         this.setState({ comment: e.target.value });
       };
@@ -209,7 +227,27 @@ class eventpage extends React.Component{
               this.setState({likeLength:length});
               console.log(response.data.length)
               
-          })}
+          })
+          axios({
+            method:'get',
+            url: `http://localhost:8000/api/v1/events/${this.state.id}/participate`,
+            headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+        }).then((response) => {
+          for(var i = 0; i<response.data.length; i++)
+            if(Cookie.get('username')===response.data[i].user.username)
+            {
+              this.setState({parId:response.data[i].id})
+              this.setState({join:false})
+              break
+            }
+    
+            // const length=response.data.length;
+       
+            //   this.setState({likeLength:length});
+            //   console.log(response.data.length)
+              
+          })
+        }
     render(){
       console.log(this.props.ratings)
       var value=0
@@ -304,14 +342,24 @@ class eventpage extends React.Component{
                       </Typography>
                       </div>
                       <div>
-                      <Button
-                        style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
-        variant="contained"
-        size="small"
-        color="#fff"
-      >
-          join
-      </Button>
+                      {this.state.join?
+  <Button
+  onClick={this.handleJoin}
+  style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:'rgba(0, 255, 128, 0.459)'}}
+  variant="contained"
+  size="small"
+>
+    join
+</Button>
+    :  <Button
+    onClick={this.handleLeave}
+    style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:' rgba(255, 0, 0, 0.459)'}}
+    variant="contained"
+    size="small"
+  >
+      leave
+  </Button>
+  }
       </div>
                       </Grid>
                   </Grid>
