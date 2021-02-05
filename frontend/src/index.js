@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { selectedBGData, bgData, fetchData, postData, resultData,selectedData } from './actions';
+import { selectedBGData, bgData, fetchData, postData, resultData,selectedData, presellsData } from './actions';
 
 
 const saveState = (state) => {
@@ -36,6 +36,7 @@ store.dispatch(bgData());
 store.dispatch(resultData());
 store.dispatch(selectedData());
 store.dispatch(selectedBGData());
+store.dispatch(presellsData());
 store.dispatch(postData());
 
 store.subscribe(() => {

@@ -110,9 +110,8 @@ class boardgames extends React.Component{
                     <CardMedia
                             onClick={(e) => {
                                 e.preventDefault();
-                                window.location.href='/bgpage/' + this.props.id;
                                 }}
-                        image={this.props.data.post_pic}
+                        image={this.props.data.presell_pic}
                         style={{
                             justifyContent: 'center', alignItems: 'center', textAlign: 'center',
                             display:'flex'
@@ -136,7 +135,7 @@ class boardgames extends React.Component{
                             size="small"
                             color="primary"
                             onClick={this.handleClosePricePopUp}>
-                              starting price : {this.props.data.sell_price}$
+                              starting price : {this.props.data.price}$
                           </Button>
                         )
 

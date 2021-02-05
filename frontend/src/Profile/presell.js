@@ -18,7 +18,9 @@ import Img from './image';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
 import ImageUploader from 'react-images-upload';
-
+import {presellsData} from '../actions/index'
+import axios from 'axios'
+import Cookie from 'js-cookie'
 const QontoConnector = withStyles({
   alternativeLabel: {
     top: 10,
@@ -250,9 +252,8 @@ const handlePost = async () => {
   const formData = new FormData();
   formData.append("name", name);
   formData.append("value", value);
-  formData.append("startdate", StartDate);
-    formData.append("presell_pic", picture[0].file);
-    console.log(picture[0])
+  formData.append("startdate", StartDate.split('T')[0]);
+    formData.append("presell_pic", picture[0]);
     axios({
     method: "post",
     url: "http://localhost:8000/api/v1/presells/profile/create/",
@@ -264,7 +265,7 @@ const handlePost = async () => {
     console.log(response)
     this.props.onSuccessFullySave();
     this.props.onCreate();
-    this.props.dispatch(postData(window.location.pathname.split('/')[2]))
+    this.props.dispatch(presellsData(window.location.pathname.split('/')[2]))
       })
       .catch((error) => {
         

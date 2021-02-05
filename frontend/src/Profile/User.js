@@ -27,7 +27,7 @@ import Post from '../Post'
 import Mozayede from '../presellItem'
 import { connect } from 'react-redux';
 import Events from "../events";
-import {postData,eventsData} from '../actions/index'
+import {postData,eventsData,presellsData} from '../actions/index'
 import SearchIcon from "@material-ui/icons/Search";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -179,7 +179,7 @@ function a11yProps(index) {
 }
 
 
-function User({events,posts,dispatch}) {
+function User({events,posts,dispatch,presells}) {
   const classes = useStyles();
   const theme = useTheme();
     const [scroll, setScroll] = React.useState("paper");
@@ -245,6 +245,7 @@ function User({events,posts,dispatch}) {
     setOpenPresell(false);
   };
    const handleClosee = () => {
+    dispatch(presellsData(window.location.pathname.split('/')[2]))
     dispatch(postData(window.location.pathname.split('/')[2]))
     dispatch(eventsData(window.location.pathname.split('/')[2]))
     setOpenn(false);
@@ -267,6 +268,7 @@ function User({events,posts,dispatch}) {
     setOpenEvent(false);
   };
     useEffect(() => {
+        dispatch(presellsData(window.location.pathname.split('/')[2]))
         dispatch(postData(window.location.pathname.split('/')[2]))
         dispatch(eventsData(window.location.pathname.split('/')[2]))
         handleClickOpen();
@@ -276,6 +278,8 @@ function User({events,posts,dispatch}) {
         setScroll(scrollType);
       };
       const handleClose = () => {
+        dispatch(presellsData(window.location.pathname.split('/')[2]))
+
         dispatch(postData(window.location.pathname.split('/')[2]))
         dispatch(eventsData(window.location.pathname.split('/')[2]))
         setOpen(false);
@@ -445,7 +449,7 @@ function User({events,posts,dispatch}) {
           firstname: res.data.first_name,
         });
         setLoading(false);
-        console.log(state.imagee);
+        console.log(presells)
       })
       .catch((error) => {});
   };
@@ -1737,10 +1741,10 @@ return (
       </Button>
       :null}
               <HorizontalScroll style={{marginTop:-30}} >
-              {posts.map(post => {
+              {presells.map(post => {
       return <Mozayede
         id={post.id}
-        name={post.bg_name}
+        name={post.name}
         data={post}
         />;
     })}
@@ -1801,6 +1805,7 @@ return (
     boardGames:state.boardGames,
     posts:state.posts,
     events:state.events,
+    presells:state.presells
   }
 }
 export default connect(mapStateToProps)(User);
