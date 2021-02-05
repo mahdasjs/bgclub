@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'events',
+    'presells',
 ]
 
 SITE_ID = 1
@@ -136,7 +137,7 @@ CACHES = {
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bgclubdbbb',
+        'NAME': 'bgclubdbb',
         'USER': 'bgclub',
         'PASSWORD': 'bgclub20',
         'HOST': 'localhost',
