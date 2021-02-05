@@ -112,7 +112,14 @@ starts at {this.props.data.event_date}
 >
     join
 </Button>
-    :null
+    :  <Button
+    onClick
+    style={{marginTop:10,marginLeft:25,background:' rgba(255, 0, 0, 0.459)'}}
+    variant="contained"
+    size="small"
+  >
+      leave
+  </Button>
   }
   </div>
 
