@@ -352,7 +352,9 @@ class eventpage extends React.Component{
                       </Typography>
                       </div>
                       <div>
-                      {this.state.join?
+                        {this.props.selectEvent.number-this.state.parLength!=0?
+                        <div>
+                             {this.state.join?
   <Button
   onClick={this.handleJoin}
   style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:'rgba(0, 255, 128, 0.459)'}}
@@ -370,6 +372,17 @@ class eventpage extends React.Component{
       leave
   </Button>
   }
+                          </div>
+                          :<Button
+                          disabled
+                          style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
+                          variant="contained"
+                          size="small"
+                        >
+                            full
+                        </Button>
+                        }
+                   
       </div>
                       </Grid>
                   </Grid>

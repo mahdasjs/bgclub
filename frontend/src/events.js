@@ -20,7 +20,8 @@ class boardgames extends React.Component{
             anchorEl: null,
             join:true,
             userid:Cookie.get('userid'),
-            parId:null
+            parId:null,
+            parLength:0
         }
     }
     handleJoin = event => {
@@ -29,7 +30,9 @@ class boardgames extends React.Component{
         method:'post',
         url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/create/${this.state.userid}`,
         headers: { 'Authorization':`Token ${Cookie.get('token')}`},
-    })
+    }).then(
+      this.setState({parLength:this.state.parLength+1})
+    )
     };
     handleLeave = event => {
       this.setState({ join: !this.state.join });
@@ -37,7 +40,9 @@ class boardgames extends React.Component{
         method:'delete',
         url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/${this.state.parId}`,
         headers: { 'Authorization':`Token ${Cookie.get('token')}`},
-    })
+    }).then(
+      this.setState({parLength:this.state.parLength-1})
+    )
     };
     handleClick = event => {
       this.setState({ anchorEl: event.currentTarget });
@@ -68,7 +73,8 @@ class boardgames extends React.Component{
           break
         }
         this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
-
+        const length=response.data.length;
+        this.setState({parLength:length});
   
           
       })}
@@ -137,10 +143,12 @@ starts at {this.props.data.event_date}
 </Typography>
 {Cookie.get('userid')!==window.location.pathname.split('/')[2]?
 <div>
-  {this.state.join?
+{this.props.data.number-this.state.parLength!=0?
+                        <div>
+                             {this.state.join?
   <Button
   onClick={this.handleJoin}
-  style={{marginTop:10,marginLeft:25,background:'rgba(0, 255, 128, 0.459)'}}
+  style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:'rgba(0, 255, 128, 0.459)'}}
   variant="contained"
   size="small"
 >
@@ -148,13 +156,23 @@ starts at {this.props.data.event_date}
 </Button>
     :  <Button
     onClick={this.handleLeave}
-    style={{marginTop:10,marginLeft:25,background:' rgba(255, 0, 0, 0.459)'}}
+    style={{marginTop:15,marginLeft:20,minWidth:90,height:40,background:' rgba(255, 0, 0, 0.459)'}}
     variant="contained"
     size="small"
   >
       leave
   </Button>
   }
+                          </div>
+                          :<Button
+                          disabled
+                          style={{marginTop:15,marginLeft:20,minWidth:90,height:40}}
+                          variant="contained"
+                          size="small"
+                        >
+                            full
+                        </Button>
+                        }
   </div>
 
       :null}
