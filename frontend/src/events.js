@@ -18,7 +18,9 @@ class boardgames extends React.Component{
         super()
         this.state={
             anchorEl: null,
-            join:true
+            join:true,
+            userid:Cookie.get('userid'),
+            parId:null
         }
     }
     handleClick = event => {
@@ -26,9 +28,19 @@ class boardgames extends React.Component{
     };
     handleJoin = event => {
       this.setState({ join: !this.state.join });
+      axios({
+        method:'post',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/create/${this.state.userid}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    })
     };
     handleLeave = event => {
       this.setState({ join: !this.state.join });
+      axios({
+        method:'delete',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/${this.state.parId}`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    })
     };
     handleClose = () => {
       this.setState({ anchorEl: null });
@@ -43,8 +55,27 @@ class boardgames extends React.Component{
       this.handleClose()
     }
     componentDidMount(){
-      this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
-    }
+      axios({
+        method:'get',
+        url: `http://localhost:8000/api/v1/events/${this.props.id}/participate`,
+        headers: { 'Authorization':`Token ${Cookie.get('token')}`},
+    }).then((response) => {
+      for(var i = 0; i<response.data.length; i++)
+        if(Cookie.get('username')===response.data[i].user.username)
+        {
+          this.setState({parId:response.data[i].id})
+          this.setState({join:false})
+          break
+        }
+        this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
+
+        // const length=response.data.length;
+   
+        //   this.setState({likeLength:length});
+        //   console.log(response.data.length)
+          
+      })}
+    
 
     
     render(){
