@@ -4,16 +4,13 @@ import {BrowserRouter as Router, Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import axios from "axios";
 import Cookie from "js-cookie";
-import headerImage from './back.jpg';
-import { connect } from 'react-redux';
-import {saveSelectValue} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import { Avatar } from 'material-ui';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './responsive.css'
-// class boardgames extends React.Component{
-//     render(){
+import { userList } from "./api";
+
     const useStyles = makeStyles((theme) => ({
 
       }));
@@ -24,30 +21,37 @@ import './responsive.css'
         const token = Cookie.get("token");
         const userid = window.location.pathname.split('/')[2]
         const [users, setUsers] = useState([]);
+        const [loading, setLoading] = React.useState(true);
         useEffect(() => {
-            const userList = () => {
-              axios
-                .get("http://localhost:8000/api/v1/accounts/users/", {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Token ${Cookie.get("token")}`,
-                  },
-                })
-                .then((res) => {
-                    console.log(res)
-                  if (users == [null]) {
-                    setUsers([]);
-                  } else {
-                    setUsers(res.data);
-                    console.log(res.data)
-                  }
-                })
-                .catch((error) => {});
-            };
-            userList();
-          }, []);
-    
+          userList ()
+              .then((res) => {
+                if (users == [null]) {
+                  setUsers([]);
+                  setLoading(false);
+                } else {
+                  setUsers(res.data);
+                  setLoading(false);
+                  console.log(res.data)
+                }
+              })
+              .catch((error) => {});
+            
+          userList();
+        }, []);
+
         return(
+          <div>
+          {loading?
+            <div style={{display: "flex",
+            fontFamily:'Open Sans',
+
+            justifyContent: "center",
+            alignItems: "center",
+            height:'80%'}}>
+                <CircularProgress disableShrink />
+                 Loading ...
+                 </div>
+: 
             <div style={{display: 'flex', flexWrap: 'wrap' }}>
                 {users.length === 0 && (
                                     <p
@@ -68,12 +72,7 @@ import './responsive.css'
                     <CardMedia
                         image={item.header_picture}
                         component="img"
-                        
-                        height="100"
-                        // style={{
-                        //     justifyContent: 'center', alignItems: 'center', textAlign: 'center',
-                        //     display:'flex'
-                        // ,maxHeight: 250, maxWidth: 180, minWidth: 180, minHeight: 175}}
+                        height="100"                      
                         />
                         <Avatar alt="Remy Sharp" className='avatar' style={{ border: '5px solid white'}}
                         src={item.profile_picture}
@@ -89,6 +88,7 @@ import './responsive.css'
                 }
                  )}
              </div>
+      }</div>
                            )
        
     }

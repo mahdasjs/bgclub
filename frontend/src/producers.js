@@ -3,11 +3,9 @@ import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import axios from "axios";
 import Cookie from "js-cookie";
 import headerImage from './back.jpg';
-import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { Avatar } from 'material-ui';
 import ProducerCom from "./producerCom";
@@ -21,14 +19,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MusicNoteTwoToneIcon from "@material-ui/icons/MusicNoteTwoTone";
 import Draggable from "react-draggable";
-import Box from "@material-ui/core/Box";
 import InputBase from "@material-ui/core/InputBase";
-import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Badge from '@material-ui/core/Badge';
-const useStyles = makeStyles((theme) => ({
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { userList } from "./api";
 
+const useStyles = makeStyles((theme) => ({
+ 
 }));
 function PaperComponent(props) {
   return (
@@ -82,6 +81,7 @@ export default function Producers() {
   const [followin, setFollowin] = useState([]);
   const [followerLentgh, setfollowerLentgh] = useState();
   const [followingLentgh, setfollowingLentgh] = useState();
+  const [loading, setLoading] = React.useState(true);
   let [state, setState] = useState({
     username: null,
     firstname: null,
@@ -101,25 +101,20 @@ export default function Producers() {
     setOpenn(false);
   };
         useEffect(() => {
-            const userList = () => {
-              axios
-                .get("http://localhost:8000/api/v1/accounts/users/", {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Token ${Cookie.get("token")}`,
-                  },
-                })
+            userList ()
                 .then((res) => {
                     console.log(res)
                   if (users == [null]) {
                     setUsers([]);
+                    setLoading(false);
                   } else {
                     setUsers(res.data);
+                    setLoading(false);
                     console.log(res.data)
                   }
                 })
                 .catch((error) => {});
-            };
+            
             userList();
           }, []);
 
@@ -158,7 +153,17 @@ export default function Producers() {
   
   return (
     <div>
-      <Grid container >
+       {loading?
+                    <div style={{display: "flex",
+                    fontFamily:'Open Sans',
+
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height:'80%'}}>
+                        <CircularProgress disableShrink />
+                         Loading ...
+                         </div>
+      : <Grid container >
         <Grid xs={12} sm={12} lg={12} style={{ height: '60px' }}>
         </Grid>
         <Grid xs={12} sm={12} lg={3}>
@@ -166,12 +171,12 @@ export default function Producers() {
         <Grid xs={12} sm={12} lg={9}>
           <div className='Lists'>
             <h2 style={{ fontFamily: 'Open Sans', fontSize: 30, lineHeight: 0.1 }}>List of producers </h2>
-            <div style={{ marginTop:"-100px", marginLeft:"650px"}}>
+            <div style={{ marginTop:"-50px", marginLeft:"650px"}}>
             <InputBase
                                 className={classes.input}
-                                placeholder="Search for users"
+                                placeholder="Search for producers"
                                 style={{ fontSize: 13, marginLeft: "-10px" }}
-                                //inputProps={{ "aria-label": "Search for users" }}
+                                //inputProps={{ "aria-label": "Search for producers" }}
                                 type="text"
                                 value={uuuser.user}
                                 onChange={(event) =>
@@ -228,6 +233,16 @@ export default function Producers() {
                                         }}
                                       >
                                         <CardContent className={classes.card}>
+                                           <Avatar
+                                            src={item.profile_picture}
+                                            style={{
+                                              width: 48,
+                                              height: 48,
+                                              marginTop:"-9px",
+                                              marginLeft: "-5px",
+                                            }}
+                                          />
+          
                                           <Typography
                                             variant="body1"
                                             align="justify"
@@ -235,7 +250,7 @@ export default function Producers() {
                                               fontFamily: "Roboto",
                                               marginTop: -5,
                                               fontSize: 12,
-          
+                                              marginTop: "-46px",
                                               marginLeft: 50,
                                             }}
                                             onClick={() =>
@@ -257,24 +272,16 @@ export default function Producers() {
                                             {item.first_name}
                                             {item.last_name}
                                           </Typography>
-                                          <Avatar
-                                            src={item.profile_picture}
-                                            style={{
-                                              width: 48,
-                                              height: 48,
-                                              bottom: 38,
-                                              left: -5,
-                                            }}
-                                          />
-          
+                                         
                                           <Button
                                             style={{
-                                              bottom: 80,
-                                              left: 165,
+                                              bottom: 30,
+                                              left: 155,
                                               fontSize: 11,
                                             }}
-                                            //variant="contained"
+                                            variant="contained"
                                             size="small"
+                                            color="primary"
                                             className={classes.margin}
                                             onClick={
                                               isFollowing
@@ -468,6 +475,7 @@ export default function Producers() {
           </div>
         </Grid>
       </Grid>
+}
     </div>
   )
 }
