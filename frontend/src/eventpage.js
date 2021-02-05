@@ -333,11 +333,19 @@ class eventpage extends React.Component{
                         memebers         
                       </Typography>
                       <Avatar style={{marginLeft:10,width:55,height:55}}></Avatar>
+                      {this.state.parLength>1?
                       <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                      :null
+                      }
+                      {this.state.parLength>2?
                       <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
-                      <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                    :null}
+                    {this.state.parLength>3?
+                    <Avatar style={{marginLeft:-15,border:'2px solid #fff',width:55,height:55}}></Avatar>
+                    :null
+                    }
                       <Typography className='bgdescription' style={{marginTop:15}} onClick={this.handleClickMembers}>
-                        + 6 more         
+                         show all         
                       </Typography>
                       </Grid>
                       <Grid  lg={6}  style={{display:'flex',flexWrap:'nowrap'}} >
