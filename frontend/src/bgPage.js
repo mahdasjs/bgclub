@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import headerImage from './back.jpg';
 import { connect } from 'react-redux';
-import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus, selectedBGData} from './actions/index'
+import {addToCart, removeFromCart, saveSelectValue, selectedData,counterPlus} from './actions/index'
 import Typography from '@material-ui/core/Typography';
 import CartBorder from '@material-ui/icons/AddShoppingCart';
 import Cart from '@material-ui/icons/RemoveShoppingCart';
@@ -47,7 +47,7 @@ class boardgames extends React.Component{
         }
         var value=0
         var counter=0
-        const ratingValues = [...this.props.ratingsBG.values()];
+        const ratingValues = [...this.props.ratings.values()];
         for(var i=0; i<ratingValues.length; i++){
           if(ratingValues[i].data.id===this.props.id){
             counter++
@@ -76,7 +76,7 @@ class boardgames extends React.Component{
         return(
             <div>
                 <Card       
-                    onClick={()=>this.props.dispatch(selectedBGData(this.props.id))}  
+                    onClick={()=>this.props.dispatch(selectedData(this.props.id))}  
                     style={{marginTop:15, maxWidth:223,minWidth:223,maxHeight:270,minHeight:270,marginleft:10,marginRight:10 }}>
                     <CardContent>
                     <CardMedia
@@ -126,7 +126,7 @@ const mapStateToProps = (state) => {
     return {
         select: state.select,
         cartsssss:state.cartsssss,
-        ratingsBG:state.ratingsBG
+        ratings:state.ratings
     }
   }
   export default connect(mapStateToProps, null)(boardgames);

@@ -7,27 +7,21 @@ import cartReducer from './cartReducer';
 import cartPstReducer from './cartPost';
 import commentReducer from './commenReducer'
 import ratingReducer from './ratingReducer'
-import ratingBGReducer from './ratingBGReducer'
 import postReducer from './postReducer'
 import eventsReducer from './eventReducer'
 import selectEventReducer from './selectEventreducer copy'
 import selectPostReducer from './selectPostreducer'
-import selectBG from './selectBGreducer copy'
-import commentsPostReducer from './commenPostReducer '
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
     results:resultsReducer,
     select:selectionreducer,
     comments:commentReducer,
-    commentsPost:commentsPostReducer,
     ratings:ratingReducer,
-    ratingsBG:ratingBGReducer,
     cartsssss:cartReducer,
     posts:postReducer,
     events:eventsReducer,
     cartPost:cartPstReducer,
     selectEvent:selectEventReducer,
-    selectPost:selectPostReducer,
-    selectBG:selectBG
+    selectPost:selectPostReducer
 });
