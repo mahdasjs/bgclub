@@ -17,6 +17,8 @@ import TextField from '@material-ui/core/TextField';
 import Img from './image';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
+import ImageUploader from 'react-images-upload';
+
 const QontoConnector = withStyles({
   alternativeLabel: {
     top: 10,
@@ -208,7 +210,7 @@ function getStepContent(step) {
 function valuetext(value) {
     return `${value}°C`;
   }
-export default function CustomizedSteppers() {
+export default function CustomizedSteppers({fileInput}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [name, setName] = React.useState('');
@@ -216,7 +218,7 @@ export default function CustomizedSteppers() {
   const [post_pic, setPost_pic] = React.useState('');
   const [postpic, setPostpic] = React.useState('');
   const [value, setValue] = React.useState(20);
-
+  const[picture,setPic]=React.useState('')
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -228,9 +230,7 @@ export default function CustomizedSteppers() {
     setStartDate(e.target.value)
     }
   const  fileSelectedHandler = (event) => {
-    event.preventDefault();
     setPost_pic(event.target.files[0])
-    setPostpic(URL.createObjectURL(event.target.files[0]))
   };
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -243,7 +243,9 @@ export default function CustomizedSteppers() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
+  const onDrop=(pictureFiles, pictureDataURLs) =>{
+    setPic(pictureFiles)
+}
   return (
     <div className={classes.root}>
       <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
@@ -270,7 +272,15 @@ export default function CustomizedSteppers() {
         {activeStep ===1 ? (
           <div style={{marginTop:-20}}>
               <div> select picture for boardgame</div>
-           <Img />
+              <ImageUploader
+                singleImage={true}
+                withPreview={true}
+                withIcon={true}
+                buttonText='Choose images'
+                onChange={onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+            />
             </div>
       )
       :

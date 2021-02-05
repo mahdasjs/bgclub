@@ -4,7 +4,7 @@ import { ADD_FETCHED_DATA,
     ADD_RATINNG,CHECK_RATING,ADD_POST_DATA,ADD_POST_TO_CART
     ,REMOVE_POST_FROM_CART,ADD_EVENT_DATA,SAVE_SELECT_EVENT,
     SAVE_SELECT_POST,ADD_COMMENT_POST,REMOVE_ALL,REMOVE_ALL_POST_CART
-    ,SAVE_SELECT_BG,ADD_RATINNG_BG,CHECK_RATING_BG,PARTICIPATE} from './types.js';
+    ,SAVE_SELECT_BG,ADD_RATINNG_BG,CHECK_RATING_BG,PARTICIPATE,ADD_IMG} from './types.js';
 import axios from 'axios';
 import {newsApi,boardgamesApi,searchApi,selectedApi,selectedEventApi,
     commentsApi,postListApi,eventListApi,selectedPostApi,commentsPostsApi,participateApi} from '../api/apis'
@@ -290,6 +290,12 @@ export const checkRating =  (username,id) => {
 export const addRatingBG =  (data) => {
     return {
       type: ADD_RATINNG_BG,
+      payload: data
+    }
+};
+export const addIMG =  (data) => {
+    return {
+      type: ADD_IMG,
       payload: data
     }
 };

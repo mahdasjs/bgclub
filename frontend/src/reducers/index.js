@@ -15,6 +15,7 @@ import selectBG from './selectBGreducer copy'
 import commentsPostReducer from './commenPostReducer '
 import participateReducer from './participateReducer'
 import ratingBGReducer from './ratingBGReducer'
+import imageReducer from './addImgReducer'
 export default combineReducers({
     News: NewsReducer,
     boardGames: boardGamesReducer,
@@ -32,5 +33,6 @@ export default combineReducers({
     selectEvent:selectEventReducer,
     selectPost:selectPostReducer,
     selectBG:selectBG,
-    participate:participateReducer
+    participate:participateReducer,
+    img:imageReducer
 });
