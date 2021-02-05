@@ -70,7 +70,8 @@ class eventpage extends React.Component{
           lon: 51.42,
             join:true,
             userid:Cookie.get('userid'),
-            parId:null
+            parId:null,
+            parLength:0
         }
         this.reverseFunction = this.reverseFunction.bind(this);
     }
@@ -80,7 +81,9 @@ class eventpage extends React.Component{
         method:'post',
         url: `http://localhost:8000/api/v1/events/${this.state.id}/participate/create/${this.state.userid}`,
         headers: { 'Authorization':`Token ${Cookie.get('token')}`},
-    })
+    }).then(
+      this.setState({parLength:this.state.parLength+1})
+    )
     };
     handleLeave = event => {
       this.setState({ join: !this.state.join });
@@ -88,7 +91,9 @@ class eventpage extends React.Component{
         method:'delete',
         url: `http://localhost:8000/api/v1/events/${this.state.id}/participate/${this.state.parId}`,
         headers: { 'Authorization':`Token ${Cookie.get('token')}`},
-    })
+    }).then(
+      this.setState({parLength:this.state.parLength-1})
+    )
     };
       handlechangeComment = (e) => {
         this.setState({ comment: e.target.value });
@@ -240,7 +245,8 @@ class eventpage extends React.Component{
               this.setState({join:false})
               break
             }
-    
+            const length=response.data.length;
+            this.setState({parLength:length});
             // const length=response.data.length;
        
             //   this.setState({likeLength:length});
@@ -338,7 +344,7 @@ class eventpage extends React.Component{
 
                       <div className='raisedTag' style={{borderRadius:5,marginLeft:232,width:90,height:40,marginTop:13}}>
                       <Typography style={{marginTop:10,fontSize:15,marginLeft:10}}>
-                        only 4 left      
+                        only {this.props.selectEvent.number-this.state.parLength} left      
                       </Typography>
                       </div>
                       <div>

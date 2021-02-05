@@ -23,9 +23,6 @@ class boardgames extends React.Component{
             parId:null
         }
     }
-    handleClick = event => {
-      this.setState({ anchorEl: event.currentTarget });
-    };
     handleJoin = event => {
       this.setState({ join: !this.state.join });
       axios({
@@ -41,6 +38,9 @@ class boardgames extends React.Component{
         url: `http://localhost:8000/api/v1/events/${this.props.id}/participate/${this.state.parId}`,
         headers: { 'Authorization':`Token ${Cookie.get('token')}`},
     })
+    };
+    handleClick = event => {
+      this.setState({ anchorEl: event.currentTarget });
     };
     handleClose = () => {
       this.setState({ anchorEl: null });
@@ -69,10 +69,7 @@ class boardgames extends React.Component{
         }
         this.props.dispatch(eventsData(window.location.pathname.split('/')[2]))
 
-        // const length=response.data.length;
-   
-        //   this.setState({likeLength:length});
-        //   console.log(response.data.length)
+  
           
       })}
     
