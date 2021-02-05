@@ -229,7 +229,7 @@ class boardgames extends React.Component{
                     <img
                             onClick={(e) => {
                                 e.preventDefault();
-                                window.location.href='/postpage/' + this.props.id;
+                                window.location.href='/bgpage/' + this.props.id;
                                 }}
                         src={this.props.data.post_pic}
                         style={{
@@ -267,6 +267,7 @@ class boardgames extends React.Component{
                         <div style={{marginTop:10,marginLeft:10}}>
                         <Rating  precision={0.1} name="read-only" value={this.state.rate} readOnly size="small"  />
                         </div>
+                        {Cookie.get('userid')===window.location.pathname.split('/')[2]?
 
                         <div className='addAndRemove' style={{borderRadius:100}} >
                           {this.state.count!=0?
@@ -288,6 +289,7 @@ class boardgames extends React.Component{
         </IconButton>
     }
                     </div>
+                    :null}
                     </CardContent> 
                 </Card>
                 <Dialog

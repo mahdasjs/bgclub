@@ -28,6 +28,7 @@
   height: 100%;
   top: 70px;
   margin-left: -50px;
+  flex-wrap: wrap;
 }
 .searchR{
   position: absolute;

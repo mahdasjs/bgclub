@@ -54,6 +54,7 @@ class Homepage extends Component{
 
         />;
     });
+    console.log(posts[0].data.number)
 
     let post = posts.map(post => {
       return <Cartpost

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route,Link } from "react-router-dom";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import homepage from "./homepage";
@@ -31,7 +30,6 @@ import Search from './search';
 import User from "./Profile/User";
 import ShoppingCart from '@material-ui/icons/ShoppingCart'
 import CartPage from "./cartPage";
-import { removeAllPostsFromCart,removePostFromCart,removeAllFromCart } from "./actions";
 const theme = createMuiTheme({
   typography: {
     body1: {
@@ -83,8 +81,6 @@ class PersistentDrawerLeft extends React.Component {
       }
     }
     handleClick=()=> {
-      this.props.dispatch(removeAllFromCart(0))
-      this.props.dispatch(removeAllPostsFromCart(0))
       Cookie.remove('token');
       Cookie.remove('userid')
       Cookie.remove('url')
@@ -208,7 +204,7 @@ class PersistentDrawerLeft extends React.Component {
           </List>
         </Drawer>
                   <Switch >
-                  {/* <Route path="/bgpage/:id" exact component={Boardgamespage} /> */}
+                  <Route path="/bgpage/:id" exact component={Boardgamespage} />
                   <Route path="/eventpage/:id" exact component={Eventpage} />
                   <Route  path="/homepage" exact component={homepage} />
                    <Route path="/homepage/:username/:id" exact component={homepage} />
@@ -227,13 +223,4 @@ class PersistentDrawerLeft extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    select: state.select,
-    cartsssss:state.cartsssss,
-    commentsPost:state.commentsPost,
-    ratings:state.ratings,
-    cartPost:state.cartPost
-  }
-}
-export default withStyles(styles, { withTheme: true })( connect(mapStateToProps, null)(PersistentDrawerLeft));
+export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft);

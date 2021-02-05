@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import { addToCart, bgData, fetchData, postData, resultData,selectedBGData,selectedData } from './actions';
+import { addToCart, bgData, fetchData, postData, resultData,selectedData } from './actions';
 
 
 const saveState = (state) => {
@@ -31,12 +31,7 @@ const getState = () => {
 
 const initialState = getState();
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
-store.dispatch(fetchData());
-store.dispatch(bgData());
-store.dispatch(resultData());
-store.dispatch(selectedData());
-store.dispatch(selectedBGData());
-store.dispatch(postData());
+
 
 store.subscribe(() => {
   saveState({
@@ -44,9 +39,7 @@ store.subscribe(() => {
     selections: store.getState().selections,
     counter:store.getState().counter,
     comments:store.getState().comments,
-    commentsPost:store.getState().commentsPost,
     ratings:store.getState().ratings,
-    ratingsBG:store.getState().ratingsBG,
     posts:store.getState().posts,
     cartPost:store.getState().cartPost,
     cartsssss:store.getState().cartsssss,
