@@ -246,6 +246,30 @@ export default function CustomizedSteppers({fileInput}) {
   const onDrop=(pictureFiles, pictureDataURLs) =>{
     setPic(pictureFiles)
 }
+const handlePost = async () => {
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("value", value);
+  formData.append("startdate", StartDate);
+    formData.append("presell_pic", picture[0].file);
+    console.log(picture[0])
+    axios({
+    method: "post",
+    url: "http://localhost:8000/api/v1/presells/profile/create/",
+    headers: { 
+      "Content-type": "multipart/form-data",
+      'Authorization':`Token ${Cookie.get('token')}`},
+      data:formData
+  }).then((response) => {
+    console.log(response)
+    this.props.onSuccessFullySave();
+    this.props.onCreate();
+    this.props.dispatch(postData(window.location.pathname.split('/')[2]))
+      })
+      .catch((error) => {
+        
+         });
+      }
   return (
     <div className={classes.root}>
       <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
@@ -337,14 +361,24 @@ export default function CustomizedSteppers({fileInput}) {
               <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                 Back
               </Button>
+              {activeStep === 3 ? 
               <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
+              variant="contained"
+              color="primary"
+              onClick={handlePost}
+              className={classes.button}
+            >
+              finish
+            </Button>:              <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              className={classes.button}
+            >
+              next
+            </Button>
+            }
+             
             </div>
           </div>
         )}
