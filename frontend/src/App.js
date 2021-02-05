@@ -6,6 +6,7 @@ import Sidebar from './sidebar'
 import Producers from './producers';
 import Boardgames from './boardgames';
 import Boardgamespage from './boardgamepage';
+import Events from './wholeEvents';
 import Eventspage from './eventpage';
 import Postpage from './postpage';
 import Search from './search'
@@ -58,6 +59,15 @@ function App() {
             </div>
           </Route>
           <Route path="/boardgames" exact component={Boardgames}>
+            <Navbar/>
+            <div className='sidebar'>
+              <Sidebar/>
+            </div>
+            <div className='bottombar'>
+              <Bottombar/>
+            </div>
+          </Route>
+          <Route path="/events" exact component={Events}>
             <Navbar/>
             <div className='sidebar'>
               <Sidebar/>
